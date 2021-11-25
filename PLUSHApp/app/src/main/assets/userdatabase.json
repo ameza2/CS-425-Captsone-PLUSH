@@ -1,0 +1,26 @@
+{
+  "userlist":
+  [
+    {
+      "username": "Korben",
+      "password": "DiArchangel"
+    },
+    {
+      "username": "Joshua",
+      "password": "Insorio"
+    },
+    {
+      "username": "Abraham",
+      "password": "Meza"
+    },
+    {
+      "username": "Christian",
+      "password": "Pilley"
+    },
+    {
+      "username": "Tal",
+      "password": "Zemach"
+    }
+  ]
+
+}
