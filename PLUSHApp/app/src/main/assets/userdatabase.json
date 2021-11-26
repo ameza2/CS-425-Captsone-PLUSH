@@ -3,23 +3,90 @@
   [
     {
       "username": "Korben",
-      "password": "DiArchangel"
+      "password": "DiArchangel",
+      "units":
+      [
+        {
+          "id": 138052,
+          "room": 101
+        },
+        {
+          "id": 132580,
+          "room": 102
+        },
+        {
+          "id": 149295,
+          "room": 103
+        }
+      ]
     },
     {
       "username": "Joshua",
-      "password": "Insorio"
+      "password": "Insorio",
+      "units":
+      [
+        {
+          "id": 208502,
+          "room": 201
+        },
+        {
+          "id": 259335,
+          "room": 202
+        }
+      ]
     },
     {
       "username": "Abraham",
-      "password": "Meza"
+      "password": "Meza",
+      "units":
+      [
+        {
+          "id": 324893,
+          "room": 301
+        },
+        {
+          "id": 390593,
+          "room": 302
+        },
+        {
+          "id": 352663,
+          "room": 303
+        }
+      ]
     },
     {
       "username": "Christian",
-      "password": "Pilley"
+      "password": "Pilley",
+      "units":
+      [
+        {
+          "id": 432589,
+          "room": 401
+        },
+        {
+          "id": 425532,
+          "room": 402
+        },
+        {
+          "id": 406025,
+          "room": 403
+        },
+        {
+          "id": 490592,
+          "room": 404
+        }
+      ]
     },
     {
       "username": "Tal",
-      "password": "Zemach"
+      "password": "Zemach",
+      "units":
+      [
+        {
+          "id": 542505,
+          "room": 501
+        }
+      ]
     }
   ]
 

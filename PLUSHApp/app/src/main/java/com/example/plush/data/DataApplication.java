@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 public class DataApplication extends Application {
 
     public HashMap<String, DataUser> userDatabase;
+    public String currentUser;
 
     @Override
     public void onCreate() {
@@ -43,20 +44,32 @@ public class DataApplication extends Application {
                 stringBuilder.append(line + System.lineSeparator());
             }
             inputString = stringBuilder.toString();
-            Log.d("Yes", inputString);
+            //Log.d("Yes", inputString);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            //inp = inp.substring(inp.indexOf('{'), inp.lastIndexOf('}'));
             JSONObject inputJSON = new JSONObject(inputString);
             JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
             userDatabase = new HashMap<String, DataUser>();
             for(int i = 0; i < inputJSONArray.length(); i++){
+
                 String user = inputJSONArray.getJSONObject(i).getString("username");
                 String pass = inputJSONArray.getJSONObject(i).getString("password");
                 userDatabase.put(user, new DataUser(user, pass));
+
+                DataUser currUser = userDatabase.get(user);
+
+                if(inputJSONArray.getJSONObject(i).has("units")){
+                    JSONArray inputUnitArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                    for(int j = 0; j < inputUnitArray.length(); j++){
+                        int id = inputUnitArray.getJSONObject(j).getInt("id");
+                        int room = inputUnitArray.getJSONObject(j).getInt("room");
+                        currUser.assignedUnits.put(id, new DataPlushUnit(id, room));
+                    }
+                }
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -65,5 +78,9 @@ public class DataApplication extends Application {
 
     public boolean checkCredentials(String inUsername, String inPassword){
         return userDatabase.get(inUsername) != null && inPassword.equals(userDatabase.get(inUsername).password);
+    }
+
+    public DataUser currUserData(){
+        return userDatabase.get(currentUser);
     }
 }

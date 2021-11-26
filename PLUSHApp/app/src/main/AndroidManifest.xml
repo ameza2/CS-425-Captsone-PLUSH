@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PLUSH">
         <activity
-            android:name=".LoginSuccessfulTempScreen"
+            android:name=".StaffHomeScreen"
             android:exported="false" />
         <activity
             android:name=".PatientLoginScreen"
