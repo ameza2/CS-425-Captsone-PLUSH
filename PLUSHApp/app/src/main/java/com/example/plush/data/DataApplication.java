@@ -64,8 +64,8 @@ public class DataApplication extends Application {
                 if(inputJSONArray.getJSONObject(i).has("units")){
                     JSONArray inputUnitArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
                     for(int j = 0; j < inputUnitArray.length(); j++){
-                        int id = inputUnitArray.getJSONObject(j).getInt("id");
-                        int room = inputUnitArray.getJSONObject(j).getInt("room");
+                        String id = inputUnitArray.getJSONObject(j).getString("id");
+                        String room = inputUnitArray.getJSONObject(j).getString("room");
                         currUser.assignedUnits.put(id, new DataPlushUnit(id, room));
                     }
                 }
@@ -82,5 +82,9 @@ public class DataApplication extends Application {
 
     public DataUser currUserData(){
         return userDatabase.get(currentUser);
+    }
+
+    public void updateJSON(){
+        // TODO
     }
 }

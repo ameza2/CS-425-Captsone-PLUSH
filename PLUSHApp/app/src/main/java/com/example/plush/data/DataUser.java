@@ -10,7 +10,11 @@ public class DataUser {
         assignedUnits = new HashMap<>();
     }
 
+    public void addUnit(String id, String rn){
+        assignedUnits.put(id, new DataPlushUnit(id, rn));
+    }
+
     public String username;
     public String password;
-    public HashMap<Integer, DataPlushUnit> assignedUnits;
+    public HashMap<String, DataPlushUnit> assignedUnits;
 }
