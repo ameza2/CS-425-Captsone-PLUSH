@@ -2,6 +2,7 @@ package com.example.plush.data;
 
 import android.app.Application;
 import android.content.res.AssetManager;
+import android.icu.util.Output;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,9 +14,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -26,6 +31,7 @@ public class DataApplication extends Application {
 
     public HashMap<String, DataUser> userDatabase;
     public String currentUser;
+    public JSONObject inputJSON;
 
     @Override
     public void onCreate() {
@@ -35,7 +41,7 @@ public class DataApplication extends Application {
         String inputString = null;
         try {
             InputStream inputStream = getAssets().open("userdatabase.json");
-
+            //File f = new File(getFilesDir(), "userdatabase.json");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -44,13 +50,13 @@ public class DataApplication extends Application {
                 stringBuilder.append(line + System.lineSeparator());
             }
             inputString = stringBuilder.toString();
-            //Log.d("Yes", inputString);
+            Log.d("Yes", inputString);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            JSONObject inputJSON = new JSONObject(inputString);
+            inputJSON = new JSONObject(inputString);
             JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
             userDatabase = new HashMap<String, DataUser>();
             for(int i = 0; i < inputJSONArray.length(); i++){

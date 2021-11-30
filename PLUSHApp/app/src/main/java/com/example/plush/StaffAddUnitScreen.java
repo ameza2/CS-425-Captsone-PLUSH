@@ -10,6 +10,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.plush.data.DataApplication;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.AccessMode;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class StaffAddUnitScreen extends AppCompatActivity {
 
     EditText IDEditText;
@@ -33,7 +44,26 @@ public class StaffAddUnitScreen extends AppCompatActivity {
         AddUnitButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 thisApplication.currUserData().addUnit(IDEditText.getText().toString(), RoomEditText.getText().toString());
-                thisApplication.updateJSON();
+
+                /*/ Update the JSON file
+                /try {
+                    JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+                    for(int i = 0; i < inputJSONArray.length(); i++){
+                        if(inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)){
+                            JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                            JSONObject toPut = new JSONObject();
+                            toPut.put("id", IDEditText.getText().toString());
+                            toPut.put("room", RoomEditText.getText().toString());
+                            unitJSONArray.put(toPut);
+                            thisApplication.getFilesDir();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                 */
+
                 Intent intent = new Intent(StaffAddUnitScreen.this, StaffHomeScreen.class);
                 startActivity(intent);
             }
