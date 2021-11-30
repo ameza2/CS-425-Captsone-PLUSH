@@ -1,0 +1,11 @@
+PLUSH Circuit - List of Materials:
+----------------------------------
+
+- 1 Large Breadboard
+- 1 LCD Display
+- 8 Resistors (5 10_kOhms, 3 220_Ohms)
+- 4 Buttons
+- 2 Potentiometers
+- 1 Piezo
+- 2 Arduinos
+- Set of Wires
