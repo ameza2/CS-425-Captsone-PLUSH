@@ -52,6 +52,7 @@ public class DataApplication extends Application {
                 stringBuilder.append(line + System.lineSeparator());
             }
             inputString = stringBuilder.toString();
+            inputStream.close();
 
             if(stringBuilder.length() <= 5){ // Weird bug, temp solution
                 InputStream inputStream2 = getAssets().open("userdatabase.json");
@@ -65,12 +66,12 @@ public class DataApplication extends Application {
 
                 inputString = stringBuilder2.toString();
 
-                inputStream.close();
                 inputStream2.close();
 
                 OutputStream outputStream = new FileOutputStream(f);
                 byte outputBytes[] = inputString.getBytes(StandardCharsets.UTF_8);
                 outputStream.write(outputBytes);
+                outputStream.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
