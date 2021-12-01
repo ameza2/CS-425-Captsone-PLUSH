@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -38,10 +39,11 @@ public class DataApplication extends Application {
         super.onCreate();
 
         // Read in json file
-        String inputString = null;
+        String inputString = "";
         try {
-            InputStream inputStream = getAssets().open("userdatabase.json");
-            //File f = new File(getFilesDir(), "userdatabase.json");
+
+            File f = new File(getFilesDir(), "userdatabase.json");
+            InputStream inputStream = new FileInputStream(f);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -50,7 +52,26 @@ public class DataApplication extends Application {
                 stringBuilder.append(line + System.lineSeparator());
             }
             inputString = stringBuilder.toString();
-            Log.d("Yes", inputString);
+
+            if(stringBuilder.length() <= 5){ // Weird bug, temp solution
+                InputStream inputStream2 = getAssets().open("userdatabase.json");
+                BufferedReader bufferedReader2 = new BufferedReader(new InputStreamReader(inputStream2));
+                StringBuilder stringBuilder2 = new StringBuilder();
+
+                String line2;
+                while((line2 = bufferedReader2.readLine()) != null){
+                    stringBuilder2.append(line2 + System.lineSeparator());
+                }
+
+                inputString = stringBuilder2.toString();
+
+                inputStream.close();
+                inputStream2.close();
+
+                OutputStream outputStream = new FileOutputStream(f);
+                byte outputBytes[] = inputString.getBytes(StandardCharsets.UTF_8);
+                outputStream.write(outputBytes);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
