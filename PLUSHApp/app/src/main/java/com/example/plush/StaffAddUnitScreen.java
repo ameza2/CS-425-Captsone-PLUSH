@@ -70,7 +70,6 @@ public class StaffAddUnitScreen extends AppCompatActivity {
                             byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
                             outputStream.write(outputBytes);
                             outputStream.close();
-                            //Log.d("Yes", inputJSONArray.toString());
 
                         }
                     }

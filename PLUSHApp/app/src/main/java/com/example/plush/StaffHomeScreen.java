@@ -19,6 +19,7 @@ public class StaffHomeScreen extends AppCompatActivity {
 
     ScrollView unitListScrollView;
     Button AddButton;
+    Button RemoveButton;
 
     DataApplication thisApplication;
 
@@ -28,11 +29,19 @@ public class StaffHomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_staff_home_screen);
 
         unitListScrollView = (ScrollView)findViewById(R.id.scrollview);
-        AddButton = (Button)findViewById(R.id.addButton);
 
+        AddButton = (Button)findViewById(R.id.addButton);
         AddButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent = new Intent(StaffHomeScreen.this, StaffAddUnitScreen.class);
+                startActivity(intent);
+            }
+        });
+
+        RemoveButton = (Button)findViewById(R.id.removeButton);
+        RemoveButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(StaffHomeScreen.this, StaffRemoveUnitScreen.class);
                 startActivity(intent);
             }
         });
@@ -64,7 +73,6 @@ public class StaffHomeScreen extends AppCompatActivity {
 
             j++;
         }
-
 
         unitListScrollView.addView(linearLayout);
 
