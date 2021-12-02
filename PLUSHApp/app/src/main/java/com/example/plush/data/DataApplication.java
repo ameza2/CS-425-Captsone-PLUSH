@@ -41,8 +41,10 @@ public class DataApplication extends Application {
         // Read in json file
         String inputString = "";
         try {
-
             File f = new File(getFilesDir(), "userdatabase.json");
+            if(!f.exists()) {
+                f.createNewFile();
+            }
             InputStream inputStream = new FileInputStream(f);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();
