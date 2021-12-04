@@ -12,6 +12,7 @@
         android:theme="@style/Theme.PLUSH">
         <activity
             android:name=".StaffHomeScreen"
+            android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".StaffAddUnitScreen"

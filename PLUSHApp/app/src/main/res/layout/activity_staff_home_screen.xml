@@ -6,6 +6,37 @@
     android:layout_height="match_parent"
     android:background="#2E2D2D">
 
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/hamburger"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2E2D2D"
+        tools:context=".HamburgerMenu">
+
+
+        <include
+            layout="@layout/activity_hamburger_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            layout="@layout/activity_hamburger_contentmain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/activity_hamburger_header"
+            app:menu="@menu/hamburger_menu" />
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
@@ -39,16 +70,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/hamburgerButton"
-        android:layout_width="56dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="- - -"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
@@ -59,4 +80,5 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

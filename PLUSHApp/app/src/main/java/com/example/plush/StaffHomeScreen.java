@@ -1,5 +1,6 @@
 package com.example.plush;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,9 +9,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.plush.data.DataApplication;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +25,33 @@ public class StaffHomeScreen extends AppCompatActivity {
     ScrollView unitListScrollView;
     Button AddButton;
     Button RemoveButton;
-
     DataApplication thisApplication;
+
+    //Hamburger menu declarations
+    DrawerLayout hamburgerLayout;
+    ActionBarDrawerToggle actionBarHamburgerToggle;
+    Toolbar toolbar;
+    NavigationView navigationView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_staff_home_screen);
+
+        //Hamburger Menu
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        hamburgerLayout = findViewById(R.id.hamburger);
+        navigationView = findViewById(R.id.navigationView);
+
+        actionBarHamburgerToggle = new ActionBarDrawerToggle(this, hamburgerLayout, toolbar, R.string.open, R.string.close);
+        hamburgerLayout.addDrawerListener(actionBarHamburgerToggle);
+        actionBarHamburgerToggle.setDrawerIndicatorEnabled(true);
+        actionBarHamburgerToggle.syncState();
+
 
         unitListScrollView = (ScrollView)findViewById(R.id.scrollview);
 
@@ -75,6 +100,8 @@ public class StaffHomeScreen extends AppCompatActivity {
         }
 
         unitListScrollView.addView(linearLayout);
+        navigationView.getParent().requestLayout();
+
 
 
     }
