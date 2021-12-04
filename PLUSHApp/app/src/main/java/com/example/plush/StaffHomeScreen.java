@@ -100,8 +100,6 @@ public class StaffHomeScreen extends AppCompatActivity {
         }
 
         unitListScrollView.addView(linearLayout);
-        navigationView.getParent().requestLayout();
-
 
 
     }

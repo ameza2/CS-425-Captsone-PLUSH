@@ -3,17 +3,20 @@
     package="com.example.plush">
 
     <application
+        android:name=".data.DataApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".data.DataApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PLUSH">
         <activity
-            android:name=".StaffHomeScreen"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".StaffFeedbackScreen"
             android:exported="false" />
+        <activity
+            android:name=".StaffHomeScreen"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StaffAddUnitScreen"
             android:exported="false" />
