@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         android:text="Feedback Form"
         android:textColor="#FFFFFF"
-        android:textSize="44" />
+        android:textSize="44sp" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -37,7 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:numStars="5"
-        android:progressBackgroundTint="#FFC107" />
+        android:progressBackgroundTint="#FFC107"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/editTextTextMultiLine"
