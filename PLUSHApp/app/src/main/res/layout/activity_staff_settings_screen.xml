@@ -17,11 +17,11 @@
         tools:layout_editor_absoluteY="318dp" />
 
     <Button
-        android:id="@+id/SoftwareVersionButton"
+        android:id="@+id/SoftwareDetailsButtonID"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Software Version"
+        android:text="Software Details"
         android:textColor="@color/white"
         tools:layout_editor_absoluteX="36dp"
         tools:layout_editor_absoluteY="125dp" />
