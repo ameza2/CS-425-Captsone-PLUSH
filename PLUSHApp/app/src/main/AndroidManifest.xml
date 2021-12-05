@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PLUSH">
         <activity
+            android:name=".staff_SoftwareDetailsScreen"
+            android:exported="false" />
+        <activity
             android:name=".StaffSettingsScreen"
             android:exported="false" />
         <activity
