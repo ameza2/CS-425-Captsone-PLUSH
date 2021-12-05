@@ -51,6 +51,7 @@ public class StaffAddUnitScreen extends AppCompatActivity {
         RoomEditText = (EditText) findViewById(R.id.editRoomNumber);
         AddUnitButton = (Button) findViewById(R.id.buttonAddUnit);
         sexGroup = (RadioGroup) findViewById((R.id.radioGroup));
+        //Should select specific sex from the group of button
         int sexID = sexGroup.getCheckedRadioButtonId();
         sexButton = findViewById(sexID);
 
