@@ -16,8 +16,8 @@
         android:layout_marginBottom="267dp"
         android:background="@color/cardview_dark_background"
         android:ems="10"
+        android:hint="Age"
         android:inputType="textPersonName"
-        android:text="Age"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -48,9 +48,9 @@
         android:layout_marginEnd="101dp"
         android:background="@color/cardview_dark_background"
         android:ems="10"
+        android:hint="Unit ID"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Unit ID"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,9 +67,9 @@
         android:layout_marginBottom="567dp"
         android:background="@color/cardview_dark_background"
         android:ems="10"
+        android:hint="Room Number"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Room Number"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -144,5 +144,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="256dp"
+        android:layout_height="139dp"
+        tools:layout_editor_absoluteX="77dp"
+        tools:layout_editor_absoluteY="227dp">
+
+        <RadioButton
+            android:id="@+id/maleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:textColor="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/femaleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:textColor="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/otherButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Other"
+            android:textColor="#FFFFFF" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

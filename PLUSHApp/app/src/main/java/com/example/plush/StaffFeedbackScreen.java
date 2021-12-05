@@ -2,7 +2,10 @@ package com.example.plush;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -10,6 +13,7 @@ public class StaffFeedbackScreen extends AppCompatActivity {
 
     TextView tvFeedback;
     RatingBar ratingStars;
+    Button feedbackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,7 @@ public class StaffFeedbackScreen extends AppCompatActivity {
 
         tvFeedback = findViewById(R.id.tvFeedback);
         ratingStars = findViewById(R.id.ratingBar);
+        feedbackButton = findViewById(R.id.feedbackButton);
 
         ratingStars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -45,6 +50,14 @@ public class StaffFeedbackScreen extends AppCompatActivity {
                 }
             }
         });
+
+        feedbackButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(StaffFeedbackScreen.this, StaffHomeScreen.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 

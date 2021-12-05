@@ -2,10 +2,13 @@ package com.example.plush;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,6 +35,9 @@ public class StaffAddUnitScreen extends AppCompatActivity {
     EditText IDEditText;
     EditText RoomEditText;
     Button AddUnitButton;
+    RadioGroup sexGroup;
+    RadioButton sexButton;
+
 
     DataApplication thisApplication;
 
@@ -43,7 +49,11 @@ public class StaffAddUnitScreen extends AppCompatActivity {
 
         IDEditText = (EditText) findViewById(R.id.editUnitID);
         RoomEditText = (EditText) findViewById(R.id.editRoomNumber);
-        AddUnitButton = (Button)findViewById(R.id.buttonAddUnit);
+        AddUnitButton = (Button) findViewById(R.id.buttonAddUnit);
+        sexGroup = (RadioGroup) findViewById((R.id.radioGroup));
+        int sexID = sexGroup.getCheckedRadioButtonId();
+        sexButton = findViewById(sexID);
+
 
         thisApplication = (DataApplication)getApplication();
 
@@ -84,5 +94,7 @@ public class StaffAddUnitScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 }
