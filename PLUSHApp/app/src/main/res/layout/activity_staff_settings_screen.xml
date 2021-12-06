@@ -9,29 +9,45 @@
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Option 1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginEnd="9dp"
+        android:text="Night Mode"
         android:textColor="@color/white"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="318dp" />
+        app:layout_constraintBottom_toTopOf="@+id/switch_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SoftwareDetailsButtonID" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="166dp"
+        android:text="Bold Font"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_1" />
 
     <Button
         android:id="@+id/SoftwareDetailsButtonID"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="94dp"
+        android:gravity="left"
         android:text="Software Details"
         android:textColor="@color/white"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="125dp" />
+        app:layout_constraintBottom_toTopOf="@+id/switch_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:text="Button"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="206dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
