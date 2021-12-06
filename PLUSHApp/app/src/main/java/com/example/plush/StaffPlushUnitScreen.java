@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.plush.data.DataApplication;
 
@@ -50,7 +51,7 @@ public class StaffPlushUnitScreen extends AppCompatActivity {
         });
         scheduleButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffAddUnitScreen.class);
+                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffScheduleScreen.class);
                 startActivity(intent);
             }
         });
@@ -61,9 +62,8 @@ public class StaffPlushUnitScreen extends AppCompatActivity {
             }
         });
         shutdownButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffAddUnitScreen.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "PLUSH has been deactivated!", Toast.LENGTH_SHORT).show();
             }
         });
 
