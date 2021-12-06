@@ -58,11 +58,15 @@ public class StaffHomeScreen extends AppCompatActivity {
             public void onDrawerOpened(View v){
                 super.onDrawerOpened(v);
                 findViewById(R.id.scrollview).setVisibility(View.INVISIBLE);
+                findViewById(R.id.addButton).setVisibility(View.INVISIBLE);
+                findViewById(R.id.removeButton).setVisibility(View.INVISIBLE);
             }
             @Override
             public void onDrawerClosed(View v){
                 super.onDrawerClosed(v);
                 findViewById(R.id.scrollview).setVisibility(View.VISIBLE);
+                findViewById(R.id.addButton).setVisibility(View.VISIBLE);
+                findViewById(R.id.removeButton).setVisibility(View.VISIBLE);
             }
         };
         hamburgerLayout.addDrawerListener(actionBarHamburgerToggle);
