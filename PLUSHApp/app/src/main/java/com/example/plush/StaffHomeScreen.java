@@ -160,6 +160,9 @@ public class StaffHomeScreen extends AppCompatActivity {
             case R.id.hamFeedback:
                 intent = new Intent(StaffHomeScreen.this, StaffFeedbackScreen.class);
                 break;
+            case R.id.hamSupport:
+                intent = new Intent(StaffHomeScreen.this, StaffSupportScreen.class);
+                break;
             case R.id.hamLogout:
                 intent = new Intent(StaffHomeScreen.this, SelectAccountScreen.class);
                 break;
