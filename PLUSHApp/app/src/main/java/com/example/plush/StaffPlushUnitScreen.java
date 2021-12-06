@@ -56,7 +56,7 @@ public class StaffPlushUnitScreen extends AppCompatActivity {
         });
         musicButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffAddUnitScreen.class);
+                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffMusicScreen.class);
                 startActivity(intent);
             }
         });
