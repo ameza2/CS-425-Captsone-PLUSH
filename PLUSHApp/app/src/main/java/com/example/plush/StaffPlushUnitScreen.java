@@ -33,7 +33,7 @@ public class StaffPlushUnitScreen extends AppCompatActivity {
         scheduleButton = (Button) findViewById (R.id.scheduleButton);
         musicButton = (Button) findViewById (R.id.musicButton);
         shutdownButton = (Button) findViewById (R.id.shutdownButton);
-        thisApplication = (DataApplication)getApplication();
+        thisApplication = (DataApplication) getApplication();
 
 
         //Pass the plush ID and room number from the home screen

@@ -7,12 +7,65 @@
     android:background="#2E2D2D"
     tools:context=".StaffMusicScreen">
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <Button
+        android:id="@+id/musicselectionButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="288dp"
+        android:layout_marginBottom="393dp"
+        android:gravity="left"
+        android:text="Music Selection                               >"
+        android:textColor="@color/white"
+        android:textSize="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/musicToggle"
+        android:layout_width="219dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="579dp"
+        android:text="Music"
+        android:textColor="#FFFFFF"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/volumeBar"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="232dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="482dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/musicvolumeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="129dp"
+        android:layout_marginTop="199dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="500dp"
+        android:text="Music Volume: 0"
+        android:textColor="#FFFFFF"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rick" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
