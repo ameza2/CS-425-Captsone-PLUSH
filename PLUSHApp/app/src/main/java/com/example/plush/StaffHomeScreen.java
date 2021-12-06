@@ -113,7 +113,12 @@ public class StaffHomeScreen extends AppCompatActivity {
             button.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
             button.setLayoutParams(params);
             linearLayout.addView(button);
-
+            button.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+                    Intent intent = new Intent(StaffHomeScreen.this, StaffPlushUnitScreen.class);
+                    startActivity(intent);
+                }
+            });
             j++;
         }
 
