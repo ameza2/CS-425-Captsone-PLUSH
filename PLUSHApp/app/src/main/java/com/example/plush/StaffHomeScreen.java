@@ -56,8 +56,8 @@ public class StaffHomeScreen extends AppCompatActivity {
         actionBarHamburgerToggle = new ActionBarDrawerToggle(this, hamburgerLayout, toolbar, R.string.open, R.string.close){
             @Override
             public void onDrawerOpened(View v){
-                findViewById(R.id.scrollview).setVisibility(View.INVISIBLE);
                 super.onDrawerOpened(v);
+                findViewById(R.id.scrollview).setVisibility(View.INVISIBLE);
             }
             @Override
             public void onDrawerClosed(View v){
@@ -70,16 +70,6 @@ public class StaffHomeScreen extends AppCompatActivity {
         actionBarHamburgerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupDrawerContent(navigationView);
-
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                return true;
-            }
-        });
-
 
         unitListScrollView = (ScrollView)findViewById(R.id.scrollview);
 
@@ -154,13 +144,15 @@ public class StaffHomeScreen extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Intent intent;
-        Class fragmentClass;
         switch(menuItem.getItemId()) {
             case R.id.hamSettings:
                 intent = new Intent(StaffHomeScreen.this, StaffSettingsScreen.class);
                 break;
             case R.id.hamFeedback:
                 intent = new Intent(StaffHomeScreen.this, StaffFeedbackScreen.class);
+                break;
+            case R.id.hamLogout:
+                intent = new Intent(StaffHomeScreen.this, SelectAccountScreen.class);
                 break;
             default:
                 intent = new Intent(StaffHomeScreen.this, StaffSettingsScreen.class);
@@ -171,10 +163,9 @@ public class StaffHomeScreen extends AppCompatActivity {
         // Set action bar title
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
-
-        hamburgerLayout.closeDrawers();
         startActivity(intent);
-        findViewById(R.id.scrollview).setVisibility(View.VISIBLE);
+        hamburgerLayout.closeDrawers();
+
     }
 
 
