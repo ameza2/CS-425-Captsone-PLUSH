@@ -7,20 +7,11 @@
     android:background="#2E2D2D"
     tools:context=".MusicSelectionScreen">
 
-    <TextView
-        android:id="@+id/textView11"
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="94dp"
-        android:layout_marginTop="274dp"
-        android:layout_marginEnd="94dp"
-        android:layout_marginBottom="383dp"
-        android:gravity="center"
-        android:text="Page Under Construction"
-        android:textColor="#FFFFFF"
-        android:textSize="55sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@drawable/rick"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="74dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
