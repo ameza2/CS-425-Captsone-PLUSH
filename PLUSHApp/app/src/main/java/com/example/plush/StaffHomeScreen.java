@@ -3,16 +3,21 @@ package com.example.plush;
 import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.plush.data.DataApplication;
 import com.google.android.material.navigation.NavigationView;
@@ -32,7 +37,7 @@ public class StaffHomeScreen extends AppCompatActivity {
     ActionBarDrawerToggle actionBarHamburgerToggle;
     Toolbar toolbar;
     NavigationView navigationView;
-
+    ArrayList<Button> buttonList = new ArrayList<>();
 
 
     @Override
@@ -46,11 +51,34 @@ public class StaffHomeScreen extends AppCompatActivity {
 
         hamburgerLayout = findViewById(R.id.hamburger);
         navigationView = findViewById(R.id.navigationView);
-
-        actionBarHamburgerToggle = new ActionBarDrawerToggle(this, hamburgerLayout, toolbar, R.string.open, R.string.close);
+        //Updated the actionbar to override the ondraweropened and ondrawer closed methods.
+        //this allows for us to detect when the sidebar is opened so we can stop displaying the plush buttons and redisplay when closed.
+        actionBarHamburgerToggle = new ActionBarDrawerToggle(this, hamburgerLayout, toolbar, R.string.open, R.string.close){
+            @Override
+            public void onDrawerOpened(View v){
+                findViewById(R.id.scrollview).setVisibility(View.INVISIBLE);
+                super.onDrawerOpened(v);
+            }
+            @Override
+            public void onDrawerClosed(View v){
+                super.onDrawerClosed(v);
+                findViewById(R.id.scrollview).setVisibility(View.VISIBLE);
+            }
+        };
         hamburgerLayout.addDrawerListener(actionBarHamburgerToggle);
         actionBarHamburgerToggle.setDrawerIndicatorEnabled(true);
         actionBarHamburgerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setupDrawerContent(navigationView);
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                return true;
+            }
+        });
 
 
         unitListScrollView = (ScrollView)findViewById(R.id.scrollview);
@@ -80,7 +108,7 @@ public class StaffHomeScreen extends AppCompatActivity {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(params);
 
-        ArrayList<Button> buttonList = new ArrayList<>();
+
         int j = 0;
 
         for(String i: thisApplication.currUserData().assignedUnits.keySet()) {
@@ -103,4 +131,52 @@ public class StaffHomeScreen extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                hamburgerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+
+    }
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Intent intent;
+        Class fragmentClass;
+        switch(menuItem.getItemId()) {
+            case R.id.hamSettings:
+                intent = new Intent(StaffHomeScreen.this, StaffSettingsScreen.class);
+                break;
+            case R.id.hamFeedback:
+                intent = new Intent(StaffHomeScreen.this, StaffFeedbackScreen.class);
+                break;
+            default:
+                intent = new Intent(StaffHomeScreen.this, StaffSettingsScreen.class);
+        }
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+
+        hamburgerLayout.closeDrawers();
+        startActivity(intent);
+        findViewById(R.id.scrollview).setVisibility(View.VISIBLE);
+    }
+
+
+
 }
