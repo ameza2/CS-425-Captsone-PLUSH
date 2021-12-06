@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,11 @@ public class StaffPlushUnitScreen extends AppCompatActivity {
     Button scheduleButton;
     Button musicButton;
     Button shutdownButton;
+    SeekBar sensitivityBar;
+    TextView sensitivityText;
+
+    int sensitivity;
+
 
 
     @Override
@@ -34,6 +40,8 @@ public class StaffPlushUnitScreen extends AppCompatActivity {
         scheduleButton = (Button) findViewById (R.id.scheduleButton);
         musicButton = (Button) findViewById (R.id.musicButton);
         shutdownButton = (Button) findViewById (R.id.shutdownButton);
+        sensitivityBar = findViewById(R.id.sensitivityBar);
+        sensitivityText = findViewById(R.id.sensitivityText);
         thisApplication = (DataApplication) getApplication();
 
 
@@ -41,6 +49,24 @@ public class StaffPlushUnitScreen extends AppCompatActivity {
         roomNum.setText("temp");
         unitID.setText("temp");
 
+        // sensitivity bar
+        sensitivityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                sensitivityText.setText("Hug Sensitivity: " + String.valueOf(progress));
+                sensitivity = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         //Buttons on click
         editButton.setOnClickListener(new View.OnClickListener(){
