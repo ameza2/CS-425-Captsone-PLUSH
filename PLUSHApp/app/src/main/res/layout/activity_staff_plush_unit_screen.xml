@@ -15,14 +15,12 @@
         android:id="@+id/sensitivityText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         android:text="Hug Sensitivity: 0"
         android:textColor="#FFFFFF"
         android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/sensitivityBar"
-        app:layout_constraintEnd_toStartOf="@+id/scheduleButton"
-        app:layout_constraintStart_toEndOf="@+id/roomNum" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <SeekBar
         android:id="@+id/sensitivityBar"
@@ -50,27 +48,25 @@
         android:id="@+id/editButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
         android:text="Edit"
         android:textSize="8sp"
         app:layout_constraintBottom_toTopOf="@+id/scheduleButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/roomNum"
+        app:layout_constraintEnd_toEndOf="@+id/scheduleButton"
+        app:layout_constraintStart_toStartOf="@+id/scheduleButton"
         app:layout_constraintTop_toTopOf="@+id/roomNum"
         tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/scheduleButton"
-        android:layout_width="0dp"
+        android:layout_width="80dp"
         android:layout_height="34dp"
         android:layout_marginTop="138dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="143dp"
+        android:layout_marginEnd="33dp"
         android:text="Schedule"
         android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="@+id/sensitivityText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/unitID"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
@@ -100,11 +96,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
         android:layout_marginTop="104dp"
-        android:layout_marginEnd="234dp"
         android:text="Room"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/editButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,13 +106,10 @@
         android:id="@+id/unitID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="221dp"
         android:text="PLUSH #"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toStartOf="@+id/scheduleButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/roomNum"
         app:layout_constraintTop_toBottomOf="@+id/roomNum" />
 
 
