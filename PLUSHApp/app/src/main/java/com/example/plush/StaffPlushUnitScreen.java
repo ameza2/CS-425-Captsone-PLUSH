@@ -26,8 +26,6 @@ public class StaffPlushUnitScreen extends AppCompatActivity {
 
     int sensitivity;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

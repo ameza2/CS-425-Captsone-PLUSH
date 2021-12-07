@@ -1,37 +1,38 @@
+// Utility Package //
 package com.example.plush;
 
+// Libraries //
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class SelectAccountScreen extends AppCompatActivity {
+public class SelectAccountScreen extends AppCompatActivity { // SelectAccountScreen w/ action activities
 
-    Button StaffButton; // the staff button
-    Button PatientButton;
+    Button StaffButton; // button initialization: staff
+    Button PatientButton; // button initialization: patient
 
+    /* Initialize Page Activity (Account Selection Screen) */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // must be id from layout
+        setContentView(R.layout.activity_main);
 
+        StaffButton = (Button)findViewById(R.id.GoToStaff); // fetch staff button
+        PatientButton = (Button)findViewById(R.id.GoToPatient); // fetch patient button
 
-        StaffButton = (Button)findViewById(R.id.GoToStaff); // get staff button
-        PatientButton = (Button)findViewById(R.id.GoToPatient);
-
-        StaffButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        /* Button Options */
+        StaffButton.setOnClickListener(new View.OnClickListener() { // execute on staff button click
+            public void onClick(View v) {
                 Intent intent = new Intent(SelectAccountScreen.this, StaffLoginScreen.class);
-                // in here, can have button that changes color, for ex
-                startActivity(intent);
+                startActivity(intent); // redirect page (StaffLoginScreen)
             }
         });
-        PatientButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        PatientButton.setOnClickListener(new View.OnClickListener() { // execute on patient button click
+            public void onClick(View v) {
                 Intent intent = new Intent(SelectAccountScreen.this, PatientLoginScreen.class);
-                startActivity(intent);
+                startActivity(intent); // redirect page (PatientLoginScreen)
             }
         });
     }
