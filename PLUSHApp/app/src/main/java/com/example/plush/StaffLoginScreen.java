@@ -1,23 +1,27 @@
+// Utility Package //
 package com.example.plush;
 
+// Libraries //
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+/* Android Widgets */
 import android.widget.Button;
 import android.widget.EditText;
 
+/* DataApplication File */
 import com.example.plush.data.DataApplication;
 
 public class StaffLoginScreen extends AppCompatActivity {
 
-    Button LoginButton;
-    EditText UsernameEditText;
-    EditText PasswordEditText;
+    Button LoginButton; // button variable: login button (redirect user to home page if credentials pass)
+    EditText UsernameEditText; // text variable: used to store user username
+    EditText PasswordEditText; // text variable: used to store user password
+    DataApplication thisApplication; // data application variable: used for file manipulation
 
-    DataApplication thisApplication;
-
+    /* Initialize Page Activity (Staff Login Screen) */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,23 +33,19 @@ public class StaffLoginScreen extends AppCompatActivity {
 
         thisApplication = (DataApplication)getApplication();
 
-        LoginButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if(thisApplication.checkCredentials(UsernameEditText.getText().toString(), PasswordEditText.getText().toString())){
+        /* Login Button: fetch username and password string, then conduct a credential check. If username and password are valid entries (same hash value (TBD)), redirect staff user to home screen */
+        LoginButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(thisApplication.checkCredentials(UsernameEditText.getText().toString(), PasswordEditText.getText().toString())) {
                     thisApplication.currentUser = UsernameEditText.getText().toString();
                     Intent intent = new Intent(StaffLoginScreen.this, StaffHomeScreen.class);
-                    startActivity(intent);
+                    startActivity(intent); // redirect page (StaffHomeScreen)
                 }
-                else{
-                    UsernameEditText.setText("");
-                    PasswordEditText.setText("");
+                else {
+                    UsernameEditText.setText(""); // clear username field
+                    PasswordEditText.setText(""); // clear password field
                 }
             }
         });
-
-
-
-
     }
-
 }
