@@ -100,27 +100,28 @@ public class StaffRemoveUnitScreen extends AppCompatActivity {
 
         RemoveButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-
                 // Modify JSON
                 try{
-                    JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
-                    for(int i = 0; i < inputJSONArray.length(); i++){
-                        if(inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)){
 
-                            JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-                            ArrayList<Integer> jsonRemoval = new ArrayList<>();
+                    // Get the correct user/unit array
+                    JSONArray inJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+                    JSONArray unitJSONArray = null;
+                    for(int l = 0; l < inJSONArray.length(); l++){
+                        if(inJSONArray.getJSONObject(l).getString("username").equals(thisApplication.currentUser)){
+                            unitJSONArray = inJSONArray.getJSONObject(l).getJSONArray("units");
+                        }
+                    }
+
+                    for(int i = 0; i < buttonList.size(); i++){
+                        // For each button, check if the button is pressed
+                        if(buttonPressedList.get(i)){
+                            String toremove = buttonIDList.get(i);
                             for(int j = 0; j < unitJSONArray.length(); j++){
-                                int ind = buttonIDList.indexOf(unitJSONArray.getJSONObject(i).getString("id"));
-                                if(ind != -1){
-                                    thisApplication.currUserData().removeUnit(buttonIDList.get(ind));
-                                    jsonRemoval.add(j);
+                                if(unitJSONArray.getJSONObject(j).getString("id").equals(toremove)){
+                                    unitJSONArray.remove(j);
                                 }
                             }
-
-                            //for(int j = 0; j < jsonRemoval.size(); j++){
-                             //   unitJSONArray.remove(jsonRemoval.get(j));
-                            //}
-
+                            thisApplication.currUserData().removeUnit(toremove);
                         }
                     }
 

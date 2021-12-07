@@ -4,6 +4,8 @@ package com.example.plush;
 // Libraries //
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.plush.data.DataApplication;
+import com.example.plush.data.DataPlushUnit;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -55,38 +57,87 @@ public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScree
         /* Add Unit Button: Create a string using PLUSH properties, and append PLUSH unit to user's database entry */
         AddUnitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                thisApplication.currUserData().addUnit(IDEditText.getText().toString(), RoomEditText.getText().toString());
 
-                /* Update JSON File */
-                try {
-                    JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
-                    for(int i = 0; i < inputJSONArray.length(); i++) {
-                        if(inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
+                // If there isn't a unit to add:
+                if(thisApplication.currentUnit.equals("")) {
 
-                            /* Add unit properties to array */
-                            JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-                            JSONObject toPut = new JSONObject();
-                            toPut.put("id", IDEditText.getText().toString());
-                            toPut.put("room", RoomEditText.getText().toString());
-                            unitJSONArray.put(toPut);
+                    thisApplication.currUserData().addUnit(IDEditText.getText().toString(), RoomEditText.getText().toString());
 
-                            /* Save new string to user database */
-                            File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
-                            OutputStream outputStream = new FileOutputStream(f);
-                            byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-                            outputStream.write(outputBytes);
-                            outputStream.close();
+                    /* Update JSON File */
+                    try {
+                        JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+                        for (int i = 0; i < inputJSONArray.length(); i++) {
+                            if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
+
+                                /* Add unit properties to array */
+                                JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                                JSONObject toPut = new JSONObject();
+                                toPut.put("id", IDEditText.getText().toString());
+                                toPut.put("room", RoomEditText.getText().toString());
+                                unitJSONArray.put(toPut);
+
+                                /* Save new string to user database */
+                                File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
+                                OutputStream outputStream = new FileOutputStream(f);
+                                byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                                outputStream.write(outputBytes);
+                                outputStream.close();
+                            }
                         }
+                    } catch (JSONException | FileNotFoundException e) { // error-handling statement
+                        e.printStackTrace();
+                    } catch (IOException e) { // error-handling statement
+                        e.printStackTrace();
                     }
-                } catch (JSONException | FileNotFoundException e) { // error-handling statement
-                    e.printStackTrace();
-                } catch (IOException e) { // error-handling statement
-                    e.printStackTrace();
+
+                    /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
+                    Intent intent = new Intent(StaffAddUnitScreen.this, StaffHomeScreen.class);
+                    startActivity(intent); // redirect page( StaffHomeScreen)
                 }
 
-                /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
-                Intent intent = new Intent(StaffAddUnitScreen.this, StaffHomeScreen.class);
-                startActivity(intent); // redirect page( StaffHomeScreen)
+                // If there IS a unit to add
+                else{
+                    // Since the data uses a hashmap, have to replace old
+                    String oldID = thisApplication.currUnitData().id;
+                    thisApplication.currUserData().assignedUnits.remove(oldID);
+                    String newID = IDEditText.getText().toString();
+                    String newRoom = RoomEditText.getText().toString();
+                    thisApplication.currUserData().addUnit(newID, newRoom);
+                    thisApplication.currentUnit = newID;
+
+                    /* Update JSON File */
+                    try {
+                        JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+                        for (int i = 0; i < inputJSONArray.length(); i++) {
+                            if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
+
+                                /* Edit unit properties */
+                                JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                                for(int j = 0; j < unitJSONArray.length(); j++){
+                                    if(unitJSONArray.getJSONObject(j).getString("id").equals(oldID)){
+                                        unitJSONArray.getJSONObject(j).put("id", newID);
+                                        unitJSONArray.getJSONObject(j).put("room", newRoom);
+                                    }
+                                }
+
+                                /* Save new string to user database */
+                                File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
+                                OutputStream outputStream = new FileOutputStream(f);
+                                byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                                outputStream.write(outputBytes);
+                                outputStream.close();
+                            }
+                        }
+                    } catch (JSONException | FileNotFoundException e) { // error-handling statement
+                        e.printStackTrace();
+                    } catch (IOException e) { // error-handling statement
+                        e.printStackTrace();
+                    }
+
+                    /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
+                    Intent intent = new Intent(StaffAddUnitScreen.this, StaffPlushUnitScreen.class);
+                    startActivity(intent); // redirect page( StaffHomeScreen)
+                }
             }
         });
     }

@@ -24,10 +24,12 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
     Button scheduleButton; // button variable: schedule button (view upcoming events w/ calendar feature)
     Button musicButton; // button variable: music button (configure music settings)
     Button shutdownButton; // button variable: shutdown button (deactivate PLUSH unit and prompt alert message)
+    Button backButton; // button variable: sends users back to the unit page
     SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
     TextView sensitivityText; // textview variable: used to display hug sensitivity
 
     int sensitivity; // variable: used to store hug sensitivity
+
 
     // THIS IS WHERE COMMENTING LEFT OFF //
 
@@ -43,14 +45,15 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         scheduleButton = (Button) findViewById (R.id.scheduleButton);
         musicButton = (Button) findViewById (R.id.musicButton);
         shutdownButton = (Button) findViewById (R.id.shutdownButton);
+        backButton = (Button) findViewById (R.id.backtounitbutton);
         sensitivityBar = findViewById(R.id.sensitivityBar);
         sensitivityText = findViewById(R.id.sensitivityText);
         thisApplication = (DataApplication) getApplication();
 
 
         //Pass the plush ID and room number from the home screen
-        roomNum.setText("temp");
-        unitID.setText("temp");
+        roomNum.setText("Room " + thisApplication.currUnitData().room);
+        unitID.setText("Unit #" + thisApplication.currUnitData().id);
 
         // sensitivity bar
         sensitivityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -95,5 +98,19 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
                 Toast.makeText(getApplicationContext(), "PLUSH has been deactivated!", Toast.LENGTH_SHORT).show();
             }
         });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                thisApplication.currentUnit = "";
+                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffHomeScreen.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    // I can add units after pressing back
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        thisApplication.currentUnit = "";
     }
 }

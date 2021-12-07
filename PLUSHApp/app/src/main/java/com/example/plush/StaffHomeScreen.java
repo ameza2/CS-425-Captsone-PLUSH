@@ -38,6 +38,7 @@ public class StaffHomeScreen extends AppCompatActivity {
     Toolbar toolbar;
     NavigationView navigationView;
     ArrayList<Button> buttonList = new ArrayList<>();
+    ArrayList<String> unitIDList = new ArrayList<>();
 
 
     @Override
@@ -94,6 +95,8 @@ public class StaffHomeScreen extends AppCompatActivity {
         });
 
         thisApplication = (DataApplication)getApplication();
+        //Important as add/edit unit use the same screen
+        thisApplication.currentUnit = "";
 
         // Load unit data
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -111,6 +114,8 @@ public class StaffHomeScreen extends AppCompatActivity {
 
 
             buttonList.add(new Button(this));
+            unitIDList.add(un);
+
             Button button = buttonList.get(j);
             button.setText("ROOM " + rn + "\nPLUSH #" + un);
             button.setTextSize(1, 30);
@@ -120,6 +125,8 @@ public class StaffHomeScreen extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent intent = new Intent(StaffHomeScreen.this, StaffPlushUnitScreen.class);
+                    int ind = buttonList.indexOf(button);
+                    thisApplication.currentUnit = unitIDList.get(ind);
                     startActivity(intent);
                 }
             });
@@ -180,6 +187,8 @@ public class StaffHomeScreen extends AppCompatActivity {
 
     }
 
-
-
+    // Back button caused a few bugs on this screen, so I disabled it.
+    @Override
+    public void onBackPressed(){
+    }
 }

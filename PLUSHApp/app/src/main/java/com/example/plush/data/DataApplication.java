@@ -32,6 +32,7 @@ public class DataApplication extends Application {
 
     public HashMap<String, DataUser> userDatabase;
     public String currentUser;
+    public String currentUnit;
     public JSONObject inputJSON;
 
     @Override
@@ -106,15 +107,16 @@ public class DataApplication extends Application {
         }
     }
 
+    // Checks to see if user exists; used for login
     public boolean checkCredentials(String inUsername, String inPassword){
         return userDatabase.get(inUsername) != null && inPassword.equals(userDatabase.get(inUsername).password);
     }
 
+    // Grabs the current user
     public DataUser currUserData(){
         return userDatabase.get(currentUser);
     }
 
-    public void updateJSON(){
-        // TODO
-    }
+    // Grabs the current unit
+    public DataPlushUnit currUnitData(){return userDatabase.get(currentUser).assignedUnits.get(currentUnit); }
 }
