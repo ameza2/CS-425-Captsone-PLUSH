@@ -58,7 +58,7 @@ public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScree
         AddUnitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                // If there isn't a unit to add:
+                /* If there isn't a unit to add: */
                 if(thisApplication.currentUnit.equals("")) {
 
                     thisApplication.currUserData().addUnit(IDEditText.getText().toString(), RoomEditText.getText().toString());
@@ -92,12 +92,12 @@ public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScree
 
                     /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
                     Intent intent = new Intent(StaffAddUnitScreen.this, StaffHomeScreen.class);
-                    startActivity(intent); // redirect page( StaffHomeScreen)
+                    startActivity(intent); // redirect page (StaffHomeScreen)
                 }
 
-                // If there IS a unit to add
-                else{
-                    // Since the data uses a hashmap, have to replace old
+                /* If there IS a unit to add */
+                else {
+                    /* Since the data uses a hashmap, have to replace old */
                     String oldID = thisApplication.currUnitData().id;
                     thisApplication.currUserData().assignedUnits.remove(oldID);
                     String newID = IDEditText.getText().toString();
@@ -136,7 +136,7 @@ public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScree
 
                     /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
                     Intent intent = new Intent(StaffAddUnitScreen.this, StaffPlushUnitScreen.class);
-                    startActivity(intent); // redirect page( StaffHomeScreen)
+                    startActivity(intent); // redirect page (StaffPlushUnitScreen)
                 }
             }
         });

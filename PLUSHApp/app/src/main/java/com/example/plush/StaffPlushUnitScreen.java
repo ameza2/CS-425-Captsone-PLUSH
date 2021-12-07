@@ -49,7 +49,7 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         thisApplication = (DataApplication) getApplication();
 
 
-        //Pass the plush ID and room number from the home screen
+        /* Pass the plush ID and room number from the home screen */
         roomNum.setText("Room " + thisApplication.currUnitData().room);
         unitID.setText("Unit #" + thisApplication.currUnitData().id);
 
@@ -92,26 +92,28 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         musicButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(StaffPlushUnitScreen.this, StaffMusicScreen.class);
-                startActivity(intent); // redirect page (StafMusicScreen)
+                startActivity(intent); // redirect page (StaffMusicScreen)
             }
         });
 
         /* Shutdown Button: abort PLUSH instructions and shutdown PLUSH unit */
         shutdownButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "PLUSH has been deactivated!", Toast.LENGTH_SHORT).show(); // deactivation prompt
+                Toast.makeText(getApplicationContext(), "PLUSH #" + thisApplication.currUnitData().id + " has been deactivated!", Toast.LENGTH_SHORT).show(); // deactivation prompt
             }
         });
+
+        /* Back Button: return to PLUSH Home Page */
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 thisApplication.currentUnit = "";
                 Intent intent = new Intent(StaffPlushUnitScreen.this, StaffHomeScreen.class);
-                startActivity(intent);
+                startActivity(intent); // page redirect (StaffHomeScreen)
             }
         });
     }
 
-    // I can add units after pressing back
+    /* Add Units After Pressing Back */
     @Override
     public void onBackPressed(){
         super.onBackPressed();

@@ -32,19 +32,18 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-// WORK IN PROGRESS: WILL COME BACK TO LATER //
+public class StaffRemoveUnitScreen extends AppCompatActivity { // StaffRemoveUnitScreen w/ action activities
 
-public class StaffRemoveUnitScreen extends AppCompatActivity {
-
-    ScrollView unitListScrollView;
-    Button RemoveButton;
+    ScrollView unitListScrollView; // scrollview variable: used to scroll through PLUSH unit list
+    Button RemoveButton; // button variable: remove button (initiate PLUSH unit removal)
 
     DataApplication thisApplication;
 
-    private ArrayList<Button> buttonList;
-    private ArrayList<String> buttonIDList;
-    private ArrayList<Boolean> buttonPressedList;
+    private ArrayList<Button> buttonList; // array consisting of buttons
+    private ArrayList<String> buttonIDList; // array consisting of button IDs
+    private ArrayList<Boolean> buttonPressedList; // array consisting of buttons pressed
 
+    /* Initialize Page Activity (Staff Remove Unit Screen) */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +54,7 @@ public class StaffRemoveUnitScreen extends AppCompatActivity {
 
         thisApplication = (DataApplication)getApplication();
 
-        // Load the buttons
+        /* Load the Buttons */
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -66,9 +65,10 @@ public class StaffRemoveUnitScreen extends AppCompatActivity {
         buttonList = new ArrayList<>();
         buttonIDList = new ArrayList<>();
         buttonPressedList = new ArrayList<>();
+
         int j = 0;
 
-        for(String i: thisApplication.currUserData().assignedUnits.keySet()) {
+        for (String i: thisApplication.currUserData().assignedUnits.keySet()) {
             String rn = thisApplication.currUserData().assignedUnits.get(i).room;
             String un = thisApplication.currUserData().assignedUnits.get(i).id;
 
@@ -84,7 +84,8 @@ public class StaffRemoveUnitScreen extends AppCompatActivity {
             buttonIDList.add(i);
             buttonPressedList.add(false);
 
-            button.setOnClickListener(new View.OnClickListener(){
+            /* PLUSH Unit Removal Button Color: white = selected button, red = not selected button */
+            button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v){
                     int buttonID = getButtonID(button);
                     if(buttonPressedList.get(buttonID)){ // If it is already selected
@@ -95,7 +96,6 @@ public class StaffRemoveUnitScreen extends AppCompatActivity {
                         button.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
                         buttonPressedList.set(buttonID, true);
                     }
-
                 }
             });
 
@@ -104,26 +104,27 @@ public class StaffRemoveUnitScreen extends AppCompatActivity {
 
         unitListScrollView.addView(linearLayout);
 
-        RemoveButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                // Modify JSON
-                try{
+        /* Remove Button: remove PLUSH unit from user's database entry */
+        RemoveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                /* Modify JSON File (Database) */
+                try {
 
-                    // Get the correct user/unit array
+                    /* Fetch the correct user/unit array */
                     JSONArray inJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
                     JSONArray unitJSONArray = null;
-                    for(int l = 0; l < inJSONArray.length(); l++){
-                        if(inJSONArray.getJSONObject(l).getString("username").equals(thisApplication.currentUser)){
+                    for (int l = 0; l < inJSONArray.length(); l++) {
+                        if(inJSONArray.getJSONObject(l).getString("username").equals(thisApplication.currentUser)) {
                             unitJSONArray = inJSONArray.getJSONObject(l).getJSONArray("units");
                         }
                     }
 
-                    for(int i = 0; i < buttonList.size(); i++){
-                        // For each button, check if the button is pressed
-                        if(buttonPressedList.get(i)){
+                    for (int i = 0; i < buttonList.size(); i++) {
+                        /* For each button, check if the button is pressed */
+                        if(buttonPressedList.get(i)) {
                             String toremove = buttonIDList.get(i);
-                            for(int j = 0; j < unitJSONArray.length(); j++){
-                                if(unitJSONArray.getJSONObject(j).getString("id").equals(toremove)){
+                            for(int j = 0; j < unitJSONArray.length(); j++) {
+                                if(unitJSONArray.getJSONObject(j).getString("id").equals(toremove)) {
                                     unitJSONArray.remove(j);
                                 }
                             }
@@ -131,7 +132,7 @@ public class StaffRemoveUnitScreen extends AppCompatActivity {
                         }
                     }
 
-                    // Save new string
+                    /* Save new string */
                     File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
                     OutputStream outputStream = new FileOutputStream(f);
                     byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
@@ -144,17 +145,18 @@ public class StaffRemoveUnitScreen extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                /* After PLUSH Unit removal, return to PLUSH Home Screen */
                 Intent intent = new Intent(StaffRemoveUnitScreen.this, StaffHomeScreen.class);
-                startActivity(intent);
+                startActivity(intent); // page redirect (StaffHomeScreen)
             }
         });
 
     }
 
-
-    private int getButtonID(Button button){
-        for (int i = 0; i < buttonList.size(); i++){
-            if(buttonList.get(i) == button){
+    /* Helper Function: fetch current button ID */
+    private int getButtonID(Button button) {
+        for (int i = 0; i < buttonList.size(); i++) {
+            if(buttonList.get(i) == button) {
                 return i;
             }
         }
