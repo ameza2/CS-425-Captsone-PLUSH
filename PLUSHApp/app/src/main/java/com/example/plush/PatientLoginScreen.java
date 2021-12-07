@@ -22,7 +22,7 @@ public class PatientLoginScreen extends AppCompatActivity { // PatientLoginScree
         Button button = findViewById(R.id.loginbutton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(PatientLoginScreen.this, StaffPlushUnitScreen.class);
+                Intent intent = new Intent(PatientLoginScreen.this, ConstructionScreen.class);
                 startActivity(intent);
             }
         });
