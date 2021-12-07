@@ -1,25 +1,29 @@
+// Utility Package //
 package com.example.plush;
 
+// Libraries //
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
+/* Android Widgets */
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.plush.R;
 import com.example.plush.data.DataApplication;
 
+/* JSON Objects */
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/* File Manipulation */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,6 +31,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+
+// WORK IN PROGRESS: WILL COME BACK TO LATER //
 
 public class StaffRemoveUnitScreen extends AppCompatActivity {
 

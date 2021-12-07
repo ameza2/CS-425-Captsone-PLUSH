@@ -30,15 +30,13 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
 
     int sensitivity; // variable: used to store hug sensitivity
 
-
-    // THIS IS WHERE COMMENTING LEFT OFF //
-
+    /* Initialize Page Activity (Staff PLUSH Unit Screen) */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_staff_plush_unit_screen);
 
-        //Initializations
+        /* Initializations */
         roomNum = (TextView) findViewById (R.id.roomNum);
         unitID = (TextView) findViewById (R.id.unitID);
         editButton = (Button) findViewById (R.id.editButton);
@@ -55,47 +53,53 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         roomNum.setText("Room " + thisApplication.currUnitData().room);
         unitID.setText("Unit #" + thisApplication.currUnitData().id);
 
-        // sensitivity bar
+        /* Hug Sensitivity Bar: used to calibrate PLUSH hug sensitivity */
         sensitivityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                sensitivityText.setText("Hug Sensitivity: " + String.valueOf(progress));
-                sensitivity = progress;
+                sensitivityText.setText("Hug Sensitivity: " + String.valueOf(progress)); // print hug sensitivity value
+                sensitivity = progress; // store hug sensitivity value
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                // DO NOTHING //
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                // DO NOTHING //
             }
         });
 
-        //Buttons on click
+        /* Edit Button: used to view/configure patient details */
         editButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(StaffPlushUnitScreen.this, StaffAddUnitScreen.class);
-                startActivity(intent);
+                startActivity(intent); // redirect page (StaffAddUnitScreen [temp])
             }
         });
+
+        /* Schedule Button: used to view upcoming patient events via a calendar */
         scheduleButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(StaffPlushUnitScreen.this, StaffScheduleScreen.class);
-                startActivity(intent);
+                startActivity(intent); // redirect page (StaffScheduleScreen)
             }
         });
+
+        /* Music Button: used to configure PLUSH music preferences */
         musicButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(StaffPlushUnitScreen.this, StaffMusicScreen.class);
-                startActivity(intent);
+                startActivity(intent); // redirect page (StafMusicScreen)
             }
         });
+
+        /* Shutdown Button: abort PLUSH instructions and shutdown PLUSH unit */
         shutdownButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "PLUSH has been deactivated!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "PLUSH has been deactivated!", Toast.LENGTH_SHORT).show(); // deactivation prompt
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
