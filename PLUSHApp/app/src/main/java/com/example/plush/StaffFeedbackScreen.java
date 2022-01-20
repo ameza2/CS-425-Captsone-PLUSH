@@ -9,6 +9,7 @@ import android.view.View;
 
 /* Android Widgets */
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class StaffFeedbackScreen extends AppCompatActivity { // StaffFeedbackScr
     TextView tvFeedback;
     RatingBar ratingStars;
     Button feedbackButton;
+    EditText feedbackContent;
 
     /* Initialize Page Activity (Staff Feedback Screen) */
     @Override
@@ -28,6 +30,7 @@ public class StaffFeedbackScreen extends AppCompatActivity { // StaffFeedbackScr
         tvFeedback = findViewById(R.id.tvFeedback);
         ratingStars = findViewById(R.id.ratingBar);
         feedbackButton = findViewById(R.id.feedbackButton);
+        feedbackContent = findViewById(R.id.editTextTextMultiLine);
 
         ratingStars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() { // star bar options (used to record user satisfaction)
             @Override
@@ -57,10 +60,19 @@ public class StaffFeedbackScreen extends AppCompatActivity { // StaffFeedbackScr
         });
 
         /* Submit Feedback Button: submit feedback entry for product maintenance (TO DO: must be stored/sent somewhere) */
+        //Referencing solution from https://stackoverflow.com/questions/8994488/android-button-onclick-submit-to-email
         feedbackButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(StaffFeedbackScreen.this, StaffHomeScreen.class);
-                startActivity(intent); // redirect page (StaffHomeScreen)
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{"PLUSHassistance@gmail.com"});
+                email.putExtra(Intent.EXTRA_SUBJECT, "Feedback of " + tvFeedback + " stars rating");
+                email.putExtra(Intent.EXTRA_TEXT, feedbackContent.getText().toString());
+
+                //need this to prompts email client only
+                email.setType("message/rfc822");
+
+                //Should launch the user's email app allowing the user to choose which app to send the email.
+                startActivity(Intent.createChooser(email, "Choose an Email client :"));
             }
         });
 
