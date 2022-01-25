@@ -10,6 +10,8 @@ import android.widget.Button;
 
 public class PatientLoginScreen extends AppCompatActivity { // PatientLoginScreen w/ action activities
 
+    Button button; // button variable: login button
+
     /* Initialize Page Activity (Patient Login Screen) */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +21,10 @@ public class PatientLoginScreen extends AppCompatActivity { // PatientLoginScree
         setContentView(R.layout.activity_patient_login_screen);
 
         /* Login Button: redirect user to PatientUnitScreen (StaffPlushUnitScreen (temp)) */
-        Button button = findViewById(R.id.loginbutton);
+        button = findViewById(R.id.loginbutton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(PatientLoginScreen.this, ConstructionScreen.class);
+                Intent intent = new Intent(PatientLoginScreen.this, PatientPlushHomeScreen.class);
                 startActivity(intent);
             }
         });

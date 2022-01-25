@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PLUSH">
         <activity
+            android:name=".PatientPlushHomeScreen"
+            android:exported="false" />
+        <activity
             android:name=".ConstructionScreen"
             android:exported="false" />
         <activity
