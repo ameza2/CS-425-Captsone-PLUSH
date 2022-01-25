@@ -36,4 +36,8 @@ public class SelectAccountScreen extends AppCompatActivity { // SelectAccountScr
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }
