@@ -9,10 +9,14 @@ import android.view.View;
 
 /* Android Widgets */
 import android.widget.Button;
+import android.widget.EditText;
 
 public class StaffSupportScreen extends AppCompatActivity { // StaffSupportScreen w/ action activities
 
     Button supportButton; // button variable: supportButton (submit support request and redirect user to home screen)
+    EditText supportName;
+    EditText supportEmail;
+    EditText supportDesc;
 
     /* Initialize Page Activity (Staff Support Screen) */
     @Override
@@ -23,10 +27,19 @@ public class StaffSupportScreen extends AppCompatActivity { // StaffSupportScree
         supportButton = findViewById(R.id.submitButton);
 
         /* Support Button: used to submit support request and redirect user to home screen */
+        //Referencing solution from https://stackoverflow.com/questions/8994488/android-button-onclick-submit-to-email
         supportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(StaffSupportScreen.this, StaffHomeScreen.class);
-                startActivity(intent); // page redirection (StaffHomeScreen)
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{"PLUSHassistance@gmail.com"});
+                email.putExtra(Intent.EXTRA_SUBJECT, "Support request from " + supportName + " :" + supportEmail);
+                email.putExtra(Intent.EXTRA_TEXT, supportDesc.getText().toString());
+
+                //need this to prompts email client only
+                email.setType("message/rfc822");
+
+                //Should launch the user's email app allowing the user to choose which app to send the email.
+                startActivity(Intent.createChooser(email, "Choose an Email client :"));
             }
         });
     }
