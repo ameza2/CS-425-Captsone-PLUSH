@@ -8,12 +8,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/design_default_color_primary_dark"
-        app:title="PLUSH"
+        android:background="@color/teal_200"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:id="@+id/toolbar"/>
+        app:title="PLUSH" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
