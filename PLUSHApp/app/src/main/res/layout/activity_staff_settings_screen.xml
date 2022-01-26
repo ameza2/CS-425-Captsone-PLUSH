@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2E2D2D"
+    android:background="#FFFFFF"
     tools:context=".StaffSettingsScreen">
 
     <androidx.appcompat.widget.SwitchCompat
@@ -17,7 +17,6 @@
         android:layout_marginStart="9dp"
         android:layout_marginEnd="9dp"
         android:text="Night Mode"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/switch_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +30,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="166dp"
         android:text="Bold Font"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +44,7 @@
         android:layout_marginBottom="94dp"
         android:gravity="left"
         android:text="Software Details"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/switch_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

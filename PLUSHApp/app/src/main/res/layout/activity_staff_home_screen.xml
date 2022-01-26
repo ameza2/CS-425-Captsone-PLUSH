@@ -6,8 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#2E2D2D">
+    android:layout_height="match_parent">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -27,7 +26,6 @@
         android:id="@+id/hamburger"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#2E2D2D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +45,7 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/activity_hamburger_header"
-            app:menu="@menu/hamburger_menu" >
+            app:menu="@menu/hamburger_menu">
 
         </com.google.android.material.navigation.NavigationView>
 

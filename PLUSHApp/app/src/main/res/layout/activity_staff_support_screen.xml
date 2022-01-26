@@ -7,7 +7,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2E2D2D"
     tools:context=".StaffSupportScreen">
 
     <EditText
@@ -17,7 +16,7 @@
         android:layout_marginStart="9dp"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="38dp"
-        android:background="#FFFFFF"
+        android:background="@color/gray_text"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Enter Full Name"
@@ -35,7 +34,7 @@
         android:layout_marginStart="9dp"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="29dp"
-        android:background="#FFFFFF"
+        android:background="@color/gray_text"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Enter Email"
@@ -53,7 +52,7 @@
         android:layout_marginStart="9dp"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="39dp"
-        android:background="#FFFFFF"
+        android:background="@color/gray_text"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Enter Message"
@@ -82,7 +81,6 @@
         android:layout_marginStart="13dp"
         android:layout_marginBottom="10dp"
         android:text="Name*"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -94,7 +92,6 @@
         android:layout_marginStart="13dp"
         android:layout_marginBottom="11dp"
         android:text="Email*"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
@@ -106,7 +103,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginBottom="11dp"
         android:text="Message*"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine2" />
@@ -118,7 +114,6 @@
         android:layout_marginTop="40dp"
         android:layout_marginBottom="45dp"
         android:text="Contact Support"
-        android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
