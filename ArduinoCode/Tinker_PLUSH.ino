@@ -83,6 +83,7 @@ void setup() {
 }
 
 void loop(){
+<<<<<<< Updated upstream:ArduinoCode/Tinker_PLUSH.ino
   
   // Update Button States //
   
@@ -93,6 +94,9 @@ void loop(){
   
   // Update Volume State //
   
+=======
+  // Update Volume State // 
+>>>>>>> Stashed changes:ArduinoCode/Tinker_PLUSH/Tinker_PLUSH.ino
   newVolume = analogRead(volumeDial); // new volume level state (potentiometer)
   newVolume = map(newVolume, 0, 1024, 0, 100); // map volume level boundaries (0 - 1024 -> 0 - 100)
 
