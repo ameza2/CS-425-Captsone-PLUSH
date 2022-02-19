@@ -1,53 +1,51 @@
 /**
- * PLUSH Arduino Code:
- * Authors: Christian Pilley, Abraham Meza
- * Team: Team20(Christian Pilley, Abraham Meza, Tal Zemach, Josh Insorio, Korben Diarchangel)
- * Outside Librarys (code not written by us): 
- *  - LiquidCrystal_I2C.h
- *  - Pitch.h
- *  - Volume.h
- *  
- * Arduino Libraries Used:
- *  - Wifi.h
- *  - WifiClient.h
- *  - WifiServer.h
- *  - WifiUdp.h
- */
+   PLUSH Arduino Code:
+   Authors: Christian Pilley, Abraham Meza
+   Team: Team20(Christian Pilley, Abraham Meza, Tal Zemach, Josh Insorio, Korben Diarchangel)
+   Outside Librarys (code not written by us):
+    - LiquidCrystal_I2C.h
+    - Pitch.h
+    - Volume.h
+
+   Arduino Libraries Used:
+    - Wifi.h
+    - WifiClient.h
+    - WifiServer.h
+    - WifiUdp.h
+*/
 #define TONE_USE_INT
 #define TONE_PITCH 440
-//#define HANDLE_TAGS 
-#include <Pitch.h>
+//#define HANDLE_TAGS
+//#include <Pitch.h>
 #include <LiquidCrystal_I2C.h>
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <WiFiServer.h>
 #include <WiFiUdp.h>
-#include <pcmConfig.h>
-#include <pcmRF.h>
-#include <TMRpcm.h>
 #include <SPI.h>
 #include <SD.h>
 
-LiquidCrystal_I2C lcd(0x27, 16,2);
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 File f;
-TMRpcm Audio;
+Logger logger;
 /*
- * Pin assignments:
- * Variables holding the pin locations for various I/O
- */
+   Pin assignments:
+   Variables holding the pin locations for various I/O
+*/
 const int musicButton     = 19;
 const int hugButton       = 18;
 const int emergencyButton = 2;
-const int helpButton      = 3; 
+const int helpButton      = 3;
 const int speakerOutPin   = 12;
 unsigned const volumeDial = A5;
 unsigned const LED_R      = 10;
-unsigned const LED_B      = 8; 
+unsigned const LED_B      = 8;
 unsigned const LED_G      = 9;
 
 /*
- * Button Dictionary
- */
+   Button Dictionary
+*/
 String buttonMessages[] = {
   "Music button",
   "Hug button",
@@ -57,59 +55,52 @@ String buttonMessages[] = {
 String currentPressedButton = "";
 boolean buttonChanged = false;
 /*
- * Music Variables
- */
+   Music Variables
+*/
 int counter = 0;
 bool musicToggle = false; // boolean  variable: used to store music toggle
 unsigned int newVolume = 0; // variable: used to store new volume setting
 unsigned int oldVolume = 0; // variable: used to store old volume setting
-int testMelody[] = {
-  NOTE_C5, NOTE_D5, NOTE_F5, NOTE_D5, NOTE_A5, NOTE_A5, NOTE_G5, NOTE_C5, NOTE_D5, NOTE_F5, NOTE_D5, NOTE_G5, NOTE_G5
-  , NOTE_F5, NOTE_E5, NOTE_D5, NOTE_C5, NOTE_D5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5, NOTE_E5, NOTE_D5, NOTE_C5, NOTE_C5, NOTE_C5, NOTE_G5, NOTE_F5
-};
-int noteDurations[] = {
-  100,100,100,100,250,250,600,100,100,100,100,250,250,200,100,150,100,100,100,100,300,150,250,100,150,150,150,300,1000
-};
-
 /*
- * Interrupt Functions
- */
-void toggleMusic(){
+   Interrupt Functions
+*/
+void toggleMusic() {
   musicToggle = !musicToggle; // switch the state of the musictoggle
-  if(musicToggle) counter = 0; // if the music toggle is high (because it doesnt update until after the end of the method) set the counter to 0
+  if (musicToggle) counter = 0; // if the music toggle is high (because it doesnt update until after the end of the method) set the counter to 0
   currentPressedButton = buttonMessages[0];
   buttonChanged = true;
 }
-void LCDPrintHelp(){
+void LCDPrintHelp() {
   currentPressedButton = buttonMessages[3];
   buttonChanged = true;
 }
-void LCDPrintEmergency(){
+void LCDPrintEmergency() {
   currentPressedButton = buttonMessages[2];
   buttonChanged = true;
 }
-void LCDPrintHug(){
+void LCDPrintHug() {
   currentPressedButton = buttonMessages[1];
   buttonChanged = true;
 }
 /*
- * Helper Functions
- */
-void setLEDColor(int redVal, int greenVal, int blueVal) { 
+   Helper Functions
+*/
+void setLEDColor(int redVal, int greenVal, int blueVal) {
   analogWrite(LED_R, redVal);
   analogWrite(LED_G, greenVal);
   analogWrite(LED_B, blueVal);
 }
 
 /*
- * Setup Function
- */
-void setup(){
+   Setup Function
+*/
+void setup() {
   // Serial Port Check (Debugging) //
   Serial.begin(9600);
-  while (!Serial) { 
+  while (!Serial) {
     ; // do nothing
   }
+  logger = Logger.getInstance();
   randomSeed(analogRead(0));
 
   //vol.DEFAULT_PIN
@@ -122,7 +113,7 @@ void setup(){
   attachInterrupt(digitalPinToInterrupt(helpButton), LCDPrintHelp, RISING);
   attachInterrupt(digitalPinToInterrupt(emergencyButton), LCDPrintEmergency, RISING);
   attachInterrupt(digitalPinToInterrupt(hugButton), LCDPrintHug, RISING);
-  
+
   // Output Pins //
   pinMode(speakerOutPin, OUTPUT);
   pinMode(LED_R, OUTPUT);
@@ -132,10 +123,10 @@ void setup(){
   lcd.begin();
   lcd.backlight();
 
-  if(!SD.begin()){
+  if (!SD.begin()) {
     Serial.println("SD CARD UNINITIALIZED");
   }
-  if(!SD.exists("NGGYU.wav")){
+  if (!SD.exists("NGGYU.wav")) {
     Serial.println("NO WAV FILE FOUND WITH THIS NAME");
   }
   f = SD.open("NGGYU.wav");
@@ -144,33 +135,33 @@ void setup(){
   Audio.setVolume(7);
 }
 /*
- * Loop Function
- */
+   Loop Function
+*/
 void loop() {
   Serial.print(Audio.isPlaying());
   newVolume = analogRead(volumeDial);
-  newVolume = map(newVolume, 0, 1024, 0, 100); 
-  
-  // Play PLUSH Music 
+  newVolume = map(newVolume, 0, 1024, 0, 100);
+
+  // Play PLUSH Music
   if (musicToggle) {
-     if(!Audio.isPlaying()){
-       Audio.pause();
-     }
-  }else{
-    if(Audio.isPlaying()){
-       Audio.pause();
-     }
+    if (!Audio.isPlaying()) {
+      Audio.pause();
+    }
+  } else {
+    if (Audio.isPlaying()) {
+      Audio.pause();
+    }
   }
   //update LCD
-  if(buttonChanged){
+  if (buttonChanged) {
     lcd.clear();
-    lcd.setCursor(0,0);
+    lcd.setCursor(0, 0);
     lcd.print(currentPressedButton);
-    lcd.setCursor(0,1);
+    lcd.setCursor(0, 1);
     lcd.print("pressed!");
   }
   //update LED
-  if(currentPressedButton == buttonMessages[3]){
+  if (currentPressedButton == buttonMessages[3]) {
     setLEDColor(0, 0, 0);
     setLEDColor(255, 255, 255);
     delay((random(10) * 1000));
@@ -180,9 +171,9 @@ void loop() {
     currentPressedButton = "";
   }
   //change volume
-  if (oldVolume != newVolume) { 
-    lcd.setCursor(12,1); 
-    lcd.print(newVolume); 
+  if (oldVolume != newVolume) {
+    lcd.setCursor(12, 1);
+    lcd.print(newVolume);
   }
   oldVolume = newVolume;
   buttonChanged = false;
