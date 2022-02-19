@@ -15,16 +15,22 @@
  */
 #define TONE_USE_INT
 #define TONE_PITCH 440
+//#define HANDLE_TAGS 
 #include <Pitch.h>
-#include "Volume.h"
 #include <LiquidCrystal_I2C.h>
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <WiFiServer.h>
 #include <WiFiUdp.h>
+#include <pcmConfig.h>
+#include <pcmRF.h>
+#include <TMRpcm.h>
+#include <SPI.h>
+#include <SD.h>
 
 LiquidCrystal_I2C lcd(0x27, 16,2);
-Volume vol;
+File f;
+TMRpcm Audio;
 /*
  * Pin assignments:
  * Variables holding the pin locations for various I/O
@@ -33,7 +39,7 @@ const int musicButton     = 19;
 const int hugButton       = 18;
 const int emergencyButton = 2;
 const int helpButton      = 3; 
-const int speakerPin      = 13;
+const int speakerOutPin   = 12;
 unsigned const volumeDial = A5;
 unsigned const LED_R      = 10;
 unsigned const LED_B      = 8; 
@@ -118,35 +124,42 @@ void setup(){
   attachInterrupt(digitalPinToInterrupt(hugButton), LCDPrintHug, RISING);
   
   // Output Pins //
-  pinMode(speakerPin, OUTPUT);
+  pinMode(speakerOutPin, OUTPUT);
   pinMode(LED_R, OUTPUT);
   pinMode(LED_G, OUTPUT);
   pinMode(LED_B, OUTPUT);
-  vol.alternatePin(true);
-  vol.begin();
+  //vol.begin();
   lcd.begin();
   lcd.backlight();
+
+  if(!SD.begin()){
+    Serial.println("SD CARD UNINITIALIZED");
+  }
+  if(!SD.exists("NGGYU.wav")){
+    Serial.println("NO WAV FILE FOUND WITH THIS NAME");
+  }
+  f = SD.open("NGGYU.wav");
+  Audio.speakerPin = 12;
+  Audio.play("NGGYU.wav");
+  Audio.setVolume(7);
 }
 /*
  * Loop Function
  */
 void loop() {
+  Serial.print(Audio.isPlaying());
   newVolume = analogRead(volumeDial);
   newVolume = map(newVolume, 0, 1024, 0, 100); 
   
   // Play PLUSH Music 
-  if (musicToggle) { 
-    //tone(speakerPin, testMelody[counter], 100); 
-    vol.tone(testMelody[counter], map(newVolume,0,100,0,255));
-    vol.fadeOut(noteDurations[counter]);
-    vol.delay(noteDurations[counter] * 1.3);
-    
-    counter++; 
-    if(counter >= *(&testMelody + 1) - testMelody){
-      counter = 0;
-    }
+  if (musicToggle) {
+     if(!Audio.isPlaying()){
+       Audio.pause();
+     }
   }else{
-    vol.noTone();
+    if(Audio.isPlaying()){
+       Audio.pause();
+     }
   }
   //update LCD
   if(buttonChanged){
@@ -160,11 +173,9 @@ void loop() {
   if(currentPressedButton == buttonMessages[3]){
     setLEDColor(0, 0, 0);
     setLEDColor(255, 255, 255);
-    vol.end();
     delay((random(10) * 1000));
     setLEDColor(0, 255, 0);
     delay(5000);
-    vol.begin();
     setLEDColor(0, 0, 0);
     currentPressedButton = "";
   }
@@ -175,4 +186,5 @@ void loop() {
   }
   oldVolume = newVolume;
   buttonChanged = false;
+  currentPressedButton = "";
 }
