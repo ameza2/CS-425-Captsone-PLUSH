@@ -112,6 +112,18 @@ public class DataApplication extends Application {
         return userDatabase.get(inUsername) != null && inPassword.equals(userDatabase.get(inUsername).password);
     }
 
+    // Checks to see if a unit with the ID exists
+    public boolean checkBearExists(String bearID){
+        for(DataUser user : userDatabase.values()){
+            for(DataPlushUnit plush : user.assignedUnits.values()){
+                if(plush.id.equals(bearID)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // Grabs the current user
     public DataUser currUserData(){
         return userDatabase.get(currentUser);
