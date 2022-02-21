@@ -16,6 +16,16 @@ import android.widget.Toast;
 /* Data Application File */
 import com.example.plush.data.DataApplication;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
 public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitScreen w/ action activities
     TextView roomNum; // textview variable: used to store patient room number from PLUSH instance
     TextView unitID; // textview variable: used to store PLUSH PID from PLUSH instance
@@ -53,12 +63,44 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         roomNum.setText("Room " + thisApplication.currUnitData().room);
         unitID.setText("Unit #" + thisApplication.currUnitData().id);
 
+        /* Pass the currently set sensitivity */
+        sensitivityText.setText("Hug Sensitivity: " + String.valueOf(thisApplication.currUnitData().hugSensitivity));
+        sensitivityBar.setProgress(thisApplication.currUnitData().hugSensitivity);
+
         /* Hug Sensitivity Bar: used to calibrate PLUSH hug sensitivity */
         sensitivityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 sensitivityText.setText("Hug Sensitivity: " + String.valueOf(progress)); // print hug sensitivity value
                 sensitivity = progress; // store hug sensitivity value
+
+                thisApplication.currUnitData().hugSensitivity = progress;
+                try {
+                    JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+                    for (int i = 0; i < inputJSONArray.length(); i++) {
+                        if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
+
+                            /* Edit unit properties */
+                            JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                            for(int j = 0; j < unitJSONArray.length(); j++){
+                                if(unitJSONArray.getJSONObject(j).getString("id").equals(thisApplication.currentUnit)){
+                                    unitJSONArray.getJSONObject(j).put("hugSensitivity", progress);
+                                }
+                            }
+
+                            /* Save new string to user database */
+                            File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
+                            OutputStream outputStream = new FileOutputStream(f);
+                            byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                            outputStream.write(outputBytes);
+                            outputStream.close();
+                        }
+                    }
+                } catch (JSONException | FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

@@ -74,6 +74,8 @@ public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScree
                                 JSONObject toPut = new JSONObject();
                                 toPut.put("id", IDEditText.getText().toString());
                                 toPut.put("room", RoomEditText.getText().toString());
+                                toPut.put("hugSensitivity", 4);
+                                toPut.put("musicVolume", 50);
                                 unitJSONArray.put(toPut);
 
                                 /* Save new string to user database */

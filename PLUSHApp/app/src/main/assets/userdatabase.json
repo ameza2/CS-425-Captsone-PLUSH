@@ -8,15 +8,21 @@
       [
         {
           "id": "138052",
-          "room": "101"
+          "room": "101",
+          "hugSensitivity": 6,
+          "musicVolume": 24
         },
         {
           "id": "132580",
-          "room": "102"
+          "room": "102",
+          "hugSensitivity": 7,
+          "musicVolume": 34
         },
         {
           "id": "149295",
-          "room": "103"
+          "room": "103",
+          "hugSensitivity": 2,
+          "musicVolume": 60
         }
       ]
     },
@@ -27,11 +33,15 @@
       [
         {
           "id": "208502",
-          "room": "201"
+          "room": "201",
+          "hugSensitivity": 7,
+          "musicVolume": 69
         },
         {
           "id": "259335",
-          "room": "202"
+          "room": "202",
+          "hugSensitivity": 4,
+          "musicVolume": 20
         }
       ]
     },
@@ -42,15 +52,21 @@
       [
         {
           "id": "324893",
-          "room": "301"
+          "room": "301",
+          "hugSensitivity": 4,
+          "musicVolume": 76
         },
         {
           "id": "390593",
-          "room": "302"
+          "room": "302",
+          "hugSensitivity": 6,
+          "musicVolume": 33
         },
         {
           "id": "352663",
-          "room": "303"
+          "room": "303",
+          "hugSensitivity": 3,
+          "musicVolume": 66
         }
       ]
     },
@@ -61,19 +77,27 @@
       [
         {
           "id": "432589",
-          "room": "401"
+          "room": "401",
+          "hugSensitivity": 5,
+          "musicVolume": 78
         },
         {
           "id": "425532",
-          "room": "402"
+          "room": "402",
+          "hugSensitivity": 1,
+          "musicVolume": 10
         },
         {
           "id": "406025",
-          "room": "403"
+          "room": "403",
+          "hugSensitivity": 6,
+          "musicVolume": 55
         },
         {
           "id": "490592",
-          "room": "404"
+          "room": "404",
+          "hugSensitivity": 4,
+          "musicVolume": 56
         }
       ]
     },
@@ -84,7 +108,9 @@
       [
         {
           "id": "542505",
-          "room": "501"
+          "room": "501",
+          "hugSensitivity": 3,
+          "musicVolume": 84
         }
       ]
     }

@@ -97,7 +97,9 @@ public class DataApplication extends Application {
                     for(int j = 0; j < inputUnitArray.length(); j++){
                         String id = inputUnitArray.getJSONObject(j).getString("id");
                         String room = inputUnitArray.getJSONObject(j).getString("room");
-                        currUser.assignedUnits.put(id, new DataPlushUnit(id, room));
+                        int hug = inputUnitArray.getJSONObject(j).getInt("hugSensitivity");
+                        int vol = inputUnitArray.getJSONObject(j).getInt("musicVolume");
+                        currUser.assignedUnits.put(id, new DataPlushUnit(id, room, hug, vol));
                     }
                 }
 
