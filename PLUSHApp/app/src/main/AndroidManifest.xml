@@ -65,6 +65,9 @@
         <activity
             android:name=".StaffLoginScreen"
             android:exported="false" />
+        <activity
+            android:name=".DebugScreen"
+            android:exported="false" />
     </application>
 
 </manifest>

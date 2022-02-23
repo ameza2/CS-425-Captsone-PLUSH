@@ -12,6 +12,6 @@ public class MusicSelectionScreen extends AppCompatActivity { // MusicSelectionS
     protected void onCreate(Bundle savedInstanceState) {
         // Create Page //
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music_selection_screen);
+        setContentView(R.layout.activity_debug_main);
     }
 }
