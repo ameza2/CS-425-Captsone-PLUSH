@@ -4,10 +4,18 @@ import android.app.Application;
 import android.content.res.AssetManager;
 import android.icu.util.Output;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,10 +33,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class DataApplication extends Application {
+
+    public static ConnectedThread2 connectedThread2;
+    public static CreateConnectThread2 createConnectThread2;
 
     public HashMap<String, DataUser> userDatabase;
     public String currentUser;
@@ -38,6 +50,10 @@ public class DataApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Create thread
+        createConnectThread2 = new CreateConnectThread2();
+        createConnectThread2.start();
 
         // Read in json file
         String inputString = "";
@@ -133,4 +149,55 @@ public class DataApplication extends Application {
 
     // Grabs the current unit
     public DataPlushUnit currUnitData(){return userDatabase.get(currentUser).assignedUnits.get(currentUnit); }
+
+
+    // Stuff copy and pasted from website: https://iotdesignpro.com/projects/create-android-app-with-android-studio-to-control-led-over-wifi-using-nodemcu
+    public class CreateConnectThread2 extends Thread {
+        public CreateConnectThread2() {
+
+        }
+        public void run() {
+            // Cancel discovery because it otherwise slows down the connection.
+            Log.e("Status", "Device connected");
+            connectedThread2 = new ConnectedThread2();
+            connectedThread2.run();
+        }
+    }
+
+    public class ConnectedThread2 extends Thread {
+        public ConnectedThread2() {
+            Log.e("Status", "Device connected");
+        }
+        public void run() {
+            Log.e("Status", "Device running");
+        }
+        public void send(int cmdText, String ipaddress) {
+            Log.e("Status", "Sending data "+cmdText);
+            String url = "https://"+ipaddress+"/post";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.e("Status", response.trim());
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("Status", error.toString());
+                        }
+                    }){
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params= new HashMap<String, String>();
+                    String value = String.valueOf(cmdText);
+                    params.put("data",value);
+                    Log.e("Status", value);
+                    return params;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(DataApplication.this);
+            requestQueue.add(stringRequest);
+        }
+    }
 }
