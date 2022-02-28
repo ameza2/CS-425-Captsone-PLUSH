@@ -1,114 +1,96 @@
-//This sketch made for a video tutorial on the ForceTronics YouTube Channel
-//The tutorial shows how to make a simple Android app to control an Arduino wirelessly via WiFi
-//This sketch leverages code from the Arduino example programs "AP_SimpleWebServer" and "WiFiWebServer"
-//This sketch is free and open to be used and modified
+#include <SoftwareSerial.h>
 
-#include <SPI.h> //What is used to communicate witht he WiFi chip
-#include <WiFi101.h> //Wifi library fro Arduino MKR1000 and WiFi shield
+#define DEBUG true
 
-int lControl =  6; //Digital pin that LED is connected to on the MKR1000
-char ssid[] = "YourNetwork";      // your network SSID (name)
-char pass[] = "YourPassword";   // your network password
-int keyIndex = 0;                 // your network key Index number (needed only for WEP)
+SoftwareSerial esp8266(2,3); // make TX Arduino line is pin 2, make RX Arduino line is pin 3.
 
-int status = WL_IDLE_STATUS; //status of wifi
+boolean alreadyConnected = false;
 
-WiFiServer server(80); //declare server object and spedify port, 80 is port used for internet
+// This means that you need to connect the TX line from the esp to the Arduino's pin 2
+                             // and the RX line from the esp to the Arduino's pin 3
+void setup()
+{
 
-void setup() {
-  //Uncomment serial for debugging and to see details of WiFi connection
- // Serial.begin(9600);
- // while (!Serial) {
-     // wait for serial port to connect. Needed for native USB port only
-//  }
+  Serial.begin(9600);
+  esp8266.begin(9600); // your esp's baud rate might be different
+  
+  pinMode(6,OUTPUT);
+  digitalWrite(6,LOW);
+  
+  pinMode(7,OUTPUT);
+  digitalWrite(7,LOW);
 
-  // check for the presence of the shield:
-  if (WiFi.status() == WL_NO_SHIELD) {
-  //  Serial.println("WiFi shield not present");
-    // don't continue:
-    while (true);
+  sendData("AT+RST\r\n",2000,DEBUG); // reset module
+  sendData("AT+CWMODE=2\r\n",1000,DEBUG); // configure as access point
+  sendData("AT+CIFSR\r\n",1000,DEBUG); // get ip address
+  sendData("AT+CIPMUX=1\r\n",1000,DEBUG); // configure for multiple connections
+  sendData("AT+CIPSERVER=1,80\r\n",1000,DEBUG); // turn on server on port 80
+
+}
+
+void loop()
+{
+
+  String inString = "";  
+  if(esp8266.available()) // check if the esp is sending a message 
+  {
+   if (!alreadyConnected) {
+      // clear out the input buffer:
+    esp8266.flush();
+    Serial.println("We have a new client");
+    esp8266.println("Hello, client!");
+    alreadyConnected = true;
   }
 
-  // attempt to connect to Wifi network:
-  while ( status != WL_CONNECTED) {
- //   Serial.print("Attempting to connect to SSID: ");
- //   Serial.println(ssid);
-    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-    status = WiFi.begin(ssid, pass);
-    // wait 10 seconds for connection:
-    delay(10000);
-  }
-  server.begin();
-  // you're connected now, so print out the status:
- // printWifiStatus();
+  if(esp8266.find("+IPD,"))
+  {
+     delay(10); // wait for the serial buffer to fill up (read all the serial data)
+
+    int pinNumber = 0;
+    String tempS = "";
+    esp8266.find("pin="); // advance cursor to "pin="
+    char temp = esp8266.read();
+    tempS = temp;
+     
+    pinNumber = tempS.toInt();
+    Serial.println(pinNumber);
+    digitalWrite(pinNumber, !digitalRead(pinNumber)); // toggle pin    
+
+   }
+ }
+ 
 }
 
 
-void loop() {
-  WiFiClient client = server.available();   // listen for incoming clients
+/*
+* Name: sendData
+* Description: Function used to send data to ESP8266.
+* Params: command - the data/command to send; timeout - the time to wait for a response; debug - print to Serial window?(true = yes, false = no)
+* Returns: The response from the esp8266 (if there is a reponse)
+*/
+String sendData(String command, const int timeout, boolean debug)
+{
+  String response = "";
 
-  if (client) {                             // if you get a client,
-   // Serial.println("new client");           // print a message out the serial port
-    String currentLine = "";                // make a String to hold incoming data from the client
-    while (client.connected()) {            // loop while the client's connected
-      if (client.available()) {             // if there's bytes to read from the client,
-        char c = client.read();             // read a byte, then
-       // Serial.write(c);                    // print it out the serial monitor
-        if (c == '\n') {                    // if the byte is a newline character
+    esp8266.print(command); // send the read character to the esp8266
+    
+    long int time = millis();
+    
+    while( (time+timeout) > millis())
+    {
+      while(esp8266.available())
+      {
 
-          // if the current line is blank, you got two newline characters in a row.
-          // that's the end of the client HTTP request, so send a response:
-          if (currentLine.length() == 0) {
-            // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
-            // and a content-type so the client knows what's coming, then a blank line:
-            client.println("HTTP/1.1 200 OK");
-            client.println("Content-type:text/html");
-            client.println();
-            client.print("Value at A0 is ");
-            client.print(analogRead(A0));
-            client.print("<br>");
-            // The HTTP response ends with another blank line:
-            client.println();
-            // break out of the while loop:
-            break;
-          }
-          else {      // if you got a newline, then clear currentLine:
-            currentLine = "";
-          }
-        }
-        else if (c != '\r') {    // if you got anything else but a carriage return character,
-          currentLine += c;      // add it to the end of the currentLine
-        }
-
-        // Check to see if the client request was "GET /H" or "GET /L":
-        if (currentLine.endsWith("GET /H")) {
-          digitalWrite(lControl, HIGH);               // GET /H turns the LED on
-        }
-        if (currentLine.endsWith("GET /L")) {
-          digitalWrite(lControl, LOW);                // GET /L turns the LED off
-        }
-      }
+        // The esp has data so display its output to the serial window 
+        char c = esp8266.read(); // read the next character.
+        response+=c;
+      }  
     }
-    // close the connection:
-    client.stop();
-   // Serial.println("client disconnected");
+    
+    if(debug)
+    {
+      Serial.print(response);
+    }
+    
+    return response;
   }
-}
-
-
-void printWifiStatus() {
-  // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
-
-  // print your WiFi shield's IP address:
-  IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
-
-  // print the received signal strength:
-  long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
-  Serial.print(rssi);
-  Serial.println(" dBm");
-}
