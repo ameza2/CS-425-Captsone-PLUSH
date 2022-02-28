@@ -173,7 +173,7 @@ public class DataApplication extends Application {
         }
         public void send(int cmdText, String ipaddress) {
             Log.e("Status", "Sending data "+cmdText);
-            String url = "https://"+ipaddress+"/post";
+            String url = "http://"+ipaddress+"/post";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
