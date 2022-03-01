@@ -29,13 +29,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+/* Security Library */
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
+import java.math.BigInteger;
 
 public class DataApplication extends Application {
 
@@ -125,9 +134,48 @@ public class DataApplication extends Application {
         }
     }
 
+    public static byte[] createSHAHash(String input) throws NoSuchAlgorithmException {
+
+        String hashtext = null;
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+        return md.digest(input.getBytes(StandardCharsets.UTF_8));
+
+        //byte[] messageDigest =
+                //md.digest(input.getBytes(StandardCharsets.UTF_8));
+
+        //hashtext = convertToHex(messageDigest);
+        //return hashtext;
+    }
+
+    private static String toHexString(final byte[] messageDigest) {
+        BigInteger bigint = new BigInteger(1, messageDigest);
+        String hexText = bigint.toString(16);
+        while (hexText.length() < 32) {
+            hexText = "0".concat(hexText);
+        }
+
+        return hexText.toString();
+    }
+
     // Checks to see if user exists; used for login
     public boolean checkCredentials(String inUsername, String inPassword){
-        return userDatabase.get(inUsername) != null && inPassword.equals(userDatabase.get(inUsername).password);
+        //Log.d("Username: ", inUsername);
+        //Log.d("Password: ", inPassword);
+
+        String hashedString = null;
+
+        try {
+            hashedString = toHexString(createSHAHash(inPassword));
+
+            //Log.d("Hashed Password:", hashedString);
+            //Log.d("Stored Password:", userDatabase.get(inUsername).password);
+        }
+        catch (NoSuchAlgorithmException e) {
+            System.err.println("Error: Invalid Digest Algorithm");
+        }
+
+        return userDatabase.get(inUsername) != null && hashedString.equals(userDatabase.get(inUsername).password);
     }
 
     // Checks to see if a unit with the ID exists

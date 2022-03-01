@@ -3,7 +3,7 @@
   [
     {
       "username": "Korben",
-      "password": "DiArchangel",
+      "password": "123545ebbd309ee0883543511aafc21f5670da7df87269ea7d5dd96390874404",
       "units":
       [
         {
@@ -28,7 +28,7 @@
     },
     {
       "username": "Joshua",
-      "password": "Insorio",
+      "password": "2ea0d93b9a96040668c0efc5986b85c2f50bfa98be67aabc883aad3be619a29d",
       "units":
       [
         {
@@ -47,7 +47,7 @@
     },
     {
       "username": "Abraham",
-      "password": "Meza",
+      "password": "9690172aa33a50ad18c72e5627485b443567b3d6449499fc79ae0edae3dbcb53",
       "units":
       [
         {
@@ -72,7 +72,7 @@
     },
     {
       "username": "Christian",
-      "password": "Pilley",
+      "password": "582d0a552824cce598ac6c687276654edb4aeed7bd69f523c087334dc1b988d2",
       "units":
       [
         {
@@ -103,7 +103,7 @@
     },
     {
       "username": "Tal",
-      "password": "Zemach",
+      "password": "8028a316d1ddb8b08b63d83320619a808a6abe7ab4fa2a274dc7279659e42870",
       "units":
       [
         {
@@ -115,5 +115,4 @@
       ]
     }
   ]
-
 }

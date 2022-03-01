@@ -38,6 +38,10 @@ public class StaffLoginScreen extends AppCompatActivity {
             public void onClick(View v) {
                 if(thisApplication.checkCredentials(UsernameEditText.getText().toString(), PasswordEditText.getText().toString())) {
                     thisApplication.currentUser = UsernameEditText.getText().toString();
+
+                    // SECURITY ALGORITHM //
+                    //PasswordEditText = createSHAHash(PasswordEditText.getText().toString());
+
                     Intent intent = new Intent(StaffLoginScreen.this, StaffHomeScreen.class);
                     startActivity(intent); // redirect page (StaffHomeScreen)
                 }
