@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#00FFFFFF"
     tools:context=".PatientLoginScreen">
 
     <Button
@@ -29,6 +29,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +40,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="385dp"
-        android:background="@color/gray_text"
+        android:background="#00C8C8C8"
         android:text="Please Enter Plush ID, found on the tag"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
