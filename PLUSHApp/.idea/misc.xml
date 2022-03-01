@@ -76,13 +76,19 @@
         <entry key="app/src/main/res/layout/activity_construction_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_debug_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_hamburger_header.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.28373927715263303" />
         <entry key="app/src/main/res/layout/activity_music_selection_screen.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_patient_login_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_patient_plush_home_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_staff_add_unit_screen.xml" value="0.22557796613852307" />
         <entry key="app/src/main/res/layout/activity_staff_edit_screen.xml" value="0.1859375" />
+        <entry key="app/src/main/res/layout/activity_staff_feedback_screen.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/activity_staff_home_screen.xml" value="0.13463633223116742" />
         <entry key="app/src/main/res/layout/activity_staff_login_screen.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/activity_staff_music_screen.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_staff_plush_unit_screen.xml" value="0.31947637426131426" />
+        <entry key="app/src/main/res/layout/activity_staff_schedule_screen.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/activity_staff_settings_screen.xml" value="0.23333333333333334" />
       </map>
     </option>
   </component>

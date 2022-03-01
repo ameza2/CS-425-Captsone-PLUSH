@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#00FFFFFF">
 
     <EditText
         android:id="@+id/editAge"
@@ -21,6 +21,8 @@
         android:ems="10"
         android:hint="Age"
         android:inputType="textPersonName"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +55,8 @@
         android:hint="Unit ID"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +75,8 @@
         android:hint="Room Number"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -11,8 +11,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        tools:context=".MusicSelectionScreen">
+        android:background="#00F8F8F8"
+        tools:context=".MusicSelectionScreen"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <CalendarView
             android:id="@+id/calendarView"
