@@ -15,5 +15,4 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:title="PLUSH" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
