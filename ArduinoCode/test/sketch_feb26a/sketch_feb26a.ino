@@ -17,7 +17,7 @@ void setup(void){
   delay(10);
   Serial.println('\n');
 
-  wifiMulti.addAP("LAPTOP-3BOTE01B", "IHopeZoeWinsXD");   // add Wi-Fi networks you want to connect to
+  wifiMulti.addAP("WIFI", "PW");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   //wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
