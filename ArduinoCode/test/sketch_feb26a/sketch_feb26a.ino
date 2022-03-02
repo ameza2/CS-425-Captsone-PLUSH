@@ -17,7 +17,7 @@ void setup(void){
   delay(10);
   Serial.println('\n');
 
-  wifiMulti.addAP("WIFI_GOES_HERE", "PW_GOES_HERE");   // add Wi-Fi networks you want to connect to
+  wifiMulti.addAP("Joshua's iPhone", "josh0612");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   //wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
@@ -54,8 +54,9 @@ void loop(void){
 void handleRoot() {                          // When URI / is requested, send a web page with a button to toggle the LED
   if( server.hasArg("data") ){
         Serial.println(server.arg("data"));
+        server.send(200, "text/plain", server.arg("data"));
   }
-  server.send(200, "text/plain", "Working!");
+  
 }
 
 void handleNotFound(){
