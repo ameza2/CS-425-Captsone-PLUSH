@@ -96,6 +96,9 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
                             outputStream.close();
                         }
                     }
+
+                    DataApplication.connectedThread2.send(100 + progress, thisApplication.currentUnit);
+
                 } catch (JSONException | FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

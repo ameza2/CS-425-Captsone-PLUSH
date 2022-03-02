@@ -38,12 +38,6 @@ public class DebugScreen extends AppCompatActivity {
         sendButton = findViewById(R.id.debugButtonSend);
         backButton = findViewById(R.id.debugButtonBack);
 
-        connectButton.setOnClickListener(new View.OnClickListener() { // execute on staff button click
-            public void onClick(View v) {
-
-            }
-        });
-
         sendButton.setOnClickListener(new View.OnClickListener() { // execute on staff button click
             public void onClick(View v) {
 

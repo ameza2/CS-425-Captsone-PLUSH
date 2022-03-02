@@ -17,7 +17,7 @@ void setup(void){
   delay(10);
   Serial.println('\n');
 
-  wifiMulti.addAP("WIFI_GOES_HERE", "PW_GOES_HERE");   // add Wi-Fi networks you want to connect to
+  wifiMulti.addAP("LAPTOP-3BOTE01B", "IHopeZoeWinsXD");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   //wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
@@ -48,14 +48,23 @@ void setup(void){
 
 void loop(void){
   server.handleClient();
-  server.send(200, "text/plain", "Working!");// Listen for HTTP requests from clients
+  if( server.hasArg("data") ){
+        String data = server.arg("data");
+        Serial.println(data);
+        if(data.toInt() >= 100 && data.toInt() < 109){
+          server.send(200, "text/plain", "New Hug Sensitivity: " + String(data.toInt() - 100));
+        }
+        else if(data.toInt() >= 200 && data.toInt() < 300){
+          server.send(200, "text/plain", "New Music Volume: " + String(data.toInt() - 200));
+        }
+  }
 }
 
 void handleRoot() {                          // When URI / is requested, send a web page with a button to toggle the LED
   if( server.hasArg("data") ){
         Serial.println(server.arg("data"));
+        server.send(200, "text/plain", server.arg("data"));
   }
-  server.send(200, "text/plain", "Working!");
 }
 
 void handleNotFound(){

@@ -50,14 +50,14 @@ public class StaffMusicScreen extends AppCompatActivity { // StaffMusicScreen w/
         musicVolumeText = findViewById(R.id.musicvolumeText);
 
         /* Set volume bar */
-        musicVolumeText .setText("Music Volume: " + String.valueOf(thisApplication.currUnitData().musicVolume));
+        musicVolumeText .setText("Music Volume: " + String.valueOf(thisApplication.currUnitData().musicVolume + 1));
         volumeBar.setProgress(thisApplication.currUnitData().musicVolume);
 
         /* Volume Bar: change volume level using widget slider */
         volumeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() { //
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                musicVolumeText.setText("Music Volume: " + String.valueOf(progress)); // print volume level
+                musicVolumeText.setText("Music Volume: " + String.valueOf(progress+1)); // print volume level
                 volume = progress; // store volume level
 
                 try {
@@ -82,6 +82,9 @@ public class StaffMusicScreen extends AppCompatActivity { // StaffMusicScreen w/
                             outputStream.close();
                         }
                     }
+
+                    DataApplication.connectedThread2.send(200 + progress, thisApplication.currentUnit);
+
                 } catch (JSONException | FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
