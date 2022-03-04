@@ -219,8 +219,8 @@ public class DataApplication extends Application {
         public void run() {
             Log.e("Status", "Device running");
         }
-        public void send(int cmdText, String ipaddress) {
-            Log.e("Status", "Sending data "+cmdText);
+        public void send(String cmdText, String ipaddress) {
+            Log.e("Status", "Sending data " + cmdText);
             String url = "http://"+ipaddress+"/post";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {

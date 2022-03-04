@@ -51,12 +51,13 @@ void loop(void){
   if( server.hasArg("data") ){
         String data = server.arg("data");
         Serial.println(data);
-        if(data.toInt() >= 100 && data.toInt() < 109){
-          server.send(200, "text/plain", "New Hug Sensitivity: " + String(data.toInt() - 100));
-        }
-        else if(data.toInt() >= 200 && data.toInt() < 300){
-          server.send(200, "text/plain", "New Music Volume: " + String(data.toInt() - 200));
-        }
+        server.send(200, "text/plain", server.arg("data"));
+//        if(data.toInt() >= 100 && data.toInt() < 109){
+//          server.send(200, "text/plain", "New Hug Sensitivity: " + String(data.toInt() - 100));
+//        }
+//        else if(data.toInt() >= 200 && data.toInt() < 300){
+//          server.send(200, "text/plain", "New Music Volume: " + String(data.toInt() - 200));
+//        }
   }
 }
 
