@@ -83,6 +83,7 @@ public class StaffMusicScreen extends AppCompatActivity { // StaffMusicScreen w/
                         }
                     }
 
+                    //SHOULD SEND TO onStopTrackingTouch function
 //                    DataApplication.connectedThread2.send(200 + progress, thisApplication.currentUnit);
 
                 } catch (JSONException | FileNotFoundException e) {
@@ -99,7 +100,8 @@ public class StaffMusicScreen extends AppCompatActivity { // StaffMusicScreen w/
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // DO NOTHING //
+                // Send final desired volume to arduino //
+                //DataApplication.connectedThread2.send(200 + volume, thisApplication.currentUnit);
             }
         });
 
