@@ -1,3 +1,5 @@
+#include <Stepper.h>
+
 /**
    PLUSH Arduino Code:
    Authors: Christian Pilley, Abraham Meza
@@ -24,11 +26,20 @@
 #include <WiFiUdp.h>
 #include <SPI.h>
 #include <SD.h>
+#include <pcmConfig.h>
+#include <pcmRF.h>
+#include <TMRpcm.h>
+#include <Stepper.h> // stepper motors
 
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 File f;
-Logger logger;
+TMRpcm Audio;
+Stepper myStepperL1(32, 30, 31, 32, 33); // (steps per revolution, pins)
+Stepper myStepperL2(32, 34, 35, 36, 37); // (steps per revolution, pins)
+Stepper myStepperR1(32, 38, 39, 40, 41); // (steps per revolution, pins)
+Stepper myStepperR2(32, 42, 43, 44, 45); // (steps per revolution, pins)
+//Logger logger;
 /*
    Pin assignments:
    Variables holding the pin locations for various I/O
@@ -42,6 +53,8 @@ unsigned const volumeDial = A5;
 unsigned const LED_R      = 10;
 unsigned const LED_B      = 8;
 unsigned const LED_G      = 9;
+
+bool hugFlag = false;
 
 /*
    Button Dictionary
@@ -81,6 +94,7 @@ void LCDPrintEmergency() {
 void LCDPrintHug() {
   currentPressedButton = buttonMessages[1];
   buttonChanged = true;
+  hugFlag = !hugFlag;
 }
 /*
    Helper Functions
@@ -100,7 +114,7 @@ void setup() {
   while (!Serial) {
     ; // do nothing
   }
-  logger = Logger.getInstance();
+  //logger = Logger.getInstance();
   randomSeed(analogRead(0));
 
   //vol.DEFAULT_PIN
@@ -109,6 +123,8 @@ void setup() {
   pinMode(helpButton, INPUT_PULLUP);
   pinMode(emergencyButton, INPUT_PULLUP);
   pinMode(hugButton, INPUT_PULLUP);
+  for(int i = 30; i < 46; i++) pinMode(i, OUTPUT);
+  
   attachInterrupt(digitalPinToInterrupt(musicButton), toggleMusic, RISING);
   attachInterrupt(digitalPinToInterrupt(helpButton), LCDPrintHelp, RISING);
   attachInterrupt(digitalPinToInterrupt(emergencyButton), LCDPrintEmergency, RISING);
@@ -133,11 +149,23 @@ void setup() {
   Audio.speakerPin = 12;
   Audio.play("NGGYU.wav");
   Audio.setVolume(7);
+
+  myStepperL1.setSpeed(600); // set to 60 rpm
+  myStepperL2.setSpeed(600);
+  myStepperR1.setSpeed(600);
+  myStepperR2.setSpeed(600);
 }
 /*
    Loop Function
 */
 void loop() {
+  if(hugFlag){
+    myStepperL1.step(2000);
+    myStepperL2.step(2000);
+    myStepperR1.step(2000);
+    myStepperR2.step(2000);
+    hugFlag = false;
+  }
   Serial.print(Audio.isPlaying());
   newVolume = analogRead(volumeDial);
   newVolume = map(newVolume, 0, 1024, 0, 100);
