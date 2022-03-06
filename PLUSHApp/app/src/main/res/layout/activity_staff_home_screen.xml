@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#00FD0000">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -49,12 +50,6 @@
 
         </com.google.android.material.navigation.NavigationView>
 
-        <FrameLayout
-            android:id="@+id/flContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
     </androidx.drawerlayout.widget.DrawerLayout>
 
     <ScrollView
@@ -63,6 +58,7 @@
         android:layout_height="507dp"
         android:layout_marginTop="90dp"
         android:layout_marginBottom="65dp"
+        android:background="#00FFFFFF"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,9 +94,17 @@
         android:layout_height="0dp"
         android:layout_marginTop="90dp"
         android:layout_marginBottom="732dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="#FFFFFF"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+    <FrameLayout
+        android:id="@+id/flContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
