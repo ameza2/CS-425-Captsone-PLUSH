@@ -76,7 +76,7 @@
         android:ems="10"
         android:hint="Room Number"
         android:inputType="number"
-        android:digits="012345678910-"
+        android:digits="0123456789-"
         android:minHeight="48dp"
         android:textColor="#000000"
         android:textColorHint="#000000"
@@ -167,19 +167,22 @@
             android:id="@+id/maleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Male" />
+            android:text="Male"
+            android:tag="1" />
 
         <RadioButton
             android:id="@+id/femaleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Female" />
+            android:text="Female"
+            android:tag="2"/>
 
         <RadioButton
             android:id="@+id/otherButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Other" />
+            android:text="Other"
+            android:tag="3"/>
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
