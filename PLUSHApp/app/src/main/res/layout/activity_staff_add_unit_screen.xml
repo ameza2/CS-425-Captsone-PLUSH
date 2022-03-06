@@ -51,6 +51,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="524dp"
         android:layout_marginEnd="101dp"
+        android:layout_marginBottom="159dp"
         android:background="@color/gray_text"
         android:ems="10"
         android:hint="Unit ID"
@@ -60,6 +61,7 @@
         android:textColor="#000000"
         android:textColorHint="#000000"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -73,10 +75,10 @@
         android:layout_marginEnd="114dp"
         android:layout_marginBottom="567dp"
         android:background="@color/gray_text"
+        android:digits="0123456789-"
         android:ems="10"
         android:hint="Room Number"
         android:inputType="number"
-        android:digits="0123456789-"
         android:minHeight="48dp"
         android:textColor="#000000"
         android:textColorHint="#000000"
@@ -167,22 +169,22 @@
             android:id="@+id/maleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Male"
-            android:tag="1" />
+            android:tag="1"
+            android:text="Male" />
 
         <RadioButton
             android:id="@+id/femaleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Female"
-            android:tag="2"/>
+            android:tag="2"
+            android:text="Female" />
 
         <RadioButton
             android:id="@+id/otherButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Other"
-            android:tag="3"/>
+            android:tag="3"
+            android:text="Other" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
