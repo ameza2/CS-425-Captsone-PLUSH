@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import android.util.Log;
-
 public class StaffSupportScreen extends AppCompatActivity { // StaffSupportScreen w/ action activities
 
     Button supportButton; // button variable: supportButton (submit support request and redirect user to home screen)
@@ -27,21 +25,15 @@ public class StaffSupportScreen extends AppCompatActivity { // StaffSupportScree
         setContentView(R.layout.activity_staff_support_screen);
 
         supportButton = findViewById(R.id.submitButton);
-        supportName = findViewById(R.id.textName);
-        supportEmail = findViewById(R.id.textEmail);
-        supportDesc = findViewById(R.id.textDescription);
 
         /* Support Button: used to submit support request and redirect user to home screen */
         //Referencing solution from https://stackoverflow.com/questions/8994488/android-button-onclick-submit-to-email
         supportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{"PLUSHassistance@gmail.com"});
-                email.putExtra(Intent.EXTRA_SUBJECT, "PLUSH Support Request");
-                email.putExtra(Intent.EXTRA_TEXT, supportName.getText().toString() + "\n"
-                        + supportEmail.getText().toString() + "\n\n"
-                        + supportDesc.getText().toString());
+                email.putExtra(Intent.EXTRA_SUBJECT, "Support request from " + supportName + " :" + supportEmail);
+                email.putExtra(Intent.EXTRA_TEXT, supportDesc.getText().toString());
 
                 //need this to prompts email client only
                 email.setType("message/rfc822");

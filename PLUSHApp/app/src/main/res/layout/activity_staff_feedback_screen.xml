@@ -38,12 +38,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:numStars="5"
-        android:progressBackgroundTint="@color/gray_text"
-        android:progressTint="#FFD700"
+        android:progressBackgroundTint="#FFC107"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/textName"
+        android:id="@+id/editTextTextMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
