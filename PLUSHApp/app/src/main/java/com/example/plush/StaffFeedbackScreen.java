@@ -21,6 +21,8 @@ public class StaffFeedbackScreen extends AppCompatActivity { // StaffFeedbackScr
     Button feedbackButton;
     EditText feedbackContent;
 
+    int stars;
+
     /* Initialize Page Activity (Staff Feedback Screen) */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class StaffFeedbackScreen extends AppCompatActivity { // StaffFeedbackScr
         tvFeedback = findViewById(R.id.tvFeedback);
         ratingStars = findViewById(R.id.ratingBar);
         feedbackButton = findViewById(R.id.feedbackButton);
-        feedbackContent = findViewById(R.id.editTextTextMultiLine);
+        feedbackContent = findViewById(R.id.textName);
 
         ratingStars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() { // star bar options (used to record user satisfaction)
             @Override
@@ -56,6 +58,8 @@ public class StaffFeedbackScreen extends AppCompatActivity { // StaffFeedbackScr
                 else{ // else statement: else if rating is not available, wait for user input
                     // DO NOTHING //
                 }
+
+                stars = (int)Math.ceil(rating);
             }
         });
 
@@ -65,7 +69,7 @@ public class StaffFeedbackScreen extends AppCompatActivity { // StaffFeedbackScr
             public void onClick(View v) {
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{"PLUSHassistance@gmail.com"});
-                email.putExtra(Intent.EXTRA_SUBJECT, "Feedback of " + tvFeedback + " stars rating");
+                email.putExtra(Intent.EXTRA_SUBJECT, "PLUSH Feedback: " + stars + "/5 star rating");
                 email.putExtra(Intent.EXTRA_TEXT, feedbackContent.getText().toString());
 
                 //need this to prompts email client only
