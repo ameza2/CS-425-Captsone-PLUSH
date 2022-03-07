@@ -1,3 +1,5 @@
+#include <LiquidCrystal_I2C.h>
+
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WiFiMulti.h> 
@@ -8,16 +10,21 @@ ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti cl
 
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 
+LiquidCrystal_I2C lcd(0x27, 16, 2); // (default address, rows, columns)
+
+
 void handleRoot();              // function prototypes for HTTP handlers
 void handleLogin();
 void handleNotFound();
+
+String prevData;
 
 void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
 
-  wifiMulti.addAP("WIFI", "PW");   // add Wi-Fi networks you want to connect to
+  wifiMulti.addAP("PLUSH", "password123");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   //wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
@@ -44,13 +51,24 @@ void setup(void){
 
   server.begin();                            // Actually start the server
   Serial.println("HTTP server started");
+
+  lcd.begin();
+  lcd.backlight();
+  lcd.setCursor(0,0);
+  lcd.print(WiFi.localIP()); // print IP on LCD
 }
 
 void loop(void){
   server.handleClient();
   if( server.hasArg("data") ){
         String data = server.arg("data");
-        Serial.println(data);
+        if(prevData != data){ // only print when something changes
+          lcd.setCursor(0,0);
+          lcd.print("                ");
+          lcd.setCursor(0,0);
+          Serial.println(data);
+          lcd.print(data);
+        }
         server.send(200, "text/plain", server.arg("data"));
 //        if(data.toInt() >= 100 && data.toInt() < 109){
 //          server.send(200, "text/plain", "New Hug Sensitivity: " + String(data.toInt() - 100));
@@ -58,6 +76,7 @@ void loop(void){
 //        else if(data.toInt() >= 200 && data.toInt() < 300){
 //          server.send(200, "text/plain", "New Music Volume: " + String(data.toInt() - 200));
 //        }
+    prevData = data;
   }
 }
 

@@ -35,10 +35,12 @@
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 File f;
 TMRpcm Audio;
-Stepper myStepperL1(32, 30, 31, 32, 33); // (steps per revolution, pins)
-Stepper myStepperL2(32, 34, 35, 36, 37); // (steps per revolution, pins)
-Stepper myStepperR1(32, 38, 39, 40, 41); // (steps per revolution, pins)
-Stepper myStepperR2(32, 42, 43, 44, 45); // (steps per revolution, pins)
+
+
+Stepper myStepperL1(64, 30, 31, 32, 33); // (steps per revolution, pins)
+Stepper myStepperL2(64, 34, 35, 36, 37); // (steps per revolution, pins)
+Stepper myStepperR1(64, 38, 39, 40, 41); // (steps per revolution, pins)
+Stepper myStepperR2(64, 42, 43, 44, 45); // (steps per revolution, pins)
 //Logger logger;
 /*
    Pin assignments:
@@ -55,6 +57,8 @@ unsigned const LED_B      = 8;
 unsigned const LED_G      = 9;
 
 bool hugFlag = false;
+int hugCounter = 0;
+
 
 /*
    Button Dictionary
@@ -95,6 +99,7 @@ void LCDPrintHug() {
   currentPressedButton = buttonMessages[1];
   buttonChanged = true;
   hugFlag = !hugFlag;
+  hugCounter = 2000;
 }
 /*
    Helper Functions
@@ -149,22 +154,31 @@ void setup() {
   Audio.speakerPin = 12;
   Audio.play("NGGYU.wav");
   Audio.setVolume(7);
-
-  myStepperL1.setSpeed(600); // set to 60 rpm
-  myStepperL2.setSpeed(600);
-  myStepperR1.setSpeed(600);
-  myStepperR2.setSpeed(600);
+  
+  // in rpm
+  myStepperL1.setSpeed(1000);
+  myStepperL2.setSpeed(1000);
+  myStepperR1.setSpeed(1000);
+  myStepperR2.setSpeed(1000);
 }
+
+
 /*
    Loop Function
 */
 void loop() {
   if(hugFlag){
-    myStepperL1.step(2000);
-    myStepperL2.step(2000);
-    myStepperR1.step(2000);
-    myStepperR2.step(2000);
-    hugFlag = false;
+    if(hugCounter!=0){
+      // # of steps
+      myStepperL1.step(20);
+      myStepperL2.step(20);
+      myStepperR1.step(20);
+      myStepperR2.step(20);
+      hugCounter--;
+    }
+    else{
+      hugFlag = false;
+    }
   }
   Serial.print(Audio.isPlaying());
   newVolume = analogRead(volumeDial);
@@ -182,11 +196,10 @@ void loop() {
   }
   //update LCD
   if (buttonChanged) {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print(currentPressedButton);
     lcd.setCursor(0, 1);
-    lcd.print("pressed!");
+    lcd.print("                ");  
+    lcd.setCursor(0,1);  
+    lcd.print(currentPressedButton);
   }
   //update LED
   if (currentPressedButton == buttonMessages[3]) {
@@ -200,7 +213,9 @@ void loop() {
   }
   //change volume
   if (oldVolume != newVolume) {
-    lcd.setCursor(12, 1);
+    lcd.setCursor(14, 1);
+    lcd.print("  ");
+    lcd.setCursor(14, 1);
     lcd.print(newVolume);
   }
   oldVolume = newVolume;
