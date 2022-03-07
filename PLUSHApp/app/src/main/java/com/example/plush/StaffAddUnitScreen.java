@@ -72,22 +72,22 @@ public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScree
 
                 if ((emptyID && emptyRoom) | (emptyID && (emptySex == -1)) | (emptyRoom && (emptySex == -1)) | (emptyID && emptyRoom && (emptySex == -1))){
                     Toast.makeText(getApplicationContext(), "Invalid Form Submission: Missing multiple fields.", Toast.LENGTH_LONG).show(); // deactivation prompt
-                    //Log.d("Error: ", "Empty Text Field");
+                    //Log.d("Error [1]: ", "Empty Text Field");
                 }
                 else if (emptyID) { // Input Text Validation: Required Fields
                     Toast.makeText(getApplicationContext(), "Invalid Form Submission: Missing PLUSH Unit ID.", Toast.LENGTH_LONG).show(); // deactivation prompt
-                    //Log.d("Error: ", "Empty Text Field");
+                    //Log.d("Error [2]: ", "Empty Text Field");
                 }
                 else if (emptyRoom){
                     Toast.makeText(getApplicationContext(), "Invalid Form Submission: Missing Room/Bed Number.", Toast.LENGTH_LONG).show(); // deactivation prompt
-                    //Log.d("Error: ", "Empty Text Field");
+                    //Log.d("Error [3]: ", "Empty Text Field");
                 }
                 else if (emptySex == -1) {
                     Toast.makeText(getApplicationContext(), "Invalid Form Submission: Missing Patient Sex.", Toast.LENGTH_LONG).show(); // deactivation prompt
-                    //Log.d("Error: ", "Empty Text Field");
+                    //Log.d("Error [4]: ", "Empty Text Field");
                 }
                 else {
-                    //Log.d("No Error:", "Valid Text Fields");
+                    //Log.d("Success:", "Valid Text Fields");
 
                     /* If there isn't a unit to add: */
                     if (thisApplication.currentUnit.equals("")) {
