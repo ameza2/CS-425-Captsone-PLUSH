@@ -36,6 +36,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -135,17 +136,8 @@ public class DataApplication extends Application {
     }
 
     public static byte[] createSHAHash(String input) throws NoSuchAlgorithmException {
-
-        String hashtext = null;
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-
         return md.digest(input.getBytes(StandardCharsets.UTF_8));
-
-        //byte[] messageDigest =
-                //md.digest(input.getBytes(StandardCharsets.UTF_8));
-
-        //hashtext = convertToHex(messageDigest);
-        //return hashtext;
     }
 
     private static String toHexString(final byte[] messageDigest) {
@@ -175,7 +167,7 @@ public class DataApplication extends Application {
             System.err.println("Error: Invalid Digest Algorithm");
         }
 
-        return userDatabase.get(inUsername) != null && hashedString.equals(userDatabase.get(inUsername).password);
+        return userDatabase.get(inUsername) != null && (hashedString.equals(userDatabase.get(inUsername).password) | hashedString.toUpperCase().equals(userDatabase.get(inUsername).password));
     }
 
     // Checks to see if a unit with the ID exists

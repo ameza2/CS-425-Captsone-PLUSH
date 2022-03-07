@@ -69,7 +69,7 @@ public class StaffSupportScreen extends AppCompatActivity { // StaffSupportScree
 
                     if (!matcher.matches()) {
                         Toast.makeText(getApplicationContext(), "Invalid Email Address", Toast.LENGTH_LONG).show();
-                        Log.d("Error [5]: ", "Invalid Email Address");
+                        //Log.d("Error [5]: ", "Invalid Email Address");
                     }
                     else {
                         Intent email = new Intent(Intent.ACTION_SEND);
