@@ -11,19 +11,20 @@
     tools:context=".StaffSettingsScreen">
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch_1"
+        android:id="@+id/darkMode"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="9dp"
         android:layout_marginEnd="9dp"
         android:text="Night Mode"
-        app:layout_constraintBottom_toTopOf="@+id/switch_2"
+        android:checked="false"
+        app:layout_constraintBottom_toTopOf="@+id/boldFont"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SoftwareDetailsButtonID" />
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch_2"
+        android:id="@+id/boldFont"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -33,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_1" />
+        app:layout_constraintTop_toBottomOf="@+id/darkMode" />
 
     <Button
         android:id="@+id/SoftwareDetailsButtonID"
@@ -48,7 +49,7 @@
         android:textColor="@color/teal_200"
         android:textSize="15sp"
         app:iconTint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/switch_1"
+        app:layout_constraintBottom_toTopOf="@+id/darkMode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
