@@ -4,6 +4,7 @@ package com.example.plush;
 // Libraries //
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.lifecycle.ComputableLiveData;
 
 import android.content.Context;
@@ -21,8 +22,8 @@ import android.widget.Toast;
 public class StaffSettingsScreen extends AppCompatActivity{ // StaffSettingsScreen w/ action activities
 
     Button softwareDetailsButton; // button variable: software details button (redirect user to software info page)
-    Switch darkModeSwitch; // dark mode switch: will change the app's theme to dark mode
-    //SharedPreferences sharedPreferences  =  null;
+    SwitchCompat darkModeSwitch; // dark mode switch: will change the app's theme to dark mode
+    SharedPreferences sharedPreferences  =  null;
 
     /* Initialize Page Activity (Staff Settings Screen) */
     @Override
@@ -31,16 +32,16 @@ public class StaffSettingsScreen extends AppCompatActivity{ // StaffSettingsScre
         setContentView(R.layout.activity_staff_settings_screen);
 
         softwareDetailsButton = (Button) findViewById(R.id.SoftwareDetailsButtonID);
-        //darkModeSwitch = (Switch) findViewById(R.id.darkMode);
+        darkModeSwitch = findViewById(R.id.darkMode);
 
-        /*
+
         // Things for Dark Mode
         sharedPreferences = getSharedPreferences("night", 0);
         Boolean booleanValue = sharedPreferences.getBoolean("night mode", true);
         if (booleanValue){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             darkModeSwitch.setChecked(true);
-        }*/
+        }
 
         /* Software Details Button: used to redirect user to info page illustrating software properties (i.e., version, patch notes, etc.) */
         softwareDetailsButton.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +51,7 @@ public class StaffSettingsScreen extends AppCompatActivity{ // StaffSettingsScre
             }
         });
 
-        /*
+
         // Dark Mode Button: used to turn on and off dark mode
         darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -72,7 +73,7 @@ public class StaffSettingsScreen extends AppCompatActivity{ // StaffSettingsScre
 
                 }
             }
-        });*/
+        });
 
 
     }
