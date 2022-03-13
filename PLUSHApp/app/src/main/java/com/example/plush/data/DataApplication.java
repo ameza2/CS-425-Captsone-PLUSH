@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.icu.util.Output;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
@@ -30,9 +31,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -60,6 +66,15 @@ public class DataApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Needed for UDP to work
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         // Create thread
         createConnectThread2 = new CreateConnectThread2();
@@ -208,9 +223,11 @@ public class DataApplication extends Application {
         public ConnectedThread2() {
             Log.e("Status", "Device connected");
         }
+
         public void run() {
             Log.e("Status", "Device running");
         }
+
         public void send(String cmdText, String ipaddress) {
             Log.e("Status", "Sending data " + cmdText);
             String url = "http://"+ipaddress+"/post";
@@ -238,6 +255,33 @@ public class DataApplication extends Application {
             };
             RequestQueue requestQueue = Volley.newRequestQueue(DataApplication.this);
             requestQueue.add(stringRequest);
+        }
+
+        public void sendUDP(String cmdText, String ipaddress, int port){
+            try {
+
+                byte[] data = cmdText.getBytes();
+                byte[] dataRecieved = new byte[256];
+
+                InetAddress addr = InetAddress.getByName(ipaddress);
+
+                DatagramPacket request = new DatagramPacket(data, data.length, addr, port);
+                DatagramPacket recieved = new DatagramPacket(dataRecieved, dataRecieved.length);
+
+                DatagramSocket socket = new DatagramSocket();
+
+                socket.send(request);
+                socket.receive(recieved);
+
+                Log.e("Message", Arrays.toString(recieved.getData()));
+
+            }
+            catch (SocketException se) {
+                se.printStackTrace();
+            }
+            catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 }

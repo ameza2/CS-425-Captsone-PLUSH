@@ -83,7 +83,7 @@ public class DebugScreen extends AppCompatActivity {
             connectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DataApplication.connectedThread2.send("1", ipText.getText().toString());
+                    DataApplication.connectedThread2.sendUDP("sussy", ipText.getText().toString(), 4210);
                 }
             });
         }else{

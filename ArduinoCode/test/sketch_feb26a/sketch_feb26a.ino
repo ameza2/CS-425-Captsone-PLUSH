@@ -1,16 +1,23 @@
-#include <LiquidCrystal_I2C.h>
+//#include <LiquidCrystal_I2C.h>
 
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WiFiMulti.h> 
 #include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
+#include <WiFiUDP.h>
 
 ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti class, called 'wifiMulti'
 
+//https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/udp-examples.html
+WiFiUDP udp; // Create a UDP address for recieving broadcasts
+unsigned int udpPort = 4210;
+char incomingPacket[256];
+  char replyPacket[] = "Among us";
+
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 
-LiquidCrystal_I2C lcd(0x27, 16, 2); // (default address, rows, columns)
+//LiquidCrystal_I2C lcd(0x27, 16, 2); // (default address, rows, columns)
 
 
 void handleRoot();              // function prototypes for HTTP handlers
@@ -24,7 +31,7 @@ void setup(void){
   delay(10);
   Serial.println('\n');
 
-  wifiMulti.addAP("PLUSH", "password123");   // add Wi-Fi networks you want to connect to
+  wifiMulti.addAP("wifi", "pw");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   //wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
@@ -52,10 +59,12 @@ void setup(void){
   server.begin();                            // Actually start the server
   Serial.println("HTTP server started");
 
-  lcd.begin();
-  lcd.backlight();
-  lcd.setCursor(0,0);
-  lcd.print(WiFi.localIP()); // print IP on LCD
+  udp.begin(udpPort);
+
+  //lcd.begin();
+  //lcd.backlight();
+  //lcd.setCursor(0,0);
+  //lcd.print(WiFi.localIP()); // print IP on LCD
 }
 
 void loop(void){
@@ -63,11 +72,11 @@ void loop(void){
   if( server.hasArg("data") ){
         String data = server.arg("data");
         if(prevData != data){ // only print when something changes
-          lcd.setCursor(0,0);
-          lcd.print("                ");
-          lcd.setCursor(0,0);
+          //lcd.setCursor(0,0);
+          //lcd.print("                ");
+          //lcd.setCursor(0,0);
           Serial.println(data);
-          lcd.print(data);
+          //lcd.print(data);
         }
         server.send(200, "text/plain", server.arg("data"));
 //        if(data.toInt() >= 100 && data.toInt() < 109){
@@ -77,6 +86,22 @@ void loop(void){
 //          server.send(200, "text/plain", "New Music Volume: " + String(data.toInt() - 200));
 //        }
     prevData = data;
+  }
+
+  int packetSize = udp.parsePacket();
+  if (packetSize)
+  {
+    Serial.printf("Received %d bytes from %s, port %d\n", packetSize, udp.remoteIP().toString().c_str(), udp.remotePort());
+    int len = udp.read(incomingPacket, 255);
+    if (len > 0)
+    {
+      incomingPacket[len] = '\0';
+    }
+    Serial.printf("UDP packet contents: %s\n", incomingPacket);
+  
+    udp.beginPacket(udp.remoteIP(), udp.remotePort());
+    udp.write(replyPacket);
+    udp.endPacket();
   }
 }
 
