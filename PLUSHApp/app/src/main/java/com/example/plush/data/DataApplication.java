@@ -35,6 +35,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -45,6 +46,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /* Security Library */
@@ -220,12 +223,63 @@ public class DataApplication extends Application {
     }
 
     public class ConnectedThread2 extends Thread {
+
+        private ReentrantLock lock = new ReentrantLock();
+        private int connectAttempts = 0;
+        private String msgToSend;
+        private String ipToSend;
+        private int portToSend;
+
         public ConnectedThread2() {
             Log.e("Status", "Device connected");
         }
 
         public void run() {
             Log.e("Status", "Device running");
+
+            while(true){
+                lock.lock();
+                try {
+                    if (connectAttempts != 0) {
+                        try {
+                            byte[] data = msgToSend.getBytes();
+                            byte[] dataRecieved = new byte[256];
+
+                            InetAddress addr = InetAddress.getByName(ipToSend);
+
+                            DatagramPacket request = new DatagramPacket(data, data.length, addr, portToSend);
+                            DatagramPacket recieved = new DatagramPacket(dataRecieved, dataRecieved.length);
+
+                            DatagramSocket socket = new DatagramSocket();
+                            socket.setSoTimeout(1000);
+
+                            socket.send(request);
+                            socket.receive(recieved);
+
+                            Log.e("Message", Arrays.toString(recieved.getData()));
+                            connectAttempts = 0;
+
+                        }
+                        catch (SocketTimeoutException ste){
+                            ste.printStackTrace();
+                            connectAttempts--;
+                            Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                        }
+                        catch (SocketException se) {
+                            se.printStackTrace();
+                            connectAttempts--;
+                            Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                        }
+                        catch (IOException ioe) {
+                            ioe.printStackTrace();
+                            connectAttempts--;
+                            Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                        }
+                    }
+                } finally {
+                    lock.unlock();
+                }
+            }
         }
 
         public void send(String cmdText, String ipaddress) {
@@ -258,29 +312,15 @@ public class DataApplication extends Application {
         }
 
         public void sendUDP(String cmdText, String ipaddress, int port){
+
+            lock.lock();
             try {
-
-                byte[] data = cmdText.getBytes();
-                byte[] dataRecieved = new byte[256];
-
-                InetAddress addr = InetAddress.getByName(ipaddress);
-
-                DatagramPacket request = new DatagramPacket(data, data.length, addr, port);
-                DatagramPacket recieved = new DatagramPacket(dataRecieved, dataRecieved.length);
-
-                DatagramSocket socket = new DatagramSocket();
-
-                socket.send(request);
-                socket.receive(recieved);
-
-                Log.e("Message", Arrays.toString(recieved.getData()));
-
-            }
-            catch (SocketException se) {
-                se.printStackTrace();
-            }
-            catch (IOException ioe) {
-                ioe.printStackTrace();
+                connectAttempts = 5;
+                msgToSend = cmdText;
+                ipToSend = ipaddress;
+                portToSend = port;
+            } finally {
+                lock.unlock();
             }
         }
     }
