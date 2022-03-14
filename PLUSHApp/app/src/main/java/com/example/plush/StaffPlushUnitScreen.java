@@ -2,9 +2,14 @@
 package com.example.plush;
 
 // Libraries //
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 
 /* Android Widgets */
@@ -38,7 +43,14 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
     SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
     TextView sensitivityText; // textview variable: used to display hug sensitivity
 
+    TextView connectionText; // textview variable: used to show current connection status
+    Button connectionRetryButton; // button variable: used to retry connection
+    Button connectionCloseButton; // button variable: used to stop attempting to connect
+    View connectionLayout; // layout variable: shows the attempted connection status
+
     int sensitivity; // variable: used to store hug sensitivity
+
+    UnitConnectionThread connectionThread;
 
     /* Initialize Page Activity (Staff PLUSH Unit Screen) */
     @Override
@@ -57,6 +69,10 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         sensitivityBar = findViewById(R.id.sensitivityBar);
         sensitivityText = findViewById(R.id.sensitivityText);
         thisApplication = (DataApplication) getApplication();
+        connectionText = (TextView) findViewById(R.id.connectionTextView);
+        connectionCloseButton = (Button) findViewById(R.id.closeConnectionButton);
+        connectionRetryButton = (Button) findViewById(R.id.retryConnectionButton);
+        connectionLayout = (View) findViewById(R.id.connectionLayout);
 
 
         /* Pass the plush ID and room number from the home screen */
@@ -156,6 +172,22 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
                 startActivity(intent); // page redirect (StaffHomeScreen)
             }
         });
+
+        connectionRetryButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                connectionThread = new UnitConnectionThread();
+                connectionThread.start();
+            }
+        });
+
+        connectionCloseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                connectionLayout.setVisibility(GONE);
+            }
+        });
+
+        connectionThread = new UnitConnectionThread();
+        connectionThread.start();
     }
 
     /* Add Units After Pressing Back */
@@ -163,5 +195,40 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
     public void onBackPressed(){
         super.onBackPressed();
         thisApplication.currentUnit = "";
+    }
+
+    public class UnitConnectionThread extends Thread{
+        public void run(){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StatsScreen(false, false, "Connecting...");
+                }
+            });
+
+            DataApplication.connectedThread2.sendUDP("Why is it always mushroom?", "255.255.255.255", 4210);
+            int status = 0;
+            while(status == 0){
+                status = DataApplication.connectedThread2.checkIfFinitshed();
+            }
+
+            Log.e("Connection?", Integer.toString(status));
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int status = DataApplication.connectedThread2.checkIfFinitshed();
+                    String statText = status == -1 ? "Connection failed" : "Connection established";
+                    StatsScreen(status == -1, true, statText);
+                }
+            });
+
+        }
+    }
+
+    public void StatsScreen(boolean retryButtonOn, boolean closeButtonOn, String text){
+        connectionRetryButton.setVisibility(retryButtonOn ? VISIBLE : GONE);
+        connectionCloseButton.setVisibility(closeButtonOn ? VISIBLE : GONE);
+        connectionText.setText(text);
     }
 }

@@ -6,6 +6,7 @@ import android.icu.util.Output;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
@@ -229,6 +230,7 @@ public class DataApplication extends Application {
         private String msgToSend;
         private String ipToSend;
         private int portToSend;
+        public String currentIP = "";
 
         public ConnectedThread2() {
             Log.e("Status", "Device connected");
@@ -258,6 +260,7 @@ public class DataApplication extends Application {
 
                             Log.e("Message", Arrays.toString(recieved.getData()));
                             connectAttempts = 0;
+                            currentIP = ipToSend;
 
                         }
                         catch (SocketTimeoutException ste){
@@ -315,6 +318,7 @@ public class DataApplication extends Application {
 
             lock.lock();
             try {
+                currentIP = "";
                 connectAttempts = 5;
                 msgToSend = cmdText;
                 ipToSend = ipaddress;
@@ -322,6 +326,24 @@ public class DataApplication extends Application {
             } finally {
                 lock.unlock();
             }
+        }
+
+        public int checkIfFinitshed(){
+            int stat = 0;
+            lock.lock();
+            try {
+                if(connectAttempts == 0){
+                    if(currentIP.equals("")){
+                        stat = -1;
+                    }
+                    else{
+                        stat = 1;
+                    }
+                }
+            } finally {
+                lock.unlock();
+            }
+            return stat;
         }
     }
 }
