@@ -7,13 +7,14 @@
 #include <ESP8266WebServer.h>
 #include <WiFiUDP.h>
 
+char plush_id[] = "789123456";
+
 ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti class, called 'wifiMulti'
 
 //https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/udp-examples.html
 WiFiUDP udp; // Create a UDP address for recieving broadcasts
 unsigned int udpPort = 4210;
 char incomingPacket[256];
-  char replyPacket[] = "Among us";
 
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 
@@ -98,10 +99,12 @@ void loop(void){
       incomingPacket[len] = '\0';
     }
     Serial.printf("UDP packet contents: %s\n", incomingPacket);
-  
-    udp.beginPacket(udp.remoteIP(), udp.remotePort());
-    udp.write(replyPacket);
-    udp.endPacket();
+
+    if(strcmp(incomingPacket, plush_id) == 0){
+      udp.beginPacket(udp.remoteIP(), udp.remotePort());
+      udp.write(WiFi.localIP().toString().c_str());
+      udp.endPacket();
+    }
   }
 }
 

@@ -206,7 +206,7 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
                 }
             });
 
-            DataApplication.connectedThread2.sendUDP("Why is it always mushroom?", "255.255.255.255", 4210);
+            DataApplication.connectedThread2.sendUDP(thisApplication.currentUnit, "255.255.255.255", 4210);
             int status = 0;
             while(status == 0){
                 status = DataApplication.connectedThread2.checkIfFinitshed();
