@@ -263,9 +263,11 @@ public class DataApplication extends Application {
                             socket.send(request);
                             socket.receive(recieved);
 
-                            Log.e("Message", Arrays.toString(recieved.getData()));
+                            String s = new String(recieved.getData(), "UTF-8");
+                            s = s.substring(0, s.indexOf(0));
+                            Log.e("Message", s);
                             connectAttempts = 0;
-                            currentIP = ipToSend;
+                            currentIP = s;
 
                         }
                         catch (SocketTimeoutException ste){
