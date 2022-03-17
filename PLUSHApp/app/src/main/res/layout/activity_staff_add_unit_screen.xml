@@ -10,7 +10,7 @@
     android:background="#00FFFFFF">
 
     <EditText
-        android:id="@+id/editAge"
+        android:id="@+id/editDate1"
         android:layout_width="183dp"
         android:layout_height="48dp"
         android:layout_marginStart="115dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonAddUnit"
+        android:id="@+id/buttonAddSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="153dp"
@@ -166,14 +166,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/maleButton"
+            android:id="@+id/hugButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="1"
             android:text="Male" />
 
         <RadioButton
-            android:id="@+id/femaleButton"
+            android:id="@+id/musicButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="2"

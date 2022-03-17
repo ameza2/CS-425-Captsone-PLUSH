@@ -6,19 +6,25 @@
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/drawable/ic_baseline_feedback_24.xml" value="0.3828125" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/drawable/ic_baseline_settings_applications_24.xml" value="0.3828125" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/drawable/ic_support.xml" value="0.3828125" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_calendar_screen.xml" value="0.307518115942029" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_debug_main.xml" value="0.3229166666666667" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_hamburger_contentmain.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_hamburger_header.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_hamburger_toolbar.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_main.xml" value="0.2608695652173913" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_patient_login_screen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_schedule_weekly_screen.xml" value="0.307518115942029" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_add_schedule.xml" value="0.3020833333333333" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_add_schedule_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_add_unit_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_feedback_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_home_screen.xml" value="0.2608695652173913" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_login_screen.xml" value="0.20520833333333333" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_music_screen.xml" value="0.3229166666666667" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_plush_unit_screen.xml" value="0.3632246376811594" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_remove_schedule.xml" value="0.3020833333333333" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_remove_unit_screen.xml" value="0.20520833333333333" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_schedule_screen.xml" value="0.33" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_settings_screen.xml" value="0.20520833333333333" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_support_screen.xml" value="0.3229166666666667" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/menu/hamburger_menu.xml" value="0.36666666666666664" />
@@ -63,7 +69,7 @@
         <entry key="..\:/Year4Projects/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_home_screen.xml" value="0.15789473684210525" />
         <entry key="..\:/Year4Projects/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_login_screen.xml" value="0.20199275362318841" />
         <entry key="..\:/Year4Projects/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_music_screen.xml" value="0.151268115942029" />
-        <entry key="..\:/Year4Projects/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_plush_unit_screen.xml" value="0.2" />
+        <entry key="..\:/Year4Projects/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_plush_unit_screen.xml" value="0.10729166666666666" />
         <entry key="..\:/Year4Projects/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_remove_unit_screen.xml" value="0.2" />
         <entry key="..\:/Year4Projects/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_schedule_screen.xml" value="0.151268115942029" />
         <entry key="..\:/Year4Projects/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_settings_screen.xml" value="0.151268115942029" />

@@ -35,7 +35,16 @@
           "id": "208502",
           "room": "201",
           "hugSensitivity": 7,
-          "musicVolume": 69
+          "musicVolume": 69,
+          "hugSchedule": [
+            "3 / 17 / 2022, 10:00"
+          ],
+          "musicSchedule": [
+            "3 / 18 / 2022, 11:00"
+          ],
+          "otherSchedule": [
+            "3 / 19 / 2022, 12:00"
+          ]
         },
         {
           "id": "259335",

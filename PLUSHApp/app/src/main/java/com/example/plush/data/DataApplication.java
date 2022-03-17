@@ -40,6 +40,7 @@ import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -144,7 +145,11 @@ public class DataApplication extends Application {
                         String room = inputUnitArray.getJSONObject(j).getString("room");
                         int hug = inputUnitArray.getJSONObject(j).getInt("hugSensitivity");
                         int vol = inputUnitArray.getJSONObject(j).getInt("musicVolume");
-                        currUser.assignedUnits.put(id, new DataPlushUnit(id, room, hug, vol));
+                        ArrayList<String> h = new ArrayList<>();
+                        ArrayList<String> m = new ArrayList<>();
+                        ArrayList<String> o = new ArrayList<>();
+
+                        currUser.assignedUnits.put(id, new DataPlushUnit(id, room, hug, vol, h, m, o));
                     }
                 }
 

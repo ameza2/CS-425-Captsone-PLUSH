@@ -4,7 +4,6 @@ package com.example.plush;
 // Libraries //
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.plush.data.DataApplication;
-import com.example.plush.data.DataPlushUnit;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import android.util.Log;
 import android.widget.Toast;
 
 public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScreen w/ action activities
@@ -49,7 +47,7 @@ public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScree
 
         IDEditText = (EditText) findViewById(R.id.editUnitID);
         RoomEditText = (EditText) findViewById(R.id.editRoomNumber);
-        AddUnitButton = (Button) findViewById(R.id.buttonAddUnit);
+        AddUnitButton = (Button) findViewById(R.id.buttonAddSchedule);
         sexGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
         int sexID = sexGroup.getCheckedRadioButtonId(); // fetch sex option from button input
