@@ -21,6 +21,9 @@ public class DataPlushUnit {
 
         hugSensitivity = h;
         musicVolume = m;
+        hugSchedule = new ArrayList<>(hug);
+        musicSchedule = new ArrayList<>(music);
+        otherSchedule = new ArrayList<>(other);
     }
 
     public String id;

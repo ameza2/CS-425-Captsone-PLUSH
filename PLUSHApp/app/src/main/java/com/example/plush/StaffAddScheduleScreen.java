@@ -16,8 +16,10 @@ import android.os.Bundle;
 /* Android Widgets */
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -33,8 +35,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.widget.ScrollView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -44,12 +48,13 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
     Button timeButton; // button variable: time selection button
     Button AddScheduleButton; // button variable: addUnit button
     RadioGroup scheduleGroup; // button group variable: used to identify schedule type from group of buttons
-    RadioButton scheduleButton; // button group variable: used to store schedule
     DataApplication thisApplication; // data application variable: used for file manipulation
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
-    String date;
-    String time;
+    View scheduleButton;
+    int scheduleIndex;
+    String date = "";
+    String time = "";
 
     /* Initialize Page Activity (Add PLUSH Unit Screen) */
     @Override
@@ -63,10 +68,16 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
         AddScheduleButton = (Button) findViewById(R.id.buttonAddSchedule);
         scheduleGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
-        int scheduleID = scheduleGroup.getCheckedRadioButtonId(); // fetch sex option from button input
-        scheduleButton = findViewById(scheduleID);
-
         thisApplication = (DataApplication)getApplication();
+
+        //Schedule button Selection
+        scheduleGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                scheduleButton = scheduleGroup.findViewById(checkedId);
+                scheduleIndex = scheduleGroup.indexOfChild(scheduleButton);
+            }
+        });
 
         //Date button Selection
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +103,8 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
                 month = month + 1;
 //                Log.d("valid","onDateSet: mm/dd/yyy: " + month + " / " + day + " / " + year);
 
-                date = month + " / " + day + " / " + year;
+                date = month + "/" + day + "/" + year;
+                dateButton.setText(date);
             }
         };
 
@@ -116,12 +128,18 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
         timeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                if(hour > 12){
-                    hour -= 12;
-                }
 //                Log.d("valid","onTimeSet: h:mm : " + hour + ":" + minute);
 
-                time = hour + " : " + minute;
+                if(hour > 12){
+                    time = hour - 12 + ":" + minute + " PM";
+                }
+                else if(hour == 0){
+                    time = hour + 1 + ":" + minute + " AM";
+                }
+                else{
+                    time = hour + ":" + minute + " AM";
+                }
+                timeButton.setText(time);
             }
         };
 
@@ -132,9 +150,9 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
                 boolean emptyDate = date.isEmpty();
                 boolean emptyTime = time.isEmpty();
 
-                int emptySex = scheduleGroup.getCheckedRadioButtonId(); // empty value == -1
+                int emptyScheduleOption = scheduleGroup.getCheckedRadioButtonId(); // empty value == -1
 
-                if ((emptyDate && emptyTime) | (emptyDate && (emptySex == -1)) | (emptyTime && (emptySex == -1)) | (emptyDate && emptyTime && (emptySex == -1))){
+                if ((emptyDate && emptyTime) | (emptyDate && (emptyScheduleOption == -1)) | (emptyTime && (emptyScheduleOption == -1)) | (emptyDate && emptyTime && (emptyScheduleOption == -1))){
                     Toast.makeText(getApplicationContext(), "Invalid Form Submission: Missing multiple fields.", Toast.LENGTH_LONG).show(); // deactivation prompt
                     //Log.d("Error [1]: ", "Empty Text Field");
                 }
@@ -146,107 +164,73 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
                     Toast.makeText(getApplicationContext(), "Invalid Form Submission: Missing Time.", Toast.LENGTH_LONG).show(); // deactivation prompt
                     //Log.d("Error [3]: ", "Empty Text Field");
                 }
-                else if (emptySex == -1) {
+                else if (emptyScheduleOption == -1) {
                     Toast.makeText(getApplicationContext(), "Invalid Form Submission: Missing Schedule Type.", Toast.LENGTH_LONG).show(); // deactivation prompt
                     //Log.d("Error [4]: ", "Empty Text Field");
                 }
                 else {
-                    //Log.d("Success:", "Valid Text Fields");
+                    Log.d("Success:", "Valid Text Fields");
+                    if(scheduleIndex == 0) {
+                        //Log.d("valid", "selected Hug");
+                        thisApplication.currUnitData().hugSchedule.add(date + "," + time);
+                    }
+                    else if(scheduleIndex == 1) {
+                        //Log.d("valid", "selected Music");
+                        thisApplication.currUnitData().musicSchedule.add(date + "," + time);
+                    }
+                    else if(scheduleIndex == 2) {
+                       // Log.d("valid", "selected Other");
+                        thisApplication.currUnitData().otherSchedule.add(date + "," + time);
+                    }
+//
+                    /* Update JSON File */
+                    try {
+                        JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+                        for (int i = 0; i < inputJSONArray.length(); i++) {
+                            if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
 
-                    /* If there isn't a schedule to add: */
-                    if (thisApplication.currentUnit.equals("")) {
-
-                        switch(scheduleButton.getText().toString()){
-                            case("Hug"):
-                                thisApplication.currUnitData().hugSchedule.add(date + "," + time);
-                                break;
-                            case("Music"):
-                                thisApplication.currUnitData().musicSchedule.add(date + "," + time);
-                                break;
-                            case("Other"):
-                                thisApplication.currUnitData().otherSchedule.add(date + "," + time);
-                                break;
-                        }
-
-                        /* Update JSON File */
-                        try {
-                            JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
-                            for (int i = 0; i < inputJSONArray.length(); i++) {
-                                if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
-
-                                    /* Edit unit properties */
-                                    JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-                                    for(int j = 0; j < unitJSONArray.length(); j++){
-                                        if(unitJSONArray.getJSONObject(j).getString("id").equals(thisApplication.currentUnit)){
-                                            unitJSONArray.getJSONObject(j).put(scheduleButton.getText().toString(),  date + "," + time);
+                                /* Edit unit properties */
+                                JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                                JSONArray unitJSONArray1 = inputJSONArray.getJSONObject(i).getJSONArray("hugSchedule");
+                                JSONArray unitJSONArray2 = inputJSONArray.getJSONObject(i).getJSONArray("musicSchedule");
+                                JSONArray unitJSONArray3 = inputJSONArray.getJSONObject(i).getJSONArray("otherSchedule");
+                                for(int j = 0; j < unitJSONArray.length(); j++){
+                                    if(unitJSONArray.getJSONObject(j).getString("id").equals(thisApplication.currentUnit)){
+                                        JSONObject toPut = new JSONObject();
+                                        if(scheduleIndex == 0){
+                                            toPut.put("hugSchedule", date + "," + time);
+                                            unitJSONArray1.put(toPut);
+                                        }
+                                        else if(scheduleIndex == 1){
+                                            toPut.put("musicSchedule", date + "," + time);
+                                            unitJSONArray2.put(toPut);
+                                        }
+                                        else if(scheduleIndex == 2){
+                                            toPut.put("otherSchedule", date + "," + time);
+                                            unitJSONArray3.put(toPut);
                                         }
                                     }
-
-                                    /* Save new string to user database */
-                                    File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
-                                    OutputStream outputStream = new FileOutputStream(f);
-                                    byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-                                    outputStream.write(outputBytes);
-                                    outputStream.close();
                                 }
+
+                                /* Save new string to user database */
+                                File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
+                                OutputStream outputStream = new FileOutputStream(f);
+                                byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                                outputStream.write(outputBytes);
+                                outputStream.close();
                             }
-                        } catch (JSONException | FileNotFoundException e) { // error-handling statement
-                            e.printStackTrace();
-                        } catch (IOException e) { // error-handling statement
-                            e.printStackTrace();
                         }
+                    } catch (JSONException | FileNotFoundException e) { // error-handling statement
+                        e.printStackTrace();
+                    } catch (IOException e) { // error-handling statement
+                        e.printStackTrace();
+                    }
 
                         /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
                         Intent intent = new Intent(StaffAddScheduleScreen.this, StaffScheduleScreen.class);
                         startActivity(intent); // redirect page (StaffHomeScreen)
-
-
                     }
-
-                    /* If there IS a unit to add */
-                    else {
-//                        /* Since the data uses a hashmap, have to replace old */
-//                        String oldID = thisApplication.currUnitData().id;
-//                        thisApplication.currUserData().assignedUnits.remove(oldID);
-//                        String newID = dateButton.getText().toString();
-//                        String newRoom = timeButton.getText().toString();
-//                        thisApplication.currUserData().addUnit(newID, newRoom);
-//                        thisApplication.currentUnit = newID;
-//
-//                        /* Update JSON File */
-//                        try {
-//                            JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
-//                            for (int i = 0; i < inputJSONArray.length(); i++) {
-//                                if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
-//
-//                                    /* Edit unit properties */
-//                                    JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-//                                    for (int j = 0; j < unitJSONArray.length(); j++) {
-//                                        if (unitJSONArray.getJSONObject(j).getString("id").equals(oldID)) {
-//                                            unitJSONArray.getJSONObject(j).put("id", newID);
-//                                            unitJSONArray.getJSONObject(j).put("room", newRoom);
-//                                        }
-//                                    }
-//
-//                                    /* Save new string to user database */
-//                                    File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
-//                                    OutputStream outputStream = new FileOutputStream(f);
-//                                    byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-//                                    outputStream.write(outputBytes);
-//                                    outputStream.close();
-//                                }
-//                            }
-//                        } catch (JSONException | FileNotFoundException e) { // error-handling statement
-//                            e.printStackTrace();
-//                        } catch (IOException e) { // error-handling statement
-//                            e.printStackTrace();
-//                        }
-
-                        /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
-                        Intent intent = new Intent(StaffAddScheduleScreen.this, StaffScheduleScreen.class);
-                        startActivity(intent); // redirect page (StaffScheduleScreen)
-                    }
-                }
+//                }
             }
         });
     }
