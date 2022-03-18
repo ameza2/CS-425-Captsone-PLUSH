@@ -40,7 +40,7 @@ public class DebugScreen extends AppCompatActivity {
 
         sendButton.setOnClickListener(new View.OnClickListener() { // execute on staff button click
             public void onClick(View v) {
-                DataApplication.connectedThread2.send( messageText.getText().toString(), ipText.getText().toString());
+                DataApplication.connectedThread2.send( messageText.getText().toString());
             }
         });
 

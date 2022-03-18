@@ -7,7 +7,7 @@
 #include <ESP8266WebServer.h>
 #include <WiFiUDP.h>
 
-char plush_id[] = "789123456";
+char plush_id[255] = "789123456";
 
 ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti class, called 'wifiMulti'
 
@@ -31,6 +31,7 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
+  Serial.println("Version Code: 00001"); // Debugging, just to see if reset worked
 
   wifiMulti.addAP("wifi", "pw");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
@@ -80,12 +81,6 @@ void loop(void){
           //lcd.print(data);
         }
         server.send(200, "text/plain", server.arg("data"));
-//        if(data.toInt() >= 100 && data.toInt() < 109){
-//          server.send(200, "text/plain", "New Hug Sensitivity: " + String(data.toInt() - 100));
-//        }
-//        else if(data.toInt() >= 200 && data.toInt() < 300){
-//          server.send(200, "text/plain", "New Music Volume: " + String(data.toInt() - 200));
-//        }
     prevData = data;
   }
 
@@ -100,10 +95,45 @@ void loop(void){
     }
     Serial.printf("UDP packet contents: %s\n", incomingPacket);
 
-    if(strcmp(incomingPacket, plush_id) == 0){
-      udp.beginPacket(udp.remoteIP(), udp.remotePort());
-      udp.write(WiFi.localIP().toString().c_str());
-      udp.endPacket();
+    char cmd[5]; // Get the command needed
+    memcpy(cmd, &incomingPacket[0], 4);
+    cmd[4] = '\0';
+    
+    char action[255]; // Get the action
+    memcpy(action, &incomingPacket[5], 255);
+
+    
+    //=====================================================================================
+    // Command CONN: App wants to connect to unit, send IP of this unit if the ID's match.
+    //=====================================================================================
+    if(strcmp(cmd, "CONN") == 0){
+      if(strcmp(action, plush_id) == 0){
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.write(WiFi.localIP().toString().c_str());
+        udp.endPacket();
+      }
+    }
+
+    //=====================================================================================
+    // Command HSEN: App orders unit to adjust the hug sensitivity.
+    //=====================================================================================
+    if(strcmp(cmd, "HSEN") == 0){
+        int newSensitivity = atoi(action);
+        Serial.printf("New sensitivity: %d", newSensitivity);
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.write(incomingPacket);
+        udp.endPacket();
+    }
+
+    //=====================================================================================
+    // Command MVOL: App orders unit to change the volume of the speakers.
+    //=====================================================================================
+    if(strcmp(cmd, "MVOL") == 0){
+        int newVolume = atoi(action);
+        Serial.printf("New volume: %d", newVolume);
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.write(incomingPacket);
+        udp.endPacket();
     }
   }
 }

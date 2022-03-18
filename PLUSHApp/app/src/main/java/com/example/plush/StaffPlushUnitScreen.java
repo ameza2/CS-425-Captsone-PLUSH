@@ -129,7 +129,7 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // DO NOTHING //
+                DataApplication.connectedThread2.send("HSEN:" + Integer.toString(seekBar.getProgress()));
             }
         });
 

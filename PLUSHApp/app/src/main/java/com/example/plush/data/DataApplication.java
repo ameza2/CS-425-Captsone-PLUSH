@@ -237,6 +237,8 @@ public class DataApplication extends Application {
         private int portToSend;
         public String currentIP = "";
 
+        private ArrayList<String> msgQueue = new ArrayList<>();
+
         public ConnectedThread2() {
             Log.e("Status", "Device connected");
         }
@@ -245,11 +247,10 @@ public class DataApplication extends Application {
             Log.e("Status", "Device running");
 
             while(true){
-                lock.lock();
-                try {
+                synchronized (lock){
                     if (connectAttempts != 0) {
                         try {
-                            byte[] data = msgToSend.getBytes();
+                            byte[] data = ("CONN:" + msgToSend).getBytes();
                             byte[] dataRecieved = new byte[256];
 
                             InetAddress addr = InetAddress.getByName(ipToSend);
@@ -269,67 +270,80 @@ public class DataApplication extends Application {
                             connectAttempts = 0;
                             currentIP = s;
 
-                        }
-                        catch (SocketTimeoutException ste){
+                        } catch (SocketTimeoutException ste) {
                             ste.printStackTrace();
                             connectAttempts--;
                             Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
-                        }
-                        catch (SocketException se) {
+                        } catch (SocketException se) {
                             se.printStackTrace();
                             connectAttempts--;
                             Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
-                        }
-                        catch (IOException ioe) {
+                        } catch (IOException ioe) {
                             ioe.printStackTrace();
                             connectAttempts--;
                             Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
                         }
+                    } else if (!currentIP.equals("")) {
+                        if (!msgQueue.isEmpty()) {
+                            try {
+                                byte[] data = msgQueue.get(0).getBytes();
+                                byte[] dataRecieved = new byte[256];
+
+                                InetAddress addr = InetAddress.getByName(currentIP);
+
+                                DatagramPacket request = new DatagramPacket(data, data.length, addr, portToSend);
+                                DatagramPacket recieved = new DatagramPacket(dataRecieved, dataRecieved.length);
+
+                                DatagramSocket socket = new DatagramSocket();
+                                socket.setSoTimeout(200);
+
+                                socket.send(request);
+                                socket.receive(recieved);
+
+                                String s = new String(recieved.getData(), "UTF-8");
+                                s = s.substring(0, s.indexOf(0));
+                                Log.e("Message", s);
+                                msgQueue.remove(0);
+
+                            } catch (SocketTimeoutException ste) {
+                                ste.printStackTrace();
+                                Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                            } catch (SocketException se) {
+                                se.printStackTrace();
+                                Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                                Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                            }
+                        }
                     }
-                } finally {
-                    lock.unlock();
                 }
             }
         }
 
-        public void send(String cmdText, String ipaddress) {
-            Log.e("Status", "Sending data " + cmdText);
-            String url = "http://"+ipaddress+"/post";
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.e("Status", response.trim());
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("Status", error.toString());
-                        }
-                    }){
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params= new HashMap<String, String>();
-                    String value = String.valueOf(cmdText);
-                    params.put("data",value);
-                    Log.e("Status", value);
-                    return params;
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(DataApplication.this);
-            requestQueue.add(stringRequest);
+        public void send(String cmdText) {
+            synchronized (lock) {
+                msgQueue.add(cmdText);
+            }
         }
 
         public void sendUDP(String cmdText, String ipaddress, int port){
 
-            lock.lock();
-            try {
+            synchronized (lock){
                 currentIP = "";
                 connectAttempts = 5;
                 msgToSend = cmdText;
                 ipToSend = ipaddress;
                 portToSend = port;
+                msgQueue.clear();
+            }
+        }
+
+        public void disconnectUnit(){
+            lock.lock();
+            try {
+                currentIP = "";
+                msgQueue.clear();
             } finally {
                 lock.unlock();
             }

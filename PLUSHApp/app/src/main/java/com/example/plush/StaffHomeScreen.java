@@ -98,6 +98,8 @@ public class StaffHomeScreen extends AppCompatActivity {
         //Important as add/edit unit use the same screen
         thisApplication.currentUnit = "";
 
+        thisApplication.connectedThread2.disconnectUnit();
+
         // Load unit data
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 

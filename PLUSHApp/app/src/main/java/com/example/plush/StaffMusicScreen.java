@@ -101,7 +101,7 @@ public class StaffMusicScreen extends AppCompatActivity { // StaffMusicScreen w/
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // Send final desired volume to arduino //
-                DataApplication.connectedThread2.send(((Integer)(200 + volume)).toString(), thisApplication.currentUnit);
+                DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
             }
         });
 
