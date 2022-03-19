@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StaffRemoveScheduleScreen">
+    android:layout_margin="16dp"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    android:scrollbars="vertical">
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="370dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="653dp"
+        android:gravity="center"
+        android:text="PLUSH Schedules"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="379dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="353dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/date_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="356dp"
+        android:layout_marginEnd="187dp"
+        android:layout_marginBottom="313dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/removeButton"
+        android:layout_width="184dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="97dp"
+        android:layout_marginTop="636dp"
+        android:layout_marginEnd="98dp"
+        android:layout_marginBottom="15dp"
+        android:text="REMOVE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="380dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="385dp"
+        android:layout_marginBottom="64dp"
+        android:descendantFocusability="blocksDescendants"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

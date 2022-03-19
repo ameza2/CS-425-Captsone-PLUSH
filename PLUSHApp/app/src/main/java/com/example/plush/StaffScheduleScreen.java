@@ -39,6 +39,9 @@ public class StaffScheduleScreen extends AppCompatActivity { // StaffScheduleScr
     ScrollView unitListScrollView;
     DataApplication thisApplication; // data application variable: used for file manipulation
     ArrayList<String> arrayList = new ArrayList<>();
+    ArrayList<String> currDayHug = new ArrayList<>();
+    ArrayList<String> currDayMusic = new ArrayList<>();
+    ArrayList<String> currDayOther = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
 
 
@@ -61,61 +64,52 @@ public class StaffScheduleScreen extends AppCompatActivity { // StaffScheduleScr
                 currDate = (i1 + 1) + "/" + i2 + "/" + i;
                 dateDisplay.setText("Schedules for " + currDate + ":");
                 arrayAdapter.clear();
+                currDayHug.clear();
+                currDayMusic.clear();
+                currDayOther.clear();
 
-                int j =0;
-                for(int counter = 0; counter < thisApplication.currUnitData().hugSchedule.size(); counter += 2) {
-                    ArrayList<String> currDay = new ArrayList<>();
-                    //Parse and iterate checking for schedules in the same day
+                //Parse and iterate checking for schedules in the same day
+                for(int j = 0; j < thisApplication.currUnitData().hugSchedule.size(); j++) {
                     String[] scheduleDateHug = thisApplication.currUnitData().hugSchedule.get(j).split(",");
                     for (String t : scheduleDateHug) {
-                        currDay.add(t);
+                        currDayHug.add(t);
                         //Log.d("valid", "currDay added");
                     }
-
-                    //Add schedule to buttonList
-                    if(currDay.get(counter).equals(currDate)){
-                        arrayList.add("Hug scheduled at " + currDay.get(counter + 1));
-                        //Log.d("valid", "currDay added to list");
-                    }
-                    j++;
                 }
-                int k =0;
-                for(int counter = 0; counter < thisApplication.currUnitData().musicSchedule.size(); counter += 2) {
-                    ArrayList<String> currDay = new ArrayList<>();
-                    //Parse and iterate checking for schedules in the same day
-                    String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(k).split(",");
+                for(int j = 0; j < thisApplication.currUnitData().musicSchedule.size(); j++) {
+                    String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(j).split(",");
                     for (String t : scheduleDateMusic) {
-                        currDay.add(t);
+                        currDayMusic.add(t);
                         //Log.d("valid", "currDay added");
                     }
-
-                    //Add schedule to buttonList
-                    if(currDay.get(counter).equals(currDate)){
-                        arrayList.add("Music scheduled at " + currDay.get(counter + 1));
-                        //Log.d("valid", "currDay added to list");
-                    }
-                    j++;
                 }
-                int l =0;
-                for(int counter = 0; counter < thisApplication.currUnitData().otherSchedule.size(); counter += 2){
-                    ArrayList<String> currDay = new ArrayList<>();
-                    //Parse and iterate checking for schedules in the same day
-                    String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(l).split(",");
+                for(int j = 0; j < thisApplication.currUnitData().otherSchedule.size(); j++) {
+                    String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(j).split(",");
                     for (String t : scheduleDateOther) {
-                        currDay.add(t);
+                        currDayOther.add(t);
                         //Log.d("valid", "currDay added");
                     }
+                }
 
-                    //Add schedule to buttonList
-                    if(currDay.get(counter) == currDate){
-                        arrayList.add("Other scheduled at " + currDay.get(counter + 1));
+                //Add schedule to buttonList
+                for(int counter = 0; counter < currDayHug.size(); counter += 2) {
+                    if(currDayHug.get(counter).equals(currDate)){
+                        arrayList.add("Hug scheduled at " + currDayHug.get(counter + 1));
                         //Log.d("valid", "currDay added to list");
                     }
-                    j++;
                 }
-                j = 0;
-                k = 0;
-                l = 0;
+                for(int counter = 0; counter < currDayMusic.size(); counter += 2) {
+                    if(currDayMusic.get(counter).equals(currDate)){
+                        arrayList.add("Music scheduled at " + currDayMusic.get(counter + 1));
+                        //Log.d("valid", "currDay added to list");
+                    }
+                }
+                for(int counter = 0; counter < currDayOther.size(); counter += 2) {
+                    if(currDayOther.get(counter).equals(currDate)){
+                        arrayList.add("Other scheduled at " + currDayOther.get(counter + 1));
+                        //Log.d("valid", "currDay added to list");
+                    }
+                }
                 arrayAdapter.notifyDataSetChanged();
                 //Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_LONG).show();
             }
@@ -137,153 +131,50 @@ public class StaffScheduleScreen extends AppCompatActivity { // StaffScheduleScr
             }
         });
 
-        int j =0;
-        for(int counter = 0; counter < thisApplication.currUnitData().hugSchedule.size(); counter += 2){
-            ArrayList<String> currDay = new ArrayList<>();
-            //Parse and iterate checking for schedules in the same day
+        //Parse and iterate checking for schedules in the same day
+        for(int j = 0; j < thisApplication.currUnitData().hugSchedule.size(); j++) {
             String[] scheduleDateHug = thisApplication.currUnitData().hugSchedule.get(j).split(",");
             for (String t : scheduleDateHug) {
-                currDay.add(t);
+                currDayHug.add(t);
                 //Log.d("valid", "currDay added");
             }
-
-            //Add schedule to buttonList
-            if(currDay.get(counter).equals(currDate)){
-                arrayList.add("Hug scheduled at " + currDay.get(counter + 1));
-                //Log.d("valid", "currDay added to list");
-            }
-            j++;
         }
-        int k =0;
-        for(int counter = 0; counter < thisApplication.currUnitData().musicSchedule.size(); counter += 2){
-            ArrayList<String> currDay = new ArrayList<>();
-            //Parse and iterate checking for schedules in the same day
-            String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(k).split(",");
+        for(int j = 0; j < thisApplication.currUnitData().musicSchedule.size(); j++) {
+            String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(j).split(",");
             for (String t : scheduleDateMusic) {
-                currDay.add(t);
+                currDayMusic.add(t);
                 //Log.d("valid", "currDay added");
             }
-
-            //Add schedule to buttonList
-            if(currDay.get(counter).equals(currDate)){
-                arrayList.add("Music scheduled at " + currDay.get(counter + 1));
-                //Log.d("valid", "currDay added to list");
-            }
-            j++;
         }
-        int l =0;
-        for(int counter = 0; counter < thisApplication.currUnitData().otherSchedule.size(); counter += 2){
-            ArrayList<String> currDay = new ArrayList<>();
-            //Parse and iterate checking for schedules in the same day
-            String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(l).split(",");
-            for(String t : scheduleDateOther){
-                currDay.add(t);
+        for(int j = 0; j < thisApplication.currUnitData().otherSchedule.size(); j++) {
+            String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(j).split(",");
+            for (String t : scheduleDateOther) {
+                currDayOther.add(t);
                 //Log.d("valid", "currDay added");
             }
+        }
 
-            //Add schedule to buttonList
-            if(currDay.get(counter).equals(currDate)){
-                arrayList.add("Other scheduled at " + currDay.get(counter + 1));
+        //Add schedule to buttonList
+        for(int counter = 0; counter < currDayHug.size(); counter += 2) {
+            if(currDayHug.get(counter).equals(currDate)){
+                arrayList.add("Hug scheduled at " + currDayHug.get(counter + 1));
                 //Log.d("valid", "currDay added to list");
             }
-            j++;
+        }
+        for(int counter = 0; counter < currDayMusic.size(); counter += 2) {
+            if(currDayMusic.get(counter).equals(currDate)){
+                arrayList.add("Music scheduled at " + currDayMusic.get(counter + 1));
+                //Log.d("valid", "currDay added to list");
+            }
+        }
+        for(int counter = 0; counter < currDayOther.size(); counter += 2) {
+            if(currDayOther.get(counter).equals(currDate)){
+                arrayList.add("Other scheduled at " + currDayOther.get(counter + 1));
+                //Log.d("valid", "currDay added to list");
+            }
         }
 
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,arrayList);
         listView.setAdapter(arrayAdapter);
-
-
-
-//        // Load unit data
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//
-//        LinearLayout linearLayout = new LinearLayout(this);
-//        linearLayout.setOrientation(LinearLayout.VERTICAL);
-//        linearLayout.setLayoutParams(params);
-//
-//        //Create schedule list
-//        int j = 0;
-
-//        for(String i: thisApplication.currUserData().assignedUnits.keySet()) {
-//            ArrayList<String> currDay = new ArrayList<>();
-//
-//            //Parse and iterate checking for schedules in the same day
-//            String[] scheduleDateHug = thisApplication.currUserData().assignedUnits.get(i).hugSchedule.get(j).split(",");
-//            for (String t : scheduleDateHug){
-//                currDay.add(t);
-//            }
-//
-//            //Add schedule to buttonList
-//            if(currDay.get(0) == currDate){
-//                buttonList.add(new Button(this));
-//                unitIDList.add(currDay.get(1));
-//
-//                Button button = buttonList.get(j);
-//                button.setText("Hug schedule for " + currDay.get(1));
-//                button.setTextSize(1, 10);
-//                button.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-//                button.setLayoutParams(params);
-//                linearLayout.addView(button);
-//            }
-//            j++;
-//        }
-//        int k = 0;
-//        for(String i: thisApplication.currUserData().assignedUnits.keySet()) {
-//            ArrayList<String> currDay = new ArrayList<>();
-//
-//            //Parse and iterate checking for schedules in the same day
-//            String[] scheduleDateMusic = thisApplication.currUserData().assignedUnits.get(i).musicSchedule.get(j).split(",");
-//            for (String t : scheduleDateMusic){
-//                currDay.add(t);
-//            }
-//
-//            //Add schedule to buttonList
-//            if(currDay.get(0) == currDate){
-//                buttonList.add(new Button(this));
-//                unitIDList.add(currDay.get(1));
-//
-//                Button button = buttonList.get(j);
-//                button.setText("Music schedule for " + currDay.get(1));
-//                button.setTextSize(1, 10);
-//                button.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-//                button.setLayoutParams(params);
-//                linearLayout.addView(button);
-//            }
-//            k++;
-//        }
-//        int l = 0;
-//        for(String i: thisApplication.currUserData().assignedUnits.keySet()) {
-//            ArrayList<String> currDay = new ArrayList<>();
-//
-//            //Parse and iterate checking for schedules in the same day
-//            String[] scheduleDateOther = thisApplication.currUserData().assignedUnits.get(i).otherSchedule.get(j).split(",");
-//            for (String t : scheduleDateOther){
-//                currDay.add(t);
-//            }
-//
-//            //Add schedule to buttonList
-//            if(currDay.get(0) == currDate){
-//                buttonList.add(new Button(this));
-//                unitIDList.add(currDay.get(1));
-//
-//                Button button = buttonList.get(j);
-//                button.setText("Other schedule for " + currDay.get(1));
-//                button.setTextSize(1, 10);
-//                button.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-//                button.setLayoutParams(params);
-//                linearLayout.addView(button);
-//            }
-//            l++;
-//        }
-//        unitListScrollView.addView(linearLayout);
-//
-
-        //Check currentdate with schedules
-
-        //if currentdate == scheduledate check time
-
-        //if currenttime == scheduletime send ping to arduino
     }
-
-
 }

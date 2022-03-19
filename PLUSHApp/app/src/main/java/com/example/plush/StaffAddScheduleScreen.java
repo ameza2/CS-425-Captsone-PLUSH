@@ -131,13 +131,28 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
 //                Log.d("valid","onTimeSet: h:mm : " + hour + ":" + minute);
 
                 if(hour > 12){
-                    time = hour - 12 + ":" + minute + " PM";
+                    if(minute < 10){
+                        time = hour - 12 + ":" + "0" + minute + " PM";
+                    }
+                    else{
+                        time = hour - 12 + ":" + minute + " PM";
+                    }
                 }
                 else if(hour == 0){
-                    time = hour + 1 + ":" + minute + " AM";
+                    if(minute < 10){
+                        time = hour + 1 + ":" + "0" + minute + " AM";
+                    }
+                    else{
+                        time = hour + 1 + ":" + minute + " AM";
+                    }
                 }
                 else{
-                    time = hour + ":" + minute + " AM";
+                    if(minute < 10){
+                        time = hour + ":" + "0" + minute + " AM";
+                    }
+                    else{
+                        time = hour + ":" + minute + " AM";
+                    }
                 }
                 timeButton.setText(time);
             }
