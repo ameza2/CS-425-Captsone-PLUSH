@@ -31,7 +31,7 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-  Serial.println("Version Code: 00001"); // Debugging, just to see if reset worked
+  Serial.println("Version Code: 00002"); // Debugging, just to see if reset worked
 
   wifiMulti.addAP("wifi", "pw");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
@@ -112,6 +112,16 @@ void loop(void){
         udp.write(WiFi.localIP().toString().c_str());
         udp.endPacket();
       }
+    }
+
+    //=====================================================================================
+    // Command UPDT: App asks for updates on the unit's button set volume and hug sensitivity.
+    //=====================================================================================
+    if(strcmp(cmd, "UPDT") == 0){
+        Serial.printf("Update Requested");
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.write("Hug Volume/Music Volume");
+        udp.endPacket();
     }
 
     //=====================================================================================

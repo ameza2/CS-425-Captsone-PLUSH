@@ -316,6 +316,40 @@ public class DataApplication extends Application {
                                 Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
                             }
                         }
+                        else {
+                            try {
+                                byte[] data = "UPDT:Update!".getBytes();
+                                byte[] dataRecieved = new byte[256];
+
+                                InetAddress addr = InetAddress.getByName(currentIP);
+
+                                DatagramPacket request = new DatagramPacket(data, data.length, addr, portToSend);
+                                DatagramPacket recieved = new DatagramPacket(dataRecieved, dataRecieved.length);
+
+                                DatagramSocket socket = new DatagramSocket();
+                                socket.setSoTimeout(200);
+
+                                socket.send(request);
+                                socket.receive(recieved);
+
+                                String s = new String(recieved.getData(), "UTF-8");
+                                s = s.substring(0, s.indexOf(0));
+                                Log.e("Message", s);
+                                lock.wait(200);
+
+                            } catch (SocketTimeoutException ste) {
+                                ste.printStackTrace();
+                                Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                            } catch (SocketException se) {
+                                se.printStackTrace();
+                                Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                                Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }

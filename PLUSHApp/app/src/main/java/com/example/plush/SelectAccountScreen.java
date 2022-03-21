@@ -12,7 +12,6 @@ public class SelectAccountScreen extends AppCompatActivity { // SelectAccountScr
 
     Button StaffButton; // button initialization: staff
     Button PatientButton; // button initialization: patient
-    Button DebugButton; // button initialization: debug
 
     /* Initialize Page Activity (Account Selection Screen) */
     @Override
@@ -22,7 +21,6 @@ public class SelectAccountScreen extends AppCompatActivity { // SelectAccountScr
 
         StaffButton = (Button)findViewById(R.id.GoToStaff); // fetch staff button
         PatientButton = (Button)findViewById(R.id.GoToPatient); // fetch patient button
-        DebugButton = (Button)findViewById(R.id.goToDebug); // fetch debug button
 
         /* Button Options */
         StaffButton.setOnClickListener(new View.OnClickListener() { // execute on staff button click
@@ -35,12 +33,6 @@ public class SelectAccountScreen extends AppCompatActivity { // SelectAccountScr
             public void onClick(View v) {
                 Intent intent = new Intent(SelectAccountScreen.this, PatientLoginScreen.class);
                 startActivity(intent); // redirect page (PatientLoginScreen)
-            }
-        });
-        DebugButton.setOnClickListener(new View.OnClickListener() { // execute on patient button click
-            public void onClick(View v) {
-                Intent intent = new Intent(SelectAccountScreen.this, DebugScreen.class);
-                startActivity(intent); // redirect page (DebugScreen)
             }
         });
     }
