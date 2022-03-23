@@ -318,7 +318,8 @@ public class DataApplication extends Application {
                         }
                         else {
                             try {
-                                byte[] data = "UPDT:Update!".getBytes();
+                                String x = "UPDT: HS-" + Integer.toString(currUnitData().hugSensitivity) + "/MV-" + Integer.toString(currUnitData().musicVolume);
+                                byte[] data = x.getBytes();
                                 byte[] dataRecieved = new byte[256];
 
                                 InetAddress addr = InetAddress.getByName(currentIP);

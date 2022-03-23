@@ -16,6 +16,9 @@ WiFiUDP udp; // Create a UDP address for recieving broadcasts
 unsigned int udpPort = 4210;
 char incomingPacket[256];
 
+int musicVol = -1;
+int hugSen = -1;
+
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 
 //LiquidCrystal_I2C lcd(0x27, 16, 2); // (default address, rows, columns)
@@ -31,7 +34,7 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-  Serial.println("Version Code: 00002"); // Debugging, just to see if reset worked
+  Serial.println("Version Code: 0004"); // Debugging, just to see if reset worked
 
   wifiMulti.addAP("wifi", "pw");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
@@ -119,17 +122,38 @@ void loop(void){
     //=====================================================================================
     if(strcmp(cmd, "UPDT") == 0){
         Serial.printf("Update Requested");
+
+        // PARSING TODO
+        /*
+        int newHugSen = -1;
+        int newMusicVol = -1;
+        
+        if(hugSen == -1 || musicVol == -1){
+           hugSen = newHugSen;
+           musicVol = newMusicVol;
+        }
+        */
+
+        char packetToSend[256];
+        sprintf(packetToSend, "HS: %d / MV: %d", hugSen, musicVol);
+        
         udp.beginPacket(udp.remoteIP(), udp.remotePort());
-        udp.write("Hug Volume/Music Volume");
+        udp.write(packetToSend);
         udp.endPacket();
+
+        // FOR TESTING PURPOSES ONLY: The PLUSH Volume/Hug Sensitivity will randomly change.
+        if(false){
+          hugSen = 3;
+          musicVol = 30;
+        }
     }
 
     //=====================================================================================
     // Command HSEN: App orders unit to adjust the hug sensitivity.
     //=====================================================================================
     if(strcmp(cmd, "HSEN") == 0){
-        int newSensitivity = atoi(action);
-        Serial.printf("New sensitivity: %d", newSensitivity);
+        hugSen = atoi(action);
+        Serial.printf("New sensitivity: %d", hugSen);
         udp.beginPacket(udp.remoteIP(), udp.remotePort());
         udp.write(incomingPacket);
         udp.endPacket();
@@ -139,8 +163,8 @@ void loop(void){
     // Command MVOL: App orders unit to change the volume of the speakers.
     //=====================================================================================
     if(strcmp(cmd, "MVOL") == 0){
-        int newVolume = atoi(action);
-        Serial.printf("New volume: %d", newVolume);
+        musicVol = atoi(action);
+        Serial.printf("New volume: %d", musicVol);
         udp.beginPacket(udp.remoteIP(), udp.remotePort());
         udp.write(incomingPacket);
         udp.endPacket();
