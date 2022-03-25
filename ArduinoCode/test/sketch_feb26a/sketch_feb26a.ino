@@ -34,7 +34,7 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-  Serial.println("Version Code: 0004"); // Debugging, just to see if reset worked
+  Serial.println("Version Code: 0005"); // Debugging, just to see if reset worked
 
   wifiMulti.addAP("wifi", "pw");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
@@ -90,6 +90,7 @@ void loop(void){
   int packetSize = udp.parsePacket();
   if (packetSize)
   {
+    
     Serial.printf("Received %d bytes from %s, port %d\n", packetSize, udp.remoteIP().toString().c_str(), udp.remotePort());
     int len = udp.read(incomingPacket, 255);
     if (len > 0)
@@ -123,16 +124,40 @@ void loop(void){
     if(strcmp(cmd, "UPDT") == 0){
         Serial.printf("Update Requested");
 
-        // PARSING TODO
-        /*
-        int newHugSen = -1;
-        int newMusicVol = -1;
+        // PARSING        
+        char newHugSen[255];
+        char newMusicVol[255];
+        newHugSen[0] = '\0';
+        newMusicVol[0] = '\0';
+        int t = 0;
+
+        for(int i = 0; i < 255; i++){
+          if(action[i] == '/'){
+            t++;
+          }
+          if(isdigit(action[i])){
+            switch (t){
+              case 0:
+                char newChar0[1];
+                newChar0[0] = action[i];
+                strcat(newHugSen, newChar0);
+                break;
+              case 1:
+                char newChar1[1];
+                newChar1[0] = action[i];
+                strcat(newMusicVol, newChar1);
+                break;
+              default:
+                break;
+            }
+          }
+        }
         
         if(hugSen == -1 || musicVol == -1){
-           hugSen = newHugSen;
-           musicVol = newMusicVol;
+           hugSen = atoi(newHugSen);
+           musicVol = atoi(newMusicVol);
         }
-        */
+        
 
         char packetToSend[256];
         sprintf(packetToSend, "HS: %d / MV: %d", hugSen, musicVol);

@@ -283,7 +283,7 @@ public class DataApplication extends Application {
                             connectAttempts--;
                             Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
                         }
-                    } else if (!currentIP.equals("")) {
+                    } else if (!currentIP.equals("") && !currentUnit.equals("")) {
                         if (!msgQueue.isEmpty()) {
                             try {
                                 byte[] data = msgQueue.get(0).getBytes();
