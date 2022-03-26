@@ -167,9 +167,11 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         /* Back Button: return to PLUSH Home Page */
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                thisApplication.currentUnit = "";
-                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffHomeScreen.class);
-                startActivity(intent); // page redirect (StaffHomeScreen)
+                synchronized (thisApplication.connectedThread2.lock) {
+                    thisApplication.currentUnit = "";
+                    Intent intent = new Intent(StaffPlushUnitScreen.this, StaffHomeScreen.class);
+                    startActivity(intent); // page redirect (StaffHomeScreen)
+                }
             }
         });
 

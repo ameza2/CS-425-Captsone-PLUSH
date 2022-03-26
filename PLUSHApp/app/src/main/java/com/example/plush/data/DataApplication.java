@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -230,7 +231,7 @@ public class DataApplication extends Application {
 
     public class ConnectedThread2 extends Thread {
 
-        private ReentrantLock lock = new ReentrantLock();
+        public ReentrantLock lock = new ReentrantLock();
         private int connectAttempts = 0;
         private String msgToSend;
         private String ipToSend;
@@ -335,7 +336,85 @@ public class DataApplication extends Application {
 
                                 String s = new String(recieved.getData(), "UTF-8");
                                 s = s.substring(0, s.indexOf(0));
-                                Log.e("Message", s);
+                                //Log.e("Message", s);
+
+                                // PARSING
+                                String newHug = "";
+                                String newVol = "";
+                                int t = 0;
+                                for(int i = 0; i < s.length(); i++){
+                                    char c = s.charAt(i);
+                                    if(c == '/'){
+                                        t += 1;
+                                    }
+                                    if(c == '\0'){
+                                        break;
+                                    }
+                                    if(Character.isDigit(c)){
+                                        switch (t){
+                                            case 0:
+                                                newHug += c;
+                                                break;
+                                            case 1:
+                                                newVol += c;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                }
+
+                                int nH = Integer.parseInt(newHug);
+                                int nV = Integer.parseInt(newVol);
+
+                                if(nH != currUnitData().hugSensitivity) {
+
+                                    currUnitData().hugSensitivity = nH;
+                                    JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
+                                    for (int i = 0; i < inputJSONArray.length(); i++) {
+                                        if (inputJSONArray.getJSONObject(i).getString("username").equals(currentUser)) {
+
+                                            /* Edit unit properties */
+                                            JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                                            for (int j = 0; j < unitJSONArray.length(); j++) {
+                                                if (unitJSONArray.getJSONObject(j).getString("id").equals(currentUnit)) {
+                                                    unitJSONArray.getJSONObject(j).put("hugSensitivity", nH);
+                                                }
+                                            }
+
+                                            /* Save new string to user database */
+                                            File f = new File(getFilesDir(), "userdatabase.json");
+                                            OutputStream outputStream = new FileOutputStream(f);
+                                            byte outputBytes[] = inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                                            outputStream.write(outputBytes);
+                                            outputStream.close();
+                                        }
+                                    }
+                                }
+                                if(nV != currUnitData().musicVolume){
+                                    JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
+                                    for (int i = 0; i < inputJSONArray.length(); i++) {
+                                        if (inputJSONArray.getJSONObject(i).getString("username").equals(currentUser)) {
+
+                                            currUnitData().musicVolume = nV;
+                                            /* Edit unit properties */
+                                            JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                                            for (int j = 0; j < unitJSONArray.length(); j++) {
+                                                if (unitJSONArray.getJSONObject(j).getString("id").equals(currentUnit)) {
+                                                    unitJSONArray.getJSONObject(j).put("musicVolume", nV);
+                                                }
+                                            }
+
+                                            /* Save new string to user database */
+                                            File f = new File(getFilesDir(), "userdatabase.json");
+                                            OutputStream outputStream = new FileOutputStream(f);
+                                            byte outputBytes[] = inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                                            outputStream.write(outputBytes);
+                                            outputStream.close();
+                                        }
+                                    }
+                                }
+
                                 lock.wait(200);
 
                             } catch (SocketTimeoutException ste) {
@@ -349,6 +428,8 @@ public class DataApplication extends Application {
                                 Log.e("Connection", "Attempt failed, " + connectAttempts + " attempts remain.");
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
+                            } catch (JSONException e){
+
                             }
                         }
                     }
@@ -375,12 +456,9 @@ public class DataApplication extends Application {
         }
 
         public void disconnectUnit(){
-            lock.lock();
-            try {
+            synchronized (lock){
                 currentIP = "";
                 msgQueue.clear();
-            } finally {
-                lock.unlock();
             }
         }
 

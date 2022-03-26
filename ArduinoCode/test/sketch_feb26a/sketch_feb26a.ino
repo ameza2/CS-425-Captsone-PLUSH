@@ -34,7 +34,9 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-  Serial.println("Version Code: 0005"); // Debugging, just to see if reset worked
+  Serial.println("Version Code: 0006"); // Debugging, just to see if reset worked
+
+  randomSeed(analogRead(0)); // Set up random seed (pin 0 needs to be disconnected)
 
   wifiMulti.addAP("wifi", "pw");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
@@ -135,6 +137,9 @@ void loop(void){
           if(action[i] == '/'){
             t++;
           }
+          if(action[i] == '\0'){
+            break;
+          }
           if(isdigit(action[i])){
             switch (t){
               case 0:
@@ -167,8 +172,11 @@ void loop(void){
         udp.endPacket();
 
         // FOR TESTING PURPOSES ONLY: The PLUSH Volume/Hug Sensitivity will randomly change.
-        if(false){
+        long rand = random(1000);
+        if(rand < 10){
           hugSen = 3;
+        }
+        if(rand > 990){
           musicVol = 30;
         }
     }
