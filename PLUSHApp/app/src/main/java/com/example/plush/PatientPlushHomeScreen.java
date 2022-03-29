@@ -83,15 +83,13 @@ public class PatientPlushHomeScreen extends AppCompatActivity {
                 startActivity(intent); // redirect page (PatientMusicScreen)
             }
         });
+    }
 
-        /* Back Button: return to PLUSH Home Page */
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                thisApplication.currentUnit = "";
-                Intent intent = new Intent(PatientPlushHomeScreen.this, PatientLoginScreen.class);
-                startActivity(intent); // page redirect (PatientLoginScreen)
-            }
-        });
+    // Back button should redirect to login screen
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(PatientPlushHomeScreen.this, PatientLoginScreen.class);
+        startActivity(intent);
     }
 
 }

@@ -12,11 +12,14 @@
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_hamburger_header.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_hamburger_toolbar.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_main.xml" value="0.2608695652173913" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_music_selection_screen.xml" value="0.35144927536231885" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_patient_login_screen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_patient_plush_home_screen.xml" value="0.35144927536231885" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_schedule_weekly_screen.xml" value="0.307518115942029" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_add_schedule.xml" value="0.3020833333333333" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_add_schedule_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_add_unit_screen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_edit_screen.xml" value="0.34692028985507245" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_feedback_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_home_screen.xml" value="0.2608695652173913" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_login_screen.xml" value="0.20520833333333333" />
@@ -27,6 +30,7 @@
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_remove_unit_screen.xml" value="0.20520833333333333" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_schedule_screen.xml" value="0.33" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_settings_screen.xml" value="0.20520833333333333" />
+        <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_software_details_screen.xml" value="0.34692028985507245" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_staff_support_screen.xml" value="0.3229166666666667" />
         <entry key="..\:/Code/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/menu/hamburger_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NevLo/Documents/GitHub/CS-425-Captsone-PLUSH/PLUSHApp/app/src/main/res/layout/activity_hamburger_contentmain.xml" value="0.24444444444444444" />

@@ -164,17 +164,6 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
             }
         });
 
-        /* Back Button: return to PLUSH Home Page */
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                synchronized (thisApplication.connectedThread2.lock) {
-                    thisApplication.currentUnit = "";
-                    Intent intent = new Intent(StaffPlushUnitScreen.this, StaffHomeScreen.class);
-                    startActivity(intent); // page redirect (StaffHomeScreen)
-                }
-            }
-        });
-
         connectionRetryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 connectionThread = new UnitConnectionThread();
@@ -195,8 +184,8 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
     /* Add Units After Pressing Back */
     @Override
     public void onBackPressed(){
-        super.onBackPressed();
-        thisApplication.currentUnit = "";
+        Intent intent = new Intent(StaffPlushUnitScreen.this, StaffHomeScreen.class);
+        startActivity(intent); // page redirect (StaffHomeScreen)
     }
 
     public class UnitConnectionThread extends Thread{
@@ -233,4 +222,5 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         connectionCloseButton.setVisibility(closeButtonOn ? VISIBLE : GONE);
         connectionText.setText(text);
     }
+
 }

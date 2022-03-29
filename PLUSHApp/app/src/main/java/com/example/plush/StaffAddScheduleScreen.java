@@ -217,19 +217,16 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
                                         //Log.d("valid", "Hug schedule activated!");
                                         //To be replaced with actual arduino command
                                         //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
-                                        System.out.println("Hug schedule activated!");
                                     }
                                     else if(scheduleIndex == 1) {
                                         //Log.d("valid", "Music schedule activated!");
                                         //To be replaced with actual arduino command
                                         //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
-                                        System.out.println("Music schedule activated!");
                                     }
                                     else if(scheduleIndex == 2) {
                                         // Log.d("valid", "Other schedule activated!");
                                         //To be replaced with actual arduino command
                                         //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
-                                        System.out.println("Other schedule activated!");
                                     }
                                 }
                             },
