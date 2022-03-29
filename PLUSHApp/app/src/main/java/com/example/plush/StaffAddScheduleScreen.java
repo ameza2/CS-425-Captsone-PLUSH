@@ -126,7 +126,7 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
                         timeSetListener,
                         hour, minute,
                         false);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                 dialog.show();
             }
         });
