@@ -37,6 +37,9 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.widget.ScrollView;
 import android.widget.TimePicker;
@@ -55,6 +58,7 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
     int scheduleIndex;
     String date = "";
     String time = "";
+    Calendar currCal;
 
     /* Initialize Page Activity (Add PLUSH Unit Screen) */
     @Override
@@ -87,6 +91,7 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
+                currCal = cal;
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         StaffAddScheduleScreen.this,
@@ -129,6 +134,8 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
 //                Log.d("valid","onTimeSet: h:mm : " + hour + ":" + minute);
+                currCal.set(Calendar.HOUR_OF_DAY, hour);
+                currCal.set(Calendar.MINUTE, minute);
 
                 if(hour > 12){
                     if(minute < 10){
@@ -197,6 +204,37 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
                        // Log.d("valid", "selected Other");
                         thisApplication.currUnitData().otherSchedule.add(date + "," + time);
                     }
+
+                    //Add schedule to timer
+                    Timer t = new Timer();
+                    Date date = currCal.getTime();
+                    t.schedule(
+                            new TimerTask()
+                            {
+                                public void run()
+                                {
+                                    if(scheduleIndex == 0) {
+                                        //Log.d("valid", "Hug schedule activated!");
+                                        //To be replaced with actual arduino command
+                                        //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
+                                        System.out.println("Hug schedule activated!");
+                                    }
+                                    else if(scheduleIndex == 1) {
+                                        //Log.d("valid", "Music schedule activated!");
+                                        //To be replaced with actual arduino command
+                                        //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
+                                        System.out.println("Music schedule activated!");
+                                    }
+                                    else if(scheduleIndex == 2) {
+                                        // Log.d("valid", "Other schedule activated!");
+                                        //To be replaced with actual arduino command
+                                        //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
+                                        System.out.println("Other schedule activated!");
+                                    }
+                                }
+                            },
+                            date);      // run task on date
+
 //
                     /* Update JSON File */
                     try {

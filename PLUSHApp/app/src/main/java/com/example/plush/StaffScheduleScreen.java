@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.plush.data.DataApplication;
 
@@ -23,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class StaffScheduleScreen extends AppCompatActivity { // StaffScheduleScreen w/ action activities
@@ -176,5 +179,12 @@ public class StaffScheduleScreen extends AppCompatActivity { // StaffScheduleScr
 
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,arrayList);
         listView.setAdapter(arrayAdapter);
+    }
+
+    // Back button should redirect to unit scren
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(StaffScheduleScreen.this, StaffPlushUnitScreen.class);
+        startActivity(intent);
     }
 }
