@@ -39,7 +39,6 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
     Button scheduleButton; // button variable: schedule button (view upcoming events w/ calendar feature)
     Button musicButton; // button variable: music button (configure music settings)
     Button shutdownButton; // button variable: shutdown button (deactivate PLUSH unit and prompt alert message)
-    Button backButton; // button variable: sends users back to the unit page
     SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
     TextView sensitivityText; // textview variable: used to display hug sensitivity
 
@@ -65,7 +64,6 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         scheduleButton = (Button) findViewById (R.id.scheduleButton);
         musicButton = (Button) findViewById (R.id.musicButton);
         shutdownButton = (Button) findViewById (R.id.shutdownButton);
-        backButton = (Button) findViewById (R.id.backtounitbutton);
         sensitivityBar = findViewById(R.id.sensitivityBar);
         sensitivityText = findViewById(R.id.sensitivityText);
         thisApplication = (DataApplication) getApplication();
