@@ -32,7 +32,6 @@ public class PatientPlushHomeScreen extends AppCompatActivity {
     TextView unitID; // textview variable: used to store PLUSH PID from PLUSH instance
     DataApplication thisApplication; // data application: file manipulation
     Button musicButton; // button variable: music button (configure music settings)
-    Button backButton; // button variable: sends users back to the unit page
     SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
     TextView sensitivityText; // textview variable: used to display hug sensitivity
     int sensitivity;
@@ -47,7 +46,6 @@ public class PatientPlushHomeScreen extends AppCompatActivity {
         roomNum = (TextView) findViewById (R.id.roomNum);
         unitID = (TextView) findViewById (R.id.unitID);
         musicButton = (Button) findViewById (R.id.musicButton);
-        backButton = (Button) findViewById (R.id.backtounitbutton);
         sensitivityBar = findViewById(R.id.sensitivityBar);
         sensitivityText = findViewById(R.id.sensitivityText);
         thisApplication = (DataApplication) getApplication();
