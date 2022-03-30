@@ -36,28 +36,32 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 File f;
 TMRpcm Audio;
 
-
-Stepper myStepperL1(64, 30, 31, 32, 33); // (steps per revolution, pins)
-Stepper myStepperL2(64, 34, 35, 36, 37); // (steps per revolution, pins)
-Stepper myStepperR1(64, 38, 39, 40, 41); // (steps per revolution, pins)
-Stepper myStepperR2(64, 42, 43, 44, 45); // (steps per revolution, pins)
+//
+const int stepsPerRevolution = 2048;
+Stepper myStepperL1 = Stepper(stepsPerRevolution, 36, 38, 37, 39); // (steps per revolution, pins)
+Stepper myStepperL2 = Stepper(stepsPerRevolution, 40, 42, 41, 43); // (steps per revolution, pins)
+//Stepper myStepperR1(stepsPerRevolution, 38, 39, 40, 41); // (steps per revolution, pins)
+//Stepper myStepperR2(stepsPerRevolution, 42, 43, 44, 45); // (steps per revolution, pins)
 //Logger logger;
 /*
    Pin assignments:
    Variables holding the pin locations for various I/O
 */
-const int musicButton     = 19;
-const int hugButton       = 18;
-const int emergencyButton = 2;
-const int helpButton      = 3;
+const int musicButton     = 4;
+const int hugButton       = 5;
+const int emergencyButton = 6;
+const int helpButton      = 7;
+const int volumeDownButton= 48;
+const int volumeUpButton  = 49;
 const int speakerOutPin   = 12;
-unsigned const volumeDial = A5;
 unsigned const LED_R      = 10;
-unsigned const LED_B      = 8;
 unsigned const LED_G      = 9;
+unsigned const LED_B      = 8;
+
+const int buttonInterruptPin = 2;
 
 bool hugFlag = false;
-int hugCounter = 0;
+int hugDuration = 5000; // hug duration (ms)
 
 
 /*
@@ -76,31 +80,54 @@ boolean buttonChanged = false;
 */
 int counter = 0;
 bool musicToggle = false; // boolean  variable: used to store music toggle
-unsigned int newVolume = 0; // variable: used to store new volume setting
-unsigned int oldVolume = 0; // variable: used to store old volume setting
+int newVolume = 0; // variable: used to store new volume setting
+int oldVolume = 0; // variable: used to store old volume setting
 /*
    Interrupt Functions
 */
-void toggleMusic() {
-  musicToggle = !musicToggle; // switch the state of the musictoggle
-  if (musicToggle) counter = 0; // if the music toggle is high (because it doesnt update until after the end of the method) set the counter to 0
-  currentPressedButton = buttonMessages[0];
-  buttonChanged = true;
+
+void buttonInterrupts() {
+  Serial.println("INTERTUPTION OCCURED");
+  Serial.print(digitalRead(helpButton));
+  Serial.print(digitalRead(emergencyButton));
+  Serial.print(digitalRead(hugButton));
+  Serial.print(digitalRead(musicButton));
+  Serial.print(digitalRead(volumeDownButton));
+  Serial.print(digitalRead(volumeUpButton));
+
+
+  
+  if(digitalRead(musicButton)){
+    musicToggle = !musicToggle; // switch the state of the musictoggle
+    if (musicToggle) counter = 0; // if the music toggle is high (because it doesnt update until after the end of the method) set the counter to 0
+    currentPressedButton = buttonMessages[0];
+    buttonChanged = true;
+    Serial.println("Music Button Changed");
+  }
+  else if(digitalRead(hugButton)){
+    currentPressedButton = buttonMessages[1];
+    buttonChanged = true;
+    hugFlag = !hugFlag;
+    Serial.println("Hug Button Changed");
+  }
+  else if(digitalRead(emergencyButton)){
+    currentPressedButton = buttonMessages[2];
+    buttonChanged = true;
+    Serial.println("Emergency Button Changed");
+  }
+  else if(digitalRead(helpButton)){
+    currentPressedButton = buttonMessages[3];
+    buttonChanged = true;
+    
+  }
+  else if(digitalRead(volumeDownButton)){
+    newVolume = max(0, newVolume--);
+  }
+  else if(digitalRead(volumeUpButton)){
+    newVolume = min(10, newVolume++); 
+  }
 }
-void LCDPrintHelp() {
-  currentPressedButton = buttonMessages[3];
-  buttonChanged = true;
-}
-void LCDPrintEmergency() {
-  currentPressedButton = buttonMessages[2];
-  buttonChanged = true;
-}
-void LCDPrintHug() {
-  currentPressedButton = buttonMessages[1];
-  buttonChanged = true;
-  hugFlag = !hugFlag;
-  hugCounter = 2000;
-}
+
 /*
    Helper Functions
 */
@@ -128,12 +155,12 @@ void setup() {
   pinMode(helpButton, INPUT_PULLUP);
   pinMode(emergencyButton, INPUT_PULLUP);
   pinMode(hugButton, INPUT_PULLUP);
-  for(int i = 30; i < 46; i++) pinMode(i, OUTPUT);
+  pinMode(volumeDownButton, INPUT_PULLUP);
+  pinMode(volumeUpButton, INPUT_PULLUP);
+  for(int i = 36; i <= 43; i++) pinMode(i, OUTPUT); //for motors
   
-  attachInterrupt(digitalPinToInterrupt(musicButton), toggleMusic, RISING);
-  attachInterrupt(digitalPinToInterrupt(helpButton), LCDPrintHelp, RISING);
-  attachInterrupt(digitalPinToInterrupt(emergencyButton), LCDPrintEmergency, RISING);
-  attachInterrupt(digitalPinToInterrupt(hugButton), LCDPrintHug, RISING);
+  attachInterrupt(digitalPinToInterrupt(buttonInterruptPin), buttonInterrupts, RISING);
+  
 
   // Output Pins //
   pinMode(speakerOutPin, OUTPUT);
@@ -144,22 +171,22 @@ void setup() {
   lcd.begin();
   lcd.backlight();
 
-  if (!SD.begin()) {
-    Serial.println("SD CARD UNINITIALIZED");
-  }
-  if (!SD.exists("NGGYU.wav")) {
-    Serial.println("NO WAV FILE FOUND WITH THIS NAME");
-  }
-  f = SD.open("NGGYU.wav");
+//  if (!SD.begin()) {
+//    Serial.println("SD CARD UNINITIALIZED");
+//  }
+//  if (!SD.exists("NGGYU.wav")) {
+//    Serial.println("NO WAV FILE FOUND WITH THIS NAME");
+//  }
+//  f = SD.open("NGGYU.wav"); 
   Audio.speakerPin = 12;
   Audio.play("NGGYU.wav");
   Audio.setVolume(7);
   
   // in rpm
-  myStepperL1.setSpeed(1000);
-  myStepperL2.setSpeed(1000);
-  myStepperR1.setSpeed(1000);
-  myStepperR2.setSpeed(1000);
+  myStepperL1.setSpeed(5);
+  myStepperL2.setSpeed(5);
+  //myStepperR1.setSpeed(1000);
+  //myStepperR2.setSpeed(1000);
 }
 
 
@@ -168,21 +195,24 @@ void setup() {
 */
 void loop() {
   if(hugFlag){
-    if(hugCounter!=0){
-      // # of steps
-      myStepperL1.step(20);
-      myStepperL2.step(20);
-      myStepperR1.step(20);
-      myStepperR2.step(20);
-      hugCounter--;
-    }
-    else{
-      hugFlag = false;
-    }
+    // # of steps
+    myStepperL1.step(stepsPerRevolution/4);
+    myStepperL2.step(stepsPerRevolution/4);
+//    myStepperR1.step(20);
+//    myStepperR2.step(20);
+
+    delay(hugDuration);
+    
+    myStepperL2.step(stepsPerRevolution/4 * -1);
+    myStepperL1.step(stepsPerRevolution/4 * -1);
+  
+    hugFlag = !hugFlag;
   }
-  Serial.print(Audio.isPlaying());
-  newVolume = analogRead(volumeDial);
-  newVolume = map(newVolume, 0, 1024, 0, 100);
+
+  
+  //Serial.print(Audio.isPlaying());
+  //newVolume = analogRead(volumeDial);
+  //newVolume = map(newVolume, 0, 1024, 0, 100);
 
   // Play PLUSH Music
   if (musicToggle) {
