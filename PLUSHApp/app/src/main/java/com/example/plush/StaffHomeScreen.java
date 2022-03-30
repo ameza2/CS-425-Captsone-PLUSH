@@ -25,12 +25,11 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffHomeScreen extends AppCompatActivity {
+public class StaffHomeScreen extends AppPLUSHActivity {
 
     ScrollView unitListScrollView;
     Button AddButton;
     Button RemoveButton;
-    DataApplication thisApplication;
 
     //Hamburger menu declarations
     DrawerLayout hamburgerLayout;
@@ -94,7 +93,6 @@ public class StaffHomeScreen extends AppCompatActivity {
             }
         });
 
-        thisApplication = (DataApplication)getApplication();
         //Important as add/edit unit use the same screen
         thisApplication.currentUnit = "";
 

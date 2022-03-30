@@ -45,7 +45,7 @@ import android.widget.ScrollView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitScreen w/ action activities
+public class StaffAddScheduleScreen extends AppPLUSHActivity { // StaffAddUnitScreen w/ action activities
 
     Button dateButton; // button variable: date selection button
     Button timeButton; // button variable: time selection button
@@ -72,7 +72,6 @@ public class StaffAddScheduleScreen extends AppCompatActivity { // StaffAddUnitS
         AddScheduleButton = (Button) findViewById(R.id.buttonAddSchedule);
         scheduleGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
-        thisApplication = (DataApplication)getApplication();
 
         //Schedule button Selection
         scheduleGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

@@ -5,7 +5,7 @@ package com.example.plush;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class staff_SoftwareDetailsScreen extends AppCompatActivity { // SoftwareDetailsScreen w/ action activity
+public class staff_SoftwareDetailsScreen extends AppPLUSHActivity { // SoftwareDetailsScreen w/ action activity
 
     /* Initialize Page Activity (Software Details Screen) */
     @Override

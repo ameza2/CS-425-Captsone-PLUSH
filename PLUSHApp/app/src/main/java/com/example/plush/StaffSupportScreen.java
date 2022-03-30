@@ -19,7 +19,7 @@ import android.util.Log;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StaffSupportScreen extends AppCompatActivity { // StaffSupportScreen w/ action activities
+public class StaffSupportScreen extends AppPLUSHActivity { // StaffSupportScreen w/ action activities
 
     /*
 

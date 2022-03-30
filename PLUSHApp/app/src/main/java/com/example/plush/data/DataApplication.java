@@ -1,5 +1,6 @@
 package com.example.plush.data;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.res.AssetManager;
 import android.icu.util.Output;
@@ -68,6 +69,13 @@ public class DataApplication extends Application {
     public String currentUser;
     public String currentUnit;
     public JSONObject inputJSON;
+
+
+    // ACTIVITY CODE: Will allow the application to do things with the current activity
+    private Activity currActivity = null;
+    public Activity getCurrActivity(){return currActivity;}
+    public void setCurrActivity(Activity a){currActivity = a;}
+
 
     @Override
     public void onCreate() {

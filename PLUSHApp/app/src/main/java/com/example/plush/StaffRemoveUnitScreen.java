@@ -32,12 +32,11 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class StaffRemoveUnitScreen extends AppCompatActivity { // StaffRemoveUnitScreen w/ action activities
+public class StaffRemoveUnitScreen extends AppPLUSHActivity { // StaffRemoveUnitScreen w/ action activities
 
     ScrollView unitListScrollView; // scrollview variable: used to scroll through PLUSH unit list
     Button RemoveButton; // button variable: remove button (initiate PLUSH unit removal)
 
-    DataApplication thisApplication;
 
     private ArrayList<Button> buttonList; // array consisting of buttons
     private ArrayList<String> buttonIDList; // array consisting of button IDs
@@ -52,7 +51,6 @@ public class StaffRemoveUnitScreen extends AppCompatActivity { // StaffRemoveUni
         unitListScrollView = (ScrollView)findViewById(R.id.scrollviewremoval);
         RemoveButton = (Button)findViewById(R.id.removeUnitConfirmButton);
 
-        thisApplication = (DataApplication)getApplication();
 
         /* Load the Buttons */
 

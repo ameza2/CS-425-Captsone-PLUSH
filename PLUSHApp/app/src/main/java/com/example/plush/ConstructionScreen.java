@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ConstructionScreen extends AppCompatActivity {
+public class ConstructionScreen extends AppPLUSHActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -14,12 +14,11 @@ import android.widget.EditText;
 /* DataApplication File */
 import com.example.plush.data.DataApplication;
 
-public class StaffLoginScreen extends AppCompatActivity {
+public class StaffLoginScreen extends AppPLUSHActivity {
 
     Button LoginButton; // button variable: login button (redirect user to home page if credentials pass)
     EditText UsernameEditText; // text variable: used to store user username
     EditText PasswordEditText; // text variable: used to store user password
-    DataApplication thisApplication; // data application variable: used for file manipulation
 
     /* Initialize Page Activity (Staff Login Screen) */
     @Override
@@ -31,7 +30,6 @@ public class StaffLoginScreen extends AppCompatActivity {
         UsernameEditText = (EditText) findViewById(R.id.editTextTextPersonName);
         PasswordEditText = (EditText) findViewById(R.id.editTextTextPassword);
 
-        thisApplication = (DataApplication)getApplication();
 
         /* Login Button: fetch username and password string, then conduct a credential check. If username and password are valid entries (same hash value (TBD)), redirect staff user to home screen */
         LoginButton.setOnClickListener(new View.OnClickListener() {

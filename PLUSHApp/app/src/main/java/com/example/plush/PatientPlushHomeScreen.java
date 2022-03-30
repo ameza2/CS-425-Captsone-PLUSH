@@ -25,12 +25,11 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class PatientPlushHomeScreen extends AppCompatActivity {
+public class PatientPlushHomeScreen extends AppPLUSHActivity {
     ScrollView unitListScrollView;
 
     TextView roomNum; // textview variable: used to store patient room number from PLUSH instance
     TextView unitID; // textview variable: used to store PLUSH PID from PLUSH instance
-    DataApplication thisApplication; // data application: file manipulation
     Button musicButton; // button variable: music button (configure music settings)
     SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
     TextView sensitivityText; // textview variable: used to display hug sensitivity
@@ -48,7 +47,6 @@ public class PatientPlushHomeScreen extends AppCompatActivity {
         musicButton = (Button) findViewById (R.id.musicButton);
         sensitivityBar = findViewById(R.id.sensitivityBar);
         sensitivityText = findViewById(R.id.sensitivityText);
-        thisApplication = (DataApplication) getApplication();
 
 
         /* Pass the plush ID and room number from the home screen */

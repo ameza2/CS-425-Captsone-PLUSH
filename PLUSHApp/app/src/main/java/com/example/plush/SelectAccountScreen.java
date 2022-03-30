@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class SelectAccountScreen extends AppCompatActivity { // SelectAccountScreen w/ action activities
+public class SelectAccountScreen extends AppPLUSHActivity { // SelectAccountScreen w/ action activities
 
     Button StaffButton; // button initialization: staff
     Button PatientButton; // button initialization: patient

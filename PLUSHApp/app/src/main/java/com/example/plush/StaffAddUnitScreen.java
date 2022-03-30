@@ -30,14 +30,13 @@ import java.nio.charset.StandardCharsets;
 
 import android.widget.Toast;
 
-public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScreen w/ action activities
+public class StaffAddUnitScreen extends AppPLUSHActivity { // StaffAddUnitScreen w/ action activities
 
     EditText IDEditText; // text variable: used to store PLUSH PID
     EditText RoomEditText; // text variable: used to store patient room/bed number
     Button AddUnitButton; // button variable: addUnit button (append PLUSH unit to account)
     RadioGroup sexGroup; // button group variable: used to identify patient sex from group of buttons
     RadioButton sexButton; // button group variable: used to store patient sex
-    DataApplication thisApplication; // data application variable: used for file manipulation
 
     /* Initialize Page Activity (Add PLUSH Unit Screen) */
     @Override
@@ -53,7 +52,6 @@ public class StaffAddUnitScreen extends AppCompatActivity { // StaffAddUnitScree
         int sexID = sexGroup.getCheckedRadioButtonId(); // fetch sex option from button input
         sexButton = findViewById(sexID);
 
-        thisApplication = (DataApplication)getApplication();
 
         /* Add Unit Button: Create a string using PLUSH properties, and append PLUSH unit to user's database entry */
         AddUnitButton.setOnClickListener(new View.OnClickListener() {

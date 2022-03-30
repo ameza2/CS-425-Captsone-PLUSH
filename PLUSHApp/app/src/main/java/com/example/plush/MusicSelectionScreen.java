@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MusicSelectionScreen extends AppCompatActivity { // MusicSelectionScreen w/ action activities
+public class MusicSelectionScreen extends AppPLUSHActivity { // MusicSelectionScreen w/ action activities
     Button selectButton; // button variable: song selection button
     ListView listView;
     TextView trackSelected;

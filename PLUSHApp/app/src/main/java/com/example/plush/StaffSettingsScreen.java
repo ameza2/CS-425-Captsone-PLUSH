@@ -19,7 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-public class StaffSettingsScreen extends AppCompatActivity{ // StaffSettingsScreen w/ action activities
+public class StaffSettingsScreen extends AppPLUSHActivity{ // StaffSettingsScreen w/ action activities
 
     Button softwareDetailsButton; // button variable: software details button (redirect user to software info page)
     SwitchCompat darkModeSwitch; // dark mode switch: will change the app's theme to dark mode

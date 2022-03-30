@@ -11,11 +11,10 @@ import android.widget.EditText;
 
 import com.example.plush.data.DataApplication;
 
-public class PatientLoginScreen extends AppCompatActivity { // PatientLoginScreen w/ action activities
+public class PatientLoginScreen extends AppPLUSHActivity { // PatientLoginScreen w/ action activities
 
     Button button; // button variable: login button
     EditText plushIDEditText; // Text entry for patient login
-    DataApplication thisApplication; // data application variable: used for file manipulation
 
     /* Initialize Page Activity (Patient Login Screen) */
     @Override
@@ -25,7 +24,6 @@ public class PatientLoginScreen extends AppCompatActivity { // PatientLoginScree
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_login_screen);
 
-        thisApplication = (DataApplication)getApplication();
 
         plushIDEditText = (EditText) findViewById(R.id.editTextTextPersonName2);
 

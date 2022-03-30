@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class StaffFeedbackScreen extends AppCompatActivity { // StaffFeedbackScreen w/ action activities
+public class StaffFeedbackScreen extends AppPLUSHActivity { // StaffFeedbackScreen w/ action activities
 
     /* Variable Initialization (feedback options) */
     TextView tvFeedback;

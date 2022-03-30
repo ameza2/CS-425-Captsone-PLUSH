@@ -28,7 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class StaffScheduleScreen extends AppCompatActivity { // StaffScheduleScreen w/ action activities
+public class StaffScheduleScreen extends AppPLUSHActivity { // StaffScheduleScreen w/ action activities
 
     Calendar c = Calendar.getInstance();
     SimpleDateFormat date = new SimpleDateFormat("M/d/yyyy");
@@ -40,7 +40,6 @@ public class StaffScheduleScreen extends AppCompatActivity { // StaffScheduleScr
     Button RemoveButton;
     ListView listView;
     ScrollView unitListScrollView;
-    DataApplication thisApplication; // data application variable: used for file manipulation
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayList<String> currDayHug = new ArrayList<>();
     ArrayList<String> currDayMusic = new ArrayList<>();
@@ -53,7 +52,6 @@ public class StaffScheduleScreen extends AppCompatActivity { // StaffScheduleScr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_staff_schedule_screen);
-        thisApplication = (DataApplication) getApplication();
 
         calendarView = (CalendarView) findViewById(R.id.calendarView);
         dateDisplay = (TextView) findViewById(R.id.date_display);

@@ -14,9 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.plush.data.DataApplication;
 
-public class DebugScreen extends AppCompatActivity {
+public class DebugScreen extends AppPLUSHActivity {
 
-    DataApplication application;
 
     TextView ipText;
     TextView messageText;
@@ -31,7 +30,6 @@ public class DebugScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug_main);
 
-        application = (DataApplication) getApplication();
         ipText = findViewById(R.id.debugTextIP);
         messageText = findViewById(R.id.debugTextMessage);
         connectButton = findViewById(R.id.debugButtonConnect);

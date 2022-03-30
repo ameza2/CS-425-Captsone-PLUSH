@@ -31,10 +31,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitScreen w/ action activities
+public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitScreen w/ action activities
     TextView roomNum; // textview variable: used to store patient room number from PLUSH instance
     TextView unitID; // textview variable: used to store PLUSH PID from PLUSH instance
-    DataApplication thisApplication; // data application: file manipulation
     Button editButton; // button variable: edit button (view/modify patient information)
     Button scheduleButton; // button variable: schedule button (view upcoming events w/ calendar feature)
     Button musicButton; // button variable: music button (configure music settings)
@@ -66,7 +65,6 @@ public class StaffPlushUnitScreen extends AppCompatActivity { // StaffPlushUnitS
         shutdownButton = (Button) findViewById (R.id.shutdownButton);
         sensitivityBar = findViewById(R.id.sensitivityBar);
         sensitivityText = findViewById(R.id.sensitivityText);
-        thisApplication = (DataApplication) getApplication();
         connectionText = (TextView) findViewById(R.id.connectionTextView);
         connectionCloseButton = (Button) findViewById(R.id.closeConnectionButton);
         connectionRetryButton = (Button) findViewById(R.id.retryConnectionButton);
