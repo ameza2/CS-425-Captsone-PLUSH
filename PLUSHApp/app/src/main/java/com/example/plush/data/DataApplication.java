@@ -19,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.plush.StaffMusicScreen;
+import com.example.plush.StaffPlushUnitScreen;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -398,6 +400,16 @@ public class DataApplication extends Application {
                                             outputStream.close();
                                         }
                                     }
+
+                                    if(currActivity instanceof StaffPlushUnitScreen){
+                                        currActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((StaffPlushUnitScreen) currActivity).sensitivityText.setText("Hug Sensitivity: " + String.valueOf(currUnitData().hugSensitivity));
+                                                ((StaffPlushUnitScreen) currActivity).sensitivityBar.setProgress(currUnitData().hugSensitivity);
+                                            }
+                                        });
+                                    }
                                 }
                                 if(nV != currUnitData().musicVolume){
                                     JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
@@ -420,6 +432,16 @@ public class DataApplication extends Application {
                                             outputStream.write(outputBytes);
                                             outputStream.close();
                                         }
+                                    }
+
+                                    if(currActivity instanceof StaffMusicScreen) {
+                                        currActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((StaffMusicScreen)currActivity).musicVolumeText.setText("Music Volume: " + String.valueOf(currUnitData().musicVolume + 1));
+                                                ((StaffMusicScreen)currActivity).volumeBar.setProgress(currUnitData().musicVolume);
+                                            }
+                                        });
                                     }
                                 }
 

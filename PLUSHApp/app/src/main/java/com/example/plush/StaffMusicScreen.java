@@ -29,8 +29,8 @@ import java.nio.charset.StandardCharsets;
 
 public class StaffMusicScreen extends AppPLUSHActivity { // StaffMusicScreen w/ action activities
     Switch musicToggle; // switch variable: used to toggle PLUSH unit music
-    SeekBar volumeBar; // seekbar variable: used to adjust PLUSH unit volume level
-    TextView musicVolumeText; // textview variable: used to indicate PLUSH unit volume level
+    public SeekBar volumeBar; // seekbar variable: used to adjust PLUSH unit volume level
+    public TextView musicVolumeText; // textview variable: used to indicate PLUSH unit volume level
     Button musicSelection; // button variable: used to select music option (page redirection)
 
     int volume; // variable: used to store PLUSH unit volume level (1 - 100)
@@ -47,9 +47,6 @@ public class StaffMusicScreen extends AppPLUSHActivity { // StaffMusicScreen w/ 
         musicSelection = findViewById(R.id.musicselectionButton);
         musicVolumeText = findViewById(R.id.musicvolumeText);
 
-        /* Set volume bar */
-        musicVolumeText .setText("Music Volume: " + String.valueOf(thisApplication.currUnitData().musicVolume + 1));
-        volumeBar.setProgress(thisApplication.currUnitData().musicVolume);
 
         /* Volume Bar: change volume level using widget slider */
         volumeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() { //
@@ -103,6 +100,7 @@ public class StaffMusicScreen extends AppPLUSHActivity { // StaffMusicScreen w/ 
             }
         });
 
+
         /* Music Selection Button: redirect user to MusicSelection page */
         musicSelection.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -118,5 +116,12 @@ public class StaffMusicScreen extends AppPLUSHActivity { // StaffMusicScreen w/ 
                 // TO DO: Implement Music Player tied to PLUSH Unit //
             }
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        musicVolumeText .setText("Music Volume: " + String.valueOf(thisApplication.currUnitData().musicVolume + 1));
+        volumeBar.setProgress(thisApplication.currUnitData().musicVolume);
     }
 }

@@ -38,8 +38,8 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
     Button scheduleButton; // button variable: schedule button (view upcoming events w/ calendar feature)
     Button musicButton; // button variable: music button (configure music settings)
     Button shutdownButton; // button variable: shutdown button (deactivate PLUSH unit and prompt alert message)
-    SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
-    TextView sensitivityText; // textview variable: used to display hug sensitivity
+    public SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
+    public TextView sensitivityText; // textview variable: used to display hug sensitivity
 
     TextView connectionText; // textview variable: used to show current connection status
     Button connectionRetryButton; // button variable: used to retry connection
@@ -75,9 +75,6 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
         roomNum.setText("Room " + thisApplication.currUnitData().room);
         unitID.setText("Unit #" + thisApplication.currUnitData().id);
 
-        /* Pass the currently set sensitivity */
-        sensitivityText.setText("Hug Sensitivity: " + String.valueOf(thisApplication.currUnitData().hugSensitivity));
-        sensitivityBar.setProgress(thisApplication.currUnitData().hugSensitivity);
 
         /* Hug Sensitivity Bar: used to calibrate PLUSH hug sensitivity */
         sensitivityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -182,6 +179,13 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
     public void onBackPressed(){
         Intent intent = new Intent(StaffPlushUnitScreen.this, StaffHomeScreen.class);
         startActivity(intent); // page redirect (StaffHomeScreen)
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        sensitivityText.setText("Hug Sensitivity: " + String.valueOf(thisApplication.currUnitData().hugSensitivity));
+        sensitivityBar.setProgress(thisApplication.currUnitData().hugSensitivity);
     }
 
     public class UnitConnectionThread extends Thread{
