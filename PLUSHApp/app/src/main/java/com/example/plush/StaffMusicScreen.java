@@ -113,7 +113,8 @@ public class StaffMusicScreen extends AppPLUSHActivity { // StaffMusicScreen w/ 
         musicToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TO DO: Implement Music Player tied to PLUSH Unit //
+                String x = isChecked ? "1" : "0";
+                DataApplication.connectedThread2.send("PMUS:" + x);
             }
         });
     }

@@ -36,6 +36,7 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
     TextView unitID; // textview variable: used to store PLUSH PID from PLUSH instance
     Button editButton; // button variable: edit button (view/modify patient information)
     Button scheduleButton; // button variable: schedule button (view upcoming events w/ calendar feature)
+    Button hugButton; // button variable: hug button (unit hugs patient)
     Button musicButton; // button variable: music button (configure music settings)
     Button shutdownButton; // button variable: shutdown button (deactivate PLUSH unit and prompt alert message)
     public SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
@@ -61,6 +62,7 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
         unitID = (TextView) findViewById (R.id.unitID);
         editButton = (Button) findViewById (R.id.editButton);
         scheduleButton = (Button) findViewById (R.id.scheduleButton);
+        hugButton = (Button) findViewById (R.id.hugPatientButton);
         musicButton = (Button) findViewById (R.id.musicButton);
         shutdownButton = (Button) findViewById (R.id.shutdownButton);
         sensitivityBar = findViewById(R.id.sensitivityBar);
@@ -139,6 +141,13 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
             public void onClick(View v) {
                 Intent intent = new Intent(StaffPlushUnitScreen.this, StaffScheduleScreen.class);
                 startActivity(intent); // redirect page (StaffScheduleScreen)
+            }
+        });
+
+        /* Hug Button: used to hug the patient */
+        hugButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                DataApplication.connectedThread2.send("HUGP:1");
             }
         });
 

@@ -202,6 +202,42 @@ void loop(void){
         udp.write(incomingPacket);
         udp.endPacket();
     }
+
+    //=====================================================================================
+    // Command HUGP: App orders bear to hug/stop hugging patient.
+    //=====================================================================================
+    if(strcmp(cmd, "HUGP") == 0){
+        int toHug = atoi(action);
+
+        if(toHug == 1){
+          startHug();
+        }
+        else{
+          stopHug();
+        }
+        
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.write(incomingPacket);
+        udp.endPacket();
+    }
+
+    //=====================================================================================
+    // Command PMUS: App orders music to play/stop playing from speakers.
+    //=====================================================================================
+    if(strcmp(cmd, "PMUS") == 0){
+        int toPlay = atoi(action);
+
+        if(toPlay == 1){
+          startMusic();
+        }
+        else{
+          stopMusic();
+        }
+        
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.write(incomingPacket);
+        udp.endPacket();
+    }
   }
 }
 
@@ -214,4 +250,24 @@ void handleRoot() {                          // When URI / is requested, send a 
 
 void handleNotFound(){
   server.send(404, "text/plain", "404: Not found"); // Send HTTP status 404 (Not Found) when there's no handler for the URI in the request
+}
+
+//---------------------------------------------------------
+// This is where the hardware code comes in
+//---------------------------------------------------------
+
+void startHug(){
+ Serial.printf("Started Hug!"); 
+}
+
+void stopHug(){
+ Serial.printf("Stopped Hug!"); 
+}
+
+void startMusic(){
+ Serial.printf("Started Music!"); 
+}
+
+void stopMusic(){
+ Serial.printf("Stopped Music!"); 
 }

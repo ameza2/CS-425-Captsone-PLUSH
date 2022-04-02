@@ -34,9 +34,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/hugPatientButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="128dp"
+        android:text="Hug"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sensitivityBar" />
+
+    <Button
         android:id="@+id/musicButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
         android:layout_marginTop="61dp"
         android:text="Music"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +115,8 @@
         android:id="@+id/connectionLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:translationZ="10dp">
+        android:translationZ="10dp"
+        tools:visibility="gone">
 
         <View
             android:id="@+id/view"
