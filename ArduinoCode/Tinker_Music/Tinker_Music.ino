@@ -38,8 +38,7 @@ TMRpcm Audio;
 
 //
 const int stepsPerRevolution = 2048;
-Stepper myStepperL1 = Stepper(stepsPerRevolution, 36, 38, 37, 39); // (steps per revolution, pins)
-Stepper myStepperL2 = Stepper(stepsPerRevolution, 40, 42, 41, 43); // (steps per revolution, pins)
+
 //Stepper myStepperR1(stepsPerRevolution, 38, 39, 40, 41); // (steps per revolution, pins)
 //Stepper myStepperR2(stepsPerRevolution, 42, 43, 44, 45); // (steps per revolution, pins)
 //Logger logger;
@@ -59,6 +58,11 @@ unsigned const LED_G      = 9;
 unsigned const LED_B      = 8;
 
 const int buttonInterruptPin = 2;
+const int recieverInterruptPin = 3;
+const int[] recieverDataPins = {24,25,26,27,28,29,30,31,32,33};
+
+Stepper myStepperL1 = Stepper(stepsPerRevolution, 36, 38, 37, 39); // (steps per revolution, pins)
+Stepper myStepperL2 = Stepper(stepsPerRevolution, 40, 42, 41, 43); // (steps per revolution, pins)
 
 bool hugFlag = false;
 int hugDuration = 5000; // hug duration (ms)
@@ -85,7 +89,6 @@ int oldVolume = 0; // variable: used to store old volume setting
 /*
    Interrupt Functions
 */
-
 void buttonInterrupts() {
   Serial.println("INTERTUPTION OCCURED");
   Serial.print(digitalRead(helpButton));
@@ -94,9 +97,6 @@ void buttonInterrupts() {
   Serial.print(digitalRead(musicButton));
   Serial.print(digitalRead(volumeDownButton));
   Serial.print(digitalRead(volumeUpButton));
-
-
-  
   if(digitalRead(musicButton)){
     musicToggle = !musicToggle; // switch the state of the musictoggle
     if (musicToggle) counter = 0; // if the music toggle is high (because it doesnt update until after the end of the method) set the counter to 0
@@ -127,6 +127,12 @@ void buttonInterrupts() {
     newVolume = min(10, newVolume++); 
   }
 }
+void recieverFunc(){
+  int[] digitalValues;
+  clearRecieverPins();
+}
+
+
 
 /*
    Helper Functions
@@ -136,7 +142,9 @@ void setLEDColor(int redVal, int greenVal, int blueVal) {
   analogWrite(LED_G, greenVal);
   analogWrite(LED_B, blueVal);
 }
-
+void clearRecieverPins(){
+  for(int i = recieverDataPins[0]; i < recieverDataPins[9]; i++) digitalWrite(i, LOW);
+}
 /*
    Setup Function
 */
@@ -157,8 +165,10 @@ void setup() {
   pinMode(hugButton, INPUT_PULLUP);
   pinMode(volumeDownButton, INPUT_PULLUP);
   pinMode(volumeUpButton, INPUT_PULLUP);
+  for(int i = 24; i <= 33; i++) pinMode(i, INPUT); //for datatransfer
   for(int i = 36; i <= 43; i++) pinMode(i, OUTPUT); //for motors
-  
+
+  attachInterrupt(digitalPinToInterrupt(recieverInterruptPin), receieverFunc, RISING);
   attachInterrupt(digitalPinToInterrupt(buttonInterruptPin), buttonInterrupts, RISING);
   
 

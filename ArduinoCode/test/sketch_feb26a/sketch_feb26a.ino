@@ -18,7 +18,8 @@ char incomingPacket[256];
 
 int musicVol = -1;
 int hugSen = -1;
-
+enum CMD = {VOL,HUG,TGM,SEN};
+using enum CMD;
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 
 //LiquidCrystal_I2C lcd(0x27, 16, 2); // (default address, rows, columns)
@@ -258,16 +259,37 @@ void handleNotFound(){
 
 void startHug(){
  Serial.printf("Started Hug!"); 
+ sendMessageToMain(HUG, 0, true);
 }
 
 void stopHug(){
  Serial.printf("Stopped Hug!"); 
+ sendMessageToMain(HUG, 0, false);
 }
 
 void startMusic(){
  Serial.printf("Started Music!"); 
+ sendMessageToMain(TGM, 0, true);
 }
 
 void stopMusic(){
  Serial.printf("Stopped Music!"); 
+ sendMessageToMain(TGM, 0, false);
+}
+
+void sendMessageToMain(CMD command, int value, bool optionalFlag){
+  int pinToInterrupt = 0;
+  int[] digitalBytePins = {24,25,26,27,28,29,30,31,32,33};
+  /*
+  0|0|0|0|000000
+  ^ ^ ^ ^ ^
+  | | | | |__Byte array to send data
+  | | | |____ flag for hug sensitivity
+  | | |______ flag for toggle music command
+  | |________ flag for volume command
+  |__________ flag for hug command
+  */
+  
+  
+  digitalWrite(pinToInterrupt, HIGH);
 }
