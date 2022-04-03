@@ -179,7 +179,7 @@ public class StaffScheduleScreen extends AppPLUSHActivity { // StaffScheduleScre
         listView.setAdapter(arrayAdapter);
     }
 
-    // Back button should redirect to unit scren
+    // Back button should redirect to unit screen
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(StaffScheduleScreen.this, StaffPlushUnitScreen.class);

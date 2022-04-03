@@ -125,4 +125,11 @@ public class StaffMusicScreen extends AppPLUSHActivity { // StaffMusicScreen w/ 
         musicVolumeText .setText("Music Volume: " + String.valueOf(thisApplication.currUnitData().musicVolume + 1));
         volumeBar.setProgress(thisApplication.currUnitData().musicVolume);
     }
+
+    // Back button should redirect to unit screen
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(StaffMusicScreen.this, StaffPlushUnitScreen.class);
+        startActivity(intent);
+    }
 }
