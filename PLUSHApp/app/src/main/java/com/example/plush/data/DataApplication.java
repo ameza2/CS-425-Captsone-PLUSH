@@ -72,6 +72,8 @@ public class DataApplication extends Application {
     public String currentUnit;
     public JSONObject inputJSON;
 
+    boolean alertRecieved = false; // Determines if the application recieved an alert
+
 
     // ACTIVITY CODE: Will allow the application to do things with the current activity
     private Activity currActivity = null;
@@ -329,7 +331,8 @@ public class DataApplication extends Application {
                         }
                         else {
                             try {
-                                String x = "UPDT: HS-" + Integer.toString(currUnitData().hugSensitivity) + "/MV-" + Integer.toString(currUnitData().musicVolume);
+                                String x = "UPDT: HS-" + Integer.toString(currUnitData().hugSensitivity) + "/MV-" + Integer.toString(currUnitData().musicVolume)
+                                        + "/AL-" + Integer.toString((alertRecieved ? 1 : 0));
                                 byte[] data = x.getBytes();
                                 byte[] dataRecieved = new byte[256];
 
@@ -351,6 +354,7 @@ public class DataApplication extends Application {
                                 // PARSING
                                 String newHug = "";
                                 String newVol = "";
+                                String newAlr = "";
                                 int t = 0;
                                 for(int i = 0; i < s.length(); i++){
                                     char c = s.charAt(i);
@@ -368,6 +372,9 @@ public class DataApplication extends Application {
                                             case 1:
                                                 newVol += c;
                                                 break;
+                                            case 2:
+                                                newAlr += c;
+                                                break;
                                             default:
                                                 break;
                                         }
@@ -376,6 +383,7 @@ public class DataApplication extends Application {
 
                                 int nH = Integer.parseInt(newHug);
                                 int nV = Integer.parseInt(newVol);
+                                int nA = Integer.parseInt(newAlr);
 
                                 if(nH != currUnitData().hugSensitivity) {
 
@@ -443,6 +451,13 @@ public class DataApplication extends Application {
                                             }
                                         });
                                     }
+                                }
+
+                                if(nA != (alertRecieved ? 1 : 0)){
+                                    if(nA == 1){
+                                        Log.e("ALERT", "Alert recieved!");
+                                    }
+                                    alertRecieved = (nA == 1);
                                 }
 
                                 lock.wait(200);

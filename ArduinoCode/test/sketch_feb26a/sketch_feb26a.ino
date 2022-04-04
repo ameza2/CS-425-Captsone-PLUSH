@@ -18,8 +18,9 @@ char incomingPacket[256];
 
 int musicVol = -1;
 int hugSen = -1;
-enum CMD = {VOL,HUG,TGM,SEN};
-using enum CMD;
+bool alert = false;
+//enum CMD = {VOL,HUG,TGM,SEN};
+//using enum CMD;
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 
 //LiquidCrystal_I2C lcd(0x27, 16, 2); // (default address, rows, columns)
@@ -35,7 +36,7 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-  Serial.println("Version Code: 0006"); // Debugging, just to see if reset worked
+  Serial.println("Version Code: 0007"); // Debugging, just to see if reset worked
 
   randomSeed(analogRead(0)); // Set up random seed (pin 0 needs to be disconnected)
 
@@ -143,7 +144,7 @@ void loop(void){
           }
           if(isdigit(action[i])){
             switch (t){
-              case 0:
+              case 0: // Probably can be written nicer
                 char newChar0[1];
                 newChar0[0] = action[i];
                 strcat(newHugSen, newChar0);
@@ -152,6 +153,13 @@ void loop(void){
                 char newChar1[1];
                 newChar1[0] = action[i];
                 strcat(newMusicVol, newChar1);
+                break;
+              case 2:
+                char newChar2[1];
+                newChar2[0] = action[i];
+                if(newChar2[0] == '1'){
+                      alert = false;
+                }
                 break;
               default:
                 break;
@@ -166,19 +174,16 @@ void loop(void){
         
 
         char packetToSend[256];
-        sprintf(packetToSend, "HS: %d / MV: %d", hugSen, musicVol);
+        sprintf(packetToSend, "HS: %d / MV: %d / AL: %d", hugSen, musicVol, alert);
         
         udp.beginPacket(udp.remoteIP(), udp.remotePort());
         udp.write(packetToSend);
         udp.endPacket();
 
-        // FOR TESTING PURPOSES ONLY: The PLUSH Volume/Hug Sensitivity will randomly change.
+        // FOR TESTING PURPOSES ONLY: The app will randomly alert.
         long rand = random(1000);
         if(rand < 10){
-          hugSen = 3;
-        }
-        if(rand > 990){
-          musicVol = 30;
+          alert = true;
         }
     }
 
@@ -259,24 +264,25 @@ void handleNotFound(){
 
 void startHug(){
  Serial.printf("Started Hug!"); 
- sendMessageToMain(HUG, 0, true);
+ //sendMessageToMain(HUG, 0, true);
 }
 
 void stopHug(){
  Serial.printf("Stopped Hug!"); 
- sendMessageToMain(HUG, 0, false);
+ //sendMessageToMain(HUG, 0, false);
 }
 
 void startMusic(){
  Serial.printf("Started Music!"); 
- sendMessageToMain(TGM, 0, true);
+ //sendMessageToMain(TGM, 0, true);
 }
 
 void stopMusic(){
  Serial.printf("Stopped Music!"); 
- sendMessageToMain(TGM, 0, false);
+ //sendMessageToMain(TGM, 0, false);
 }
 
+/*
 void sendMessageToMain(CMD command, int value, bool optionalFlag){
   int pinToInterrupt = 0;
   int[] digitalBytePins = {24,25,26,27,28,29,30,31,32,33};
@@ -290,6 +296,7 @@ void sendMessageToMain(CMD command, int value, bool optionalFlag){
   |__________ flag for hug command
   */
   
-  
+/*  
   digitalWrite(pinToInterrupt, HIGH);
 }
+*/
