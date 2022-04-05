@@ -38,9 +38,6 @@ TMRpcm Audio;
 
 //
 const int stepsPerRevolution = 2048;
-
-//Stepper myStepperR1(stepsPerRevolution, 38, 39, 40, 41); // (steps per revolution, pins)
-//Stepper myStepperR2(stepsPerRevolution, 42, 43, 44, 45); // (steps per revolution, pins)
 //Logger logger;
 /*
    Pin assignments:
@@ -59,11 +56,12 @@ unsigned const LED_B      = 8;
 
 const int buttonInterruptPin = 2;
 const int recieverInterruptPin = 3;
-const int[] recieverDataPins = {24,25,26,27,28,29,30,31,32,33};
+int recieverDataPins[] = {24,25,26,27,28,29,30,31,32,33};
 
 Stepper myStepperL1 = Stepper(stepsPerRevolution, 36, 38, 37, 39); // (steps per revolution, pins)
 Stepper myStepperL2 = Stepper(stepsPerRevolution, 40, 42, 41, 43); // (steps per revolution, pins)
-
+Stepper myStepperR1 = Stepper(stepsPerRevolution, 14, 16, 15, 17); // (steps per revolution, pins)
+Stepper myStepperR2 = Stepper(stepsPerRevolution, 18, 20, 19, 21); // (steps per revolution, pins)
 bool hugFlag = false;
 int hugDuration = 5000; // hug duration (ms)
 
@@ -82,8 +80,7 @@ boolean buttonChanged = false;
 /*
    Music Variables
 */
-int counter = 0;
-bool musicToggle = false; // boolean  variable: used to store music toggle
+bool musicToggle = true; // boolean  variable: used to store music toggle
 int newVolume = 0; // variable: used to store new volume setting
 int oldVolume = 0; // variable: used to store old volume setting
 /*
@@ -99,7 +96,6 @@ void buttonInterrupts() {
   Serial.print(digitalRead(volumeUpButton));
   if(digitalRead(musicButton)){
     musicToggle = !musicToggle; // switch the state of the musictoggle
-    if (musicToggle) counter = 0; // if the music toggle is high (because it doesnt update until after the end of the method) set the counter to 0
     currentPressedButton = buttonMessages[0];
     buttonChanged = true;
     Serial.println("Music Button Changed");
@@ -127,8 +123,8 @@ void buttonInterrupts() {
     newVolume = min(10, newVolume++); 
   }
 }
-void recieverFunc(){
-  int[] digitalValues;
+void receiverFunc(){
+  
   clearRecieverPins();
 }
 
@@ -168,7 +164,7 @@ void setup() {
   for(int i = 24; i <= 33; i++) pinMode(i, INPUT); //for datatransfer
   for(int i = 36; i <= 43; i++) pinMode(i, OUTPUT); //for motors
 
-  attachInterrupt(digitalPinToInterrupt(recieverInterruptPin), receieverFunc, RISING);
+  attachInterrupt(digitalPinToInterrupt(recieverInterruptPin), receiverFunc, RISING);
   attachInterrupt(digitalPinToInterrupt(buttonInterruptPin), buttonInterrupts, RISING);
   
 
@@ -181,13 +177,15 @@ void setup() {
   lcd.begin();
   lcd.backlight();
 
-//  if (!SD.begin()) {
-//    Serial.println("SD CARD UNINITIALIZED");
-//  }
-//  if (!SD.exists("NGGYU.wav")) {
-//    Serial.println("NO WAV FILE FOUND WITH THIS NAME");
-//  }
-//  f = SD.open("NGGYU.wav"); 
+  if (!SD.begin()) {
+    Serial.println("SD CARD UNINITIALIZED");
+  }else{
+    Serial.println("SD CARD INITIALIZED");
+  }
+  if (!SD.exists("NGGYU.wav")) {
+    Serial.println("NO WAV FILE FOUND WITH THIS NAME");
+  }
+  f = SD.open("NGGYU.wav"); 
   Audio.speakerPin = 12;
   Audio.play("NGGYU.wav");
   Audio.setVolume(7);
@@ -195,8 +193,8 @@ void setup() {
   // in rpm
   myStepperL1.setSpeed(5);
   myStepperL2.setSpeed(5);
-  //myStepperR1.setSpeed(1000);
-  //myStepperR2.setSpeed(1000);
+  myStepperR1.setSpeed(5);
+  myStepperR2.setSpeed(5);
 }
 
 
@@ -206,15 +204,21 @@ void setup() {
 void loop() {
   if(hugFlag){
     // # of steps
-    myStepperL1.step(stepsPerRevolution/4);
-    myStepperL2.step(stepsPerRevolution/4);
-//    myStepperR1.step(20);
-//    myStepperR2.step(20);
+    for(int i = 0; i < 100; i++){
+      myStepperL1.step(stepsPerRevolution/400);
+      myStepperR1.step(stepsPerRevolution/400);
+      myStepperL2.step(stepsPerRevolution/400);
+      myStepperR2.step(stepsPerRevolution/400);
+    }
+
 
     delay(hugDuration);
-    
-    myStepperL2.step(stepsPerRevolution/4 * -1);
-    myStepperL1.step(stepsPerRevolution/4 * -1);
+    for(int i = 0; i < 100; i++){
+      myStepperL1.step(stepsPerRevolution/-400);
+      myStepperR1.step(stepsPerRevolution/-400);
+      myStepperL2.step(stepsPerRevolution/-400);
+      myStepperR2.step(stepsPerRevolution/-400);
+    }
   
     hugFlag = !hugFlag;
   }
@@ -224,7 +228,7 @@ void loop() {
   //newVolume = analogRead(volumeDial);
   //newVolume = map(newVolume, 0, 1024, 0, 100);
 
-  // Play PLUSH Music
+   //Play PLUSH Music
   if (musicToggle) {
     if (!Audio.isPlaying()) {
       Audio.pause();
