@@ -11,11 +11,11 @@
 
     <EditText
         android:id="@+id/textName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="38dp"
+        android:layout_width="387dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
         android:background="@color/gray_text"
         android:ems="10"
         android:gravity="start|top"
@@ -23,18 +23,17 @@
         android:inputType="textMultiLine"
         android:lines="10"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/textView14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <EditText
         android:id="@+id/textEmail"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="389dp"
+        android:layout_height="37dp"
         android:layout_marginStart="9dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="29dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="13dp"
         android:background="@color/gray_text"
         android:ems="10"
         android:gravity="start|top"
@@ -42,18 +41,17 @@
         android:inputType="textMultiLine|textEmailAddress"
         android:lines="10"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/textView15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <EditText
         android:id="@+id/textDescription"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="387dp"
+        android:layout_height="208dp"
         android:layout_marginStart="9dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="39dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="15dp"
         android:background="@color/gray_text"
         android:ems="10"
         android:gravity="start|top"
@@ -61,19 +59,20 @@
         android:inputType="textMultiLine"
         android:lines="10"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/submitButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <Button
         android:id="@+id/submitButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="33dp"
+        android:layout_width="389dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="11dp"
         android:text="Send"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDescription" />
 
@@ -82,20 +81,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="355dp"
+        android:layout_marginBottom="582dp"
         android:text="Name*"
-        app:layout_constraintBottom_toTopOf="@+id/textName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="357dp"
         android:text="Email*"
-        app:layout_constraintBottom_toTopOf="@+id/textEmail"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
 
@@ -103,10 +106,11 @@
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="338dp"
         android:text="Message*"
-        app:layout_constraintBottom_toTopOf="@+id/textDescription"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textEmail" />
 
@@ -114,13 +118,14 @@
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginStart="82dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginBottom="4dp"
         android:text="Contact Support"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
