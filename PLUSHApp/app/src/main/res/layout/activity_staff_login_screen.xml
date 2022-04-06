@@ -16,12 +16,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="101dp"
         android:layout_marginTop="58dp"
+        android:layout_marginEnd="100dp"
         android:background="@color/gray_text"
         android:ems="10"
         android:importantForAutofill="no"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -31,10 +33,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="101dp"
+        android:layout_marginEnd="243dp"
         android:layout_marginBottom="1dp"
         android:text="Password:"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -43,8 +47,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginTop="65dp"
+        android:layout_marginEnd="228dp"
         android:text="Employee ID:"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
@@ -53,12 +59,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
+        android:layout_marginEnd="101dp"
         android:background="@color/gray_text"
         android:ems="10"
         android:inputType="number"
         android:maxLength="15"
         android:minHeight="48dp"
         android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -81,9 +89,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="146dp"
         android:layout_marginTop="125dp"
+        android:layout_marginEnd="146dp"
         android:foregroundGravity="center_vertical|center_horizontal"
         android:text="Login"
         android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,9 +103,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="125dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="125dp"
         android:foregroundGravity="center_vertical|center_horizontal"
         android:text="Please sign in to continue."
         android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 </androidx.constraintlayout.widget.ConstraintLayout>
