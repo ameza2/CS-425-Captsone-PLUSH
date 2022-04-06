@@ -14,12 +14,12 @@
 
     <ListView
         android:id="@+id/songlist"
-        android:layout_width="307dp"
-        android:layout_height="408dp"
-        android:layout_marginStart="52dp"
+        android:layout_width="308dp"
+        android:layout_height="375dp"
+        android:layout_marginStart="51dp"
         android:layout_marginTop="243dp"
         android:layout_marginEnd="52dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="113dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,57 +30,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="99dp"
-        android:layout_marginTop="87dp"
         android:layout_marginEnd="99dp"
-        android:layout_marginBottom="604dp"
+        android:layout_marginBottom="116dp"
         android:text="Music Selection"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/songlist"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/currTrackText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="216dp"
         android:layout_marginEnd="184dp"
-        android:layout_marginBottom="495dp"
+        android:layout_marginBottom="7dp"
         android:text="Currently selected song: "
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/songlist"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/currTrack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="277dp"
-        android:layout_marginTop="216dp"
         android:layout_marginEnd="99dp"
-        android:layout_marginBottom="495dp"
+        android:layout_marginBottom="7dp"
         android:text="None"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/songlist"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/selectbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="666dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="161dp"
         android:text="Select"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/songlist" />
 </androidx.constraintlayout.widget.ConstraintLayout>
