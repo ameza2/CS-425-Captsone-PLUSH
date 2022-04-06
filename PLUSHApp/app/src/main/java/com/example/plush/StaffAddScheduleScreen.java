@@ -215,12 +215,12 @@ public class StaffAddScheduleScreen extends AppPLUSHActivity { // StaffAddUnitSc
                                     if(scheduleIndex == 0) {
                                         //Log.d("valid", "Hug schedule activated!");
                                         //To be replaced with actual arduino command
-                                        //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
+                                        DataApplication.connectedThread2.send("HUGP:1");
                                     }
                                     else if(scheduleIndex == 1) {
                                         //Log.d("valid", "Music schedule activated!");
                                         //To be replaced with actual arduino command
-                                        //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
+                                        DataApplication.connectedThread2.send("PMUS:1");
                                     }
                                     else if(scheduleIndex == 2) {
                                         // Log.d("valid", "Other schedule activated!");
