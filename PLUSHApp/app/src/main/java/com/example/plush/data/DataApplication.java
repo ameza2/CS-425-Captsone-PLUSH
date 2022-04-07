@@ -2,10 +2,12 @@ package com.example.plush.data;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.icu.util.Output;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -454,10 +456,29 @@ public class DataApplication extends Application {
                                 }
 
                                 if(nA != (alertRecieved ? 1 : 0)){
-                                    if(nA == 1){
+                                    if(nA == 1) {
                                         Log.e("ALERT", "Alert recieved!");
+
+                                        currActivity.runOnUiThread(new Runnable() {
+                                                                       @Override
+                                                                       public void run() {
+                                                                           // Taken from: https://stackoverflow.com/questions/26097513/android-simple-alert-dialog
+                                                                           AlertDialog alertDialog = new AlertDialog.Builder(currActivity).create();
+                                                                           alertDialog.setTitle("Alert");
+                                                                           alertDialog.setMessage("The patient has called for a nurse.");
+                                                                           alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                                                                   new DialogInterface.OnClickListener() {
+                                                                                       public void onClick(DialogInterface dialog, int which) {
+                                                                                           dialog.dismiss();
+                                                                                       }
+                                                                                   });
+                                                                           alertDialog.show();
+                                                                       }
+                                                                   }
+                                        );
                                     }
                                     alertRecieved = (nA == 1);
+
                                 }
 
                                 lock.wait(200);
