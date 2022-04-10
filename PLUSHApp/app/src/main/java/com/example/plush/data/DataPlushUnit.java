@@ -28,7 +28,6 @@ public class DataPlushUnit {
 
     public String id;
     public String room;
-
     public ArrayList<String> hugSchedule;
     public ArrayList<String> musicSchedule;
     public ArrayList<String> otherSchedule;

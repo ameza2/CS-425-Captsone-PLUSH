@@ -160,9 +160,13 @@ public class DataApplication extends Application {
                         String room = inputUnitArray.getJSONObject(j).getString("room");
                         int hug = inputUnitArray.getJSONObject(j).getInt("hugSensitivity");
                         int vol = inputUnitArray.getJSONObject(j).getInt("musicVolume");
-                        ArrayList<String> h = new ArrayList<>();
-                        ArrayList<String> m = new ArrayList<>();
-                        ArrayList<String> o = new ArrayList<>();
+
+                        JSONArray hugArray = inputUnitArray.getJSONObject(j).getJSONArray("hugSchedule");
+                        JSONArray musicArray = inputUnitArray.getJSONObject(j).getJSONArray("musicSchedule");
+                        JSONArray otherArray = inputUnitArray.getJSONObject(j).getJSONArray("otherSchedule");
+                        ArrayList<String> h = convertToArrayList(hugArray);
+                        ArrayList<String> m = convertToArrayList(musicArray);
+                        ArrayList<String> o = convertToArrayList(otherArray);
 
                         currUser.assignedUnits.put(id, new DataPlushUnit(id, room, hug, vol, h, m, o));
                     }
@@ -172,6 +176,68 @@ public class DataApplication extends Application {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<String> convertToArrayList(JSONArray j){
+        ArrayList<String> s = new ArrayList<>();
+        for(int i = 0; i < j.length(); i++){
+            try {
+                s.add(j.getString(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return s;
+    }
+
+    public void saveNewSchedule(String scheduleToSave){
+        ArrayList<String> arrayToUse;
+        switch (scheduleToSave){
+            case "hugSchedule":
+                arrayToUse = currUnitData().hugSchedule;
+                break;
+            case "musicSchedule":
+                arrayToUse = currUnitData().musicSchedule;
+                break;
+            case "otherSchedule":
+                arrayToUse = currUnitData().otherSchedule;
+                break;
+            default:
+                return;
+        }
+
+        JSONArray jsonToUse = new JSONArray();
+        for(int i = 0; i < arrayToUse.size(); i++){
+            jsonToUse.put(arrayToUse.get(i));
+        }
+
+        try {
+            JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
+            for (int i = 0; i < inputJSONArray.length(); i++) {
+                if (inputJSONArray.getJSONObject(i).getString("username").equals(currentUser)) {
+
+                    /* Edit unit properties */
+                    JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                    for(int j = 0; j < unitJSONArray.length(); j++){
+                        if(unitJSONArray.getJSONObject(j).getString("id").equals(currentUnit)){
+                            unitJSONArray.getJSONObject(j).put(scheduleToSave, jsonToUse);
+                        }
+                    }
+
+                    /* Save new string to user database */
+                    File f = new File(getFilesDir(), "userdatabase.json");
+                    OutputStream outputStream = new FileOutputStream(f);
+                    byte outputBytes[] = inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                    outputStream.write(outputBytes);
+                    outputStream.close();
+                }
+            }
+        } catch (JSONException | FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static byte[] createSHAHash(String input) throws NoSuchAlgorithmException {

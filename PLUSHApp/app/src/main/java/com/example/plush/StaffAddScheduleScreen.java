@@ -194,14 +194,21 @@ public class StaffAddScheduleScreen extends AppPLUSHActivity { // StaffAddUnitSc
                     if(scheduleIndex == 0) {
                         //Log.d("valid", "selected Hug");
                         thisApplication.currUnitData().hugSchedule.add(date + "," + time);
+                        thisApplication.saveNewSchedule("hugSchedule");
+                        //
                     }
                     else if(scheduleIndex == 1) {
                         //Log.d("valid", "selected Music");
                         thisApplication.currUnitData().musicSchedule.add(date + "," + time);
+                        thisApplication.saveNewSchedule("musicSchedule");
+                        //
                     }
                     else if(scheduleIndex == 2) {
                        // Log.d("valid", "selected Other");
                         thisApplication.currUnitData().otherSchedule.add(date + "," + time);
+                        thisApplication.saveNewSchedule("otherSchedule");
+
+                        //
                     }
 
                     //Add schedule to timer
@@ -231,51 +238,6 @@ public class StaffAddScheduleScreen extends AppPLUSHActivity { // StaffAddUnitSc
                             },
                             date);      // run task on date
 
-//
-                    /* Update JSON File */
-                    try {
-                        JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
-                        for (int i = 0; i < inputJSONArray.length(); i++) {
-                            if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
-
-                                /* Edit unit properties */
-                                JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-                                JSONArray unitJSONArray1 = inputJSONArray.getJSONObject(i).getJSONArray("hugSchedule");
-                                JSONArray unitJSONArray2 = inputJSONArray.getJSONObject(i).getJSONArray("musicSchedule");
-                                JSONArray unitJSONArray3 = inputJSONArray.getJSONObject(i).getJSONArray("otherSchedule");
-                                for(int j = 0; j < unitJSONArray.length(); j++){
-                                    if(unitJSONArray.getJSONObject(j).getString("id").equals(thisApplication.currentUnit)){
-                                        JSONObject toPut = new JSONObject();
-                                        if(scheduleIndex == 0){
-                                            toPut.put("hugSchedule", date + "," + time);
-                                            unitJSONArray1.put(toPut);
-                                        }
-                                        else if(scheduleIndex == 1){
-                                            toPut.put("musicSchedule", date + "," + time);
-                                            unitJSONArray2.put(toPut);
-                                        }
-                                        else if(scheduleIndex == 2){
-                                            toPut.put("otherSchedule", date + "," + time);
-                                            unitJSONArray3.put(toPut);
-                                        }
-                                    }
-                                }
-
-                                /* Save new string to user database */
-                                File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
-                                OutputStream outputStream = new FileOutputStream(f);
-                                byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-                                outputStream.write(outputBytes);
-                                outputStream.close();
-                            }
-                        }
-                    } catch (JSONException | FileNotFoundException e) { // error-handling statement
-                        e.printStackTrace();
-                    } catch (IOException e) { // error-handling statement
-                        e.printStackTrace();
-                    }
-
-                        /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
                         Intent intent = new Intent(StaffAddScheduleScreen.this, StaffScheduleScreen.class);
                         startActivity(intent); // redirect page (StaffHomeScreen)
                     }

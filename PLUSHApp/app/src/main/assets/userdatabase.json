@@ -10,19 +10,28 @@
           "id": "138052",
           "room": "101",
           "hugSensitivity": 6,
-          "musicVolume": 24
+          "musicVolume": 24,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         },
         {
           "id": "132580",
           "room": "102",
           "hugSensitivity": 7,
-          "musicVolume": 34
+          "musicVolume": 34,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         },
         {
           "id": "149295",
           "room": "103",
           "hugSensitivity": 2,
-          "musicVolume": 60
+          "musicVolume": 60,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         }
       ]
     },
@@ -36,21 +45,18 @@
           "room": "201",
           "hugSensitivity": 7,
           "musicVolume": 69,
-          "hugSchedule": [
-            "3/17/2022,10:00"
-          ],
-          "musicSchedule": [
-            "3/18/2022,11:00"
-          ],
-          "otherSchedule": [
-            "3/19/2022,12:00"
-          ]
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         },
         {
           "id": "259335",
           "room": "202",
           "hugSensitivity": 4,
-          "musicVolume": 20
+          "musicVolume": 20,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         }
       ]
     },
@@ -63,19 +69,28 @@
           "id": "324893",
           "room": "301",
           "hugSensitivity": 4,
-          "musicVolume": 76
+          "musicVolume": 76,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         },
         {
           "id": "390593",
           "room": "302",
           "hugSensitivity": 6,
-          "musicVolume": 33
+          "musicVolume": 33,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         },
         {
           "id": "352663",
           "room": "303",
           "hugSensitivity": 3,
-          "musicVolume": 66
+          "musicVolume": 66,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         }
       ]
     },
@@ -88,25 +103,37 @@
           "id": "432589",
           "room": "401",
           "hugSensitivity": 5,
-          "musicVolume": 78
+          "musicVolume": 78,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         },
         {
           "id": "425532",
           "room": "402",
           "hugSensitivity": 1,
-          "musicVolume": 10
+          "musicVolume": 10,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         },
         {
           "id": "406025",
           "room": "403",
           "hugSensitivity": 6,
-          "musicVolume": 55
+          "musicVolume": 55,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         },
         {
           "id": "490592",
           "room": "404",
           "hugSensitivity": 4,
-          "musicVolume": 56
+          "musicVolume": 56,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         }
       ]
     },
@@ -119,7 +146,10 @@
           "id": "542505",
           "room": "501",
           "hugSensitivity": 3,
-          "musicVolume": 84
+          "musicVolume": 84,
+          "hugSchedule": [],
+          "musicSchedule": [],
+          "otherSchedule": []
         }
       ]
     }
