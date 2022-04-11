@@ -54,6 +54,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Timer;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -73,7 +74,7 @@ public class DataApplication extends Application {
     public String currentUser;
     public String currentUnit;
     public JSONObject inputJSON;
-
+    public DataSchedule scheduler;
     boolean alertRecieved = false; // Determines if the application recieved an alert
 
 
@@ -86,6 +87,8 @@ public class DataApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        scheduler = new DataSchedule();
 
         // Needed for UDP to work
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
