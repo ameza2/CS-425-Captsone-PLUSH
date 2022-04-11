@@ -58,10 +58,10 @@ const int buttonInterruptPin = 2;
 const int recieverInterruptPin = 3;
 int recieverDataPins[] = {24,25,26,27,28,29,30,31,32,33};
 
-Stepper myStepperL1 = Stepper(stepsPerRevolution, 36, 38, 37, 39); // (steps per revolution, pins)
-Stepper myStepperL2 = Stepper(stepsPerRevolution, 40, 42, 41, 43); // (steps per revolution, pins)
-Stepper myStepperR1 = Stepper(stepsPerRevolution, 14, 16, 15, 17); // (steps per revolution, pins)
-Stepper myStepperR2 = Stepper(stepsPerRevolution, 18, 20, 19, 21); // (steps per revolution, pins)
+Stepper myStepperRA = Stepper(stepsPerRevolution, 36, 38, 37, 39); // (steps per revolution, pins)
+Stepper myStepperRS = Stepper(stepsPerRevolution, 40, 42, 41, 43); // (steps per revolution, pins)
+Stepper myStepperLA = Stepper(stepsPerRevolution, 14, 16, 15, 17); // (steps per revolution, pins)
+Stepper myStepperLS = Stepper(stepsPerRevolution, 44, 46, 45, 47); // (steps per revolution, pins)
 bool hugFlag = false;
 int hugDuration = 5000; // hug duration (ms)
 
@@ -162,7 +162,8 @@ void setup() {
   pinMode(volumeDownButton, INPUT_PULLUP);
   pinMode(volumeUpButton, INPUT_PULLUP);
   for(int i = 24; i <= 33; i++) pinMode(i, INPUT); //for datatransfer
-  for(int i = 36; i <= 43; i++) pinMode(i, OUTPUT); //for motors
+  for(int i = 36; i <= 47; i++) pinMode(i, OUTPUT); //for motors
+  for(int i = 14; i <=17; i++) pinMode(i, OUTPUT);
 
   attachInterrupt(digitalPinToInterrupt(recieverInterruptPin), receiverFunc, RISING);
   attachInterrupt(digitalPinToInterrupt(buttonInterruptPin), buttonInterrupts, RISING);
@@ -182,19 +183,19 @@ void setup() {
   }else{
     Serial.println("SD CARD INITIALIZED");
   }
-  if (!SD.exists("NGGYU.wav")) {
+  if (!SD.exists("SWEDEN.wav")) {
     Serial.println("NO WAV FILE FOUND WITH THIS NAME");
   }
-  f = SD.open("NGGYU.wav"); 
+  f = SD.open("SWEDEN.wav"); 
   Audio.speakerPin = 12;
-  Audio.play("NGGYU.wav");
+  Audio.play("SWEDEN.wav");
   Audio.setVolume(7);
   
   // in rpm
-  myStepperL1.setSpeed(5);
-  myStepperL2.setSpeed(5);
-  myStepperR1.setSpeed(5);
-  myStepperR2.setSpeed(5);
+  myStepperLA.setSpeed(5);
+  myStepperLS.setSpeed(5);
+  myStepperRA.setSpeed(5);
+  myStepperRS.setSpeed(5);
 }
 
 
@@ -205,19 +206,19 @@ void loop() {
   if(hugFlag){
     // # of steps
     for(int i = 0; i < 100; i++){
-      myStepperL1.step(stepsPerRevolution/400);
-      myStepperR1.step(stepsPerRevolution/400);
-      myStepperL2.step(stepsPerRevolution/400);
-      myStepperR2.step(stepsPerRevolution/400);
+      myStepperLA.step(stepsPerRevolution/-400);
+      myStepperLS.step(stepsPerRevolution/800);
+      myStepperRA.step(stepsPerRevolution/400);
+      myStepperRS.step(stepsPerRevolution/-800);
     }
 
 
     delay(hugDuration);
     for(int i = 0; i < 100; i++){
-      myStepperL1.step(stepsPerRevolution/-400);
-      myStepperR1.step(stepsPerRevolution/-400);
-      myStepperL2.step(stepsPerRevolution/-400);
-      myStepperR2.step(stepsPerRevolution/-400);
+      myStepperLA.step(stepsPerRevolution/400);
+      myStepperLS.step(stepsPerRevolution/-800);
+      myStepperRA.step(stepsPerRevolution/-400);
+      myStepperRS.step(stepsPerRevolution/800);
     }
   
     hugFlag = !hugFlag;
