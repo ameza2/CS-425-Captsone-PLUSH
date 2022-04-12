@@ -195,49 +195,23 @@ public class StaffAddScheduleScreen extends AppPLUSHActivity { // StaffAddUnitSc
                         //Log.d("valid", "selected Hug");
                         thisApplication.currUnitData().hugSchedule.add(date + "," + time);
                         thisApplication.saveNewSchedule("hugSchedule");
+                        thisApplication.scheduler.AddSchedule(date + "," + time, scheduleIndex);
                         //
                     }
                     else if(scheduleIndex == 1) {
                         //Log.d("valid", "selected Music");
                         thisApplication.currUnitData().musicSchedule.add(date + "," + time);
                         thisApplication.saveNewSchedule("musicSchedule");
+                        thisApplication.scheduler.AddSchedule(date + "," + time, scheduleIndex);
                         //
                     }
                     else if(scheduleIndex == 2) {
                        // Log.d("valid", "selected Other");
                         thisApplication.currUnitData().otherSchedule.add(date + "," + time);
                         thisApplication.saveNewSchedule("otherSchedule");
-
+                        thisApplication.scheduler.AddSchedule(date + "," + time, scheduleIndex);
                         //
                     }
-
-                    //Add schedule to timer
-                    Timer t = new Timer();
-                    Date date = currCal.getTime();
-                    t.schedule(
-                            new TimerTask()
-                            {
-                                public void run()
-                                {
-                                    if(scheduleIndex == 0) {
-                                        //Log.d("valid", "Hug schedule activated!");
-                                        //To be replaced with actual arduino command
-                                        DataApplication.connectedThread2.send("HUGP:1");
-                                    }
-                                    else if(scheduleIndex == 1) {
-                                        //Log.d("valid", "Music schedule activated!");
-                                        //To be replaced with actual arduino command
-                                        DataApplication.connectedThread2.send("PMUS:1");
-                                    }
-                                    else if(scheduleIndex == 2) {
-                                        // Log.d("valid", "Other schedule activated!");
-                                        //To be replaced with actual arduino command
-                                        //DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
-                                    }
-                                }
-                            },
-                            date);      // run task on date
-
                         Intent intent = new Intent(StaffAddScheduleScreen.this, StaffScheduleScreen.class);
                         startActivity(intent); // redirect page (StaffHomeScreen)
                     }
