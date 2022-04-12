@@ -30,7 +30,7 @@ public class DataSchedule {
             int am = timeString.split(" ")[1].equals("AM") ? 0 : 12;
 
             Calendar cal = Calendar.getInstance();
-            cal.set(ye, mo, da, hr + am, mn);
+            cal.set(ye, mo - 1, da, hr + am, mn);
             Log.e("TIME", cal.getTime().toString());
             Date date = cal.getTime();
 
