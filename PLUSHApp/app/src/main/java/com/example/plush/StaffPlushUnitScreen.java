@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 /* Data Application File */
 import com.example.plush.data.DataApplication;
+import com.example.plush.data.DataSchedule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitScreen w/ action activities
     TextView roomNum; // textview variable: used to store patient room number from PLUSH instance
@@ -181,6 +185,62 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
 
         connectionThread = new UnitConnectionThread();
         connectionThread.start();
+
+        if(thisApplication.scheduler.IsEmpty()) {
+            setUpScheduler();
+        }
+    }
+
+    void setUpScheduler(){
+
+        // 0 HUGS
+        ArrayList<String> hugsToRemove = new ArrayList<>();
+        Date currDate = Calendar.getInstance().getTime();
+        for(int i = 0; i < thisApplication.currUnitData().hugSchedule.size(); i++){
+            String dateString = thisApplication.currUnitData().hugSchedule.get(i);
+            if(currDate.before(DataSchedule.getDateFromString(dateString))){
+                thisApplication.scheduler.AddSchedule(dateString, 0);
+            }
+            else{
+                hugsToRemove.add(dateString);
+            }
+        }
+        for(int i = 0; i < hugsToRemove.size(); i++){
+            thisApplication.currUnitData().hugSchedule.remove(hugsToRemove.get(i));
+        }
+        thisApplication.saveNewSchedule("hugSchedule");
+
+        // 1 MUSIC
+        ArrayList<String> musicToRemove = new ArrayList<>();
+        for(int i = 0; i < thisApplication.currUnitData().musicSchedule.size(); i++){
+            String dateString = thisApplication.currUnitData().musicSchedule.get(i);
+            if(currDate.before(DataSchedule.getDateFromString(dateString))){
+                thisApplication.scheduler.AddSchedule(dateString, 1);
+            }
+            else{
+                musicToRemove.add(dateString);
+            }
+        }
+        for(int i = 0; i < musicToRemove.size(); i++){
+            thisApplication.currUnitData().musicSchedule.remove(musicToRemove.get(i));
+        }
+        thisApplication.saveNewSchedule("musicSchedule");
+
+        // 2 OTHER
+        ArrayList<String> otherToRemove = new ArrayList<>();
+        for(int i = 0; i < thisApplication.currUnitData().otherSchedule.size(); i++){
+            String dateString = thisApplication.currUnitData().otherSchedule.get(i);
+            if(currDate.before(DataSchedule.getDateFromString(dateString))){
+                thisApplication.scheduler.AddSchedule(dateString, 2);
+            }
+            else{
+                otherToRemove.add(dateString);
+            }
+        }
+        for(int i = 0; i < otherToRemove.size(); i++){
+            thisApplication.currUnitData().otherSchedule.remove(otherToRemove.get(i));
+        }
+        thisApplication.saveNewSchedule("otherSchedule");
     }
 
     /* Add Units After Pressing Back */

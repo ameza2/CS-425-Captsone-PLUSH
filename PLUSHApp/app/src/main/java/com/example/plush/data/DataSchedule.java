@@ -22,19 +22,7 @@ public class DataSchedule {
             timer = new Timer();
             Timer t = new Timer();
 
-            int mo = Integer.parseInt(timeString.split("/")[0]);
-            int da = Integer.parseInt(timeString.split("/")[1]);
-            int ye = Integer.parseInt(timeString.split("/")[2].split(",")[0]);
-            int hr = Integer.parseInt(timeString.split(",")[1].split(":")[0]);
-            int mn = Integer.parseInt(timeString.split(":")[1].split(" ")[0]);
-            int am = timeString.split(" ")[1].equals("AM") ? 0 : 12;
-
-            Calendar cal = Calendar.getInstance();
-            cal.set(ye, mo - 1, da, hr + am, mn);
-            Log.e("TIME", cal.getTime().toString());
-            Date date = cal.getTime();
-
-
+            Date date = getDateFromString(timeString);
 
             t.schedule(
                     new TimerTask()
@@ -107,9 +95,13 @@ public class DataSchedule {
     public void RemoveAll(){
         for(int i = 0; i < hugTimers.size(); i++){
             hugTimers.get(i).timer.cancel();
+            hugTimers.get(i).command = "";
+            hugTimers.get(i).timer.purge();
         }
         for(int i = 0; i < musicTimers.size(); i++){
             musicTimers.get(i).timer.cancel();
+            musicTimers.get(i).command = "";
+            musicTimers.get(i).timer.purge();
         }
         hugTimers = new ArrayList<>();
         musicTimers = new ArrayList<>();
@@ -117,5 +109,21 @@ public class DataSchedule {
 
     public boolean IsEmpty(){
         return (hugTimers.size() == 0 && musicTimers.size() == 0);
+    }
+
+    public static Date getDateFromString(String time){
+
+        int mo = Integer.parseInt(time.split("/")[0]);
+        int da = Integer.parseInt(time.split("/")[1]);
+        int ye = Integer.parseInt(time.split("/")[2].split(",")[0]);
+        int hr = Integer.parseInt(time.split(",")[1].split(":")[0]);
+        int mn = Integer.parseInt(time.split(":")[1].split(" ")[0]);
+        int am = time.split(" ")[1].equals("AM") ? 0 : 12;
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(ye, mo - 1, da, hr + am, mn);
+        Log.e("TIME", cal.getTime().toString());
+        Date date = cal.getTime();
+        return date;
     }
 }

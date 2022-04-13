@@ -3,6 +3,7 @@ package com.example.plush;
 import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,8 +96,8 @@ public class StaffHomeScreen extends AppPLUSHActivity {
 
         //Important as add/edit unit use the same screen
         thisApplication.currentUnit = "";
-
         thisApplication.connectedThread2.disconnectUnit();
+        thisApplication.scheduler.RemoveAll();
 
         // Load unit data
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -134,9 +135,16 @@ public class StaffHomeScreen extends AppPLUSHActivity {
         }
 
         unitListScrollView.addView(linearLayout);
-
-
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        thisApplication.currentUnit = "";
+        thisApplication.connectedThread2.disconnectUnit();
+        thisApplication.scheduler.RemoveAll();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
