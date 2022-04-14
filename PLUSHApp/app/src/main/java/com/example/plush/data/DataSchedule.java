@@ -68,8 +68,9 @@ public class DataSchedule {
         switch(type){
             case 0: // hug
                 for(int i = 0; i < hugTimers.size(); i++){
-                    if(dateAndTime == hugTimers.get(i).timeString){
+                    if(dateAndTime.equals(hugTimers.get(i).timeString)){
                         hugTimers.get(i).timer.cancel();
+                        hugTimers.get(i).command = "";
                         hugTimers.remove(i);
                         break;
                     }
@@ -77,8 +78,9 @@ public class DataSchedule {
                 break;
             case 1: // music
                 for(int i = 0; i < musicTimers.size(); i++){
-                    if(dateAndTime == musicTimers.get(i).timeString){
+                    if(dateAndTime.equals(musicTimers.get(i).timeString)){
                         musicTimers.get(i).timer.cancel();
+                        musicTimers.get(i).command = "";
                         musicTimers.remove(i);
                         break;
                     }

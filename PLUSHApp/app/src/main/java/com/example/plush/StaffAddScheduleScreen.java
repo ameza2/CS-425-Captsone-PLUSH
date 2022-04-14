@@ -5,6 +5,7 @@ package com.example.plush;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.plush.data.DataApplication;
+import com.example.plush.data.DataSchedule;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -171,6 +172,9 @@ public class StaffAddScheduleScreen extends AppPLUSHActivity { // StaffAddUnitSc
                 boolean emptyDate = date.isEmpty();
                 boolean emptyTime = time.isEmpty();
 
+                Date submission = DataSchedule.getDateFromString(date + "," + time);
+                boolean tooEarly = Calendar.getInstance().getTime().after(submission);
+
                 int emptyScheduleOption = scheduleGroup.getCheckedRadioButtonId(); // empty value == -1
 
                 if ((emptyDate && emptyTime) | (emptyDate && (emptyScheduleOption == -1)) | (emptyTime && (emptyScheduleOption == -1)) | (emptyDate && emptyTime && (emptyScheduleOption == -1))){
@@ -188,6 +192,10 @@ public class StaffAddScheduleScreen extends AppPLUSHActivity { // StaffAddUnitSc
                 else if (emptyScheduleOption == -1) {
                     Toast.makeText(getApplicationContext(), "Invalid Form Submission: Missing Schedule Type.", Toast.LENGTH_LONG).show(); // deactivation prompt
                     //Log.d("Error [4]: ", "Empty Text Field");
+                }
+                else if (tooEarly) {
+                    Toast.makeText(getApplicationContext(), "Invalid Form Submission: Selected time is before current time.", Toast.LENGTH_LONG).show(); // deactivation prompt
+                    //Log.d("Error [5]: ", "Empty Text Field");
                 }
                 else {
                     Log.d("Success:", "Valid Text Fields");

@@ -102,22 +102,27 @@ public class StaffRemoveScheduleScreen extends AppPLUSHActivity { // StaffSchedu
                     }
                 }
 
+                schedulePressedList = new ArrayList<>();
+
                 //Add schedule to buttonList
                 for(int counter = 0; counter < currDayHug.size(); counter += 2) {
                     if(currDayHug.get(counter).equals(currDate)){
                         arrayList.add("Hug scheduled at " + currDayHug.get(counter + 1));
+                        schedulePressedList.add(false);
                         //Log.d("valid", "currDay added to list");
                     }
                 }
                 for(int counter = 0; counter < currDayMusic.size(); counter += 2) {
                     if(currDayMusic.get(counter).equals(currDate)){
                         arrayList.add("Music scheduled at " + currDayMusic.get(counter + 1));
+                        schedulePressedList.add(false);
                         //Log.d("valid", "currDay added to list");
                     }
                 }
                 for(int counter = 0; counter < currDayOther.size(); counter += 2) {
                     if(currDayOther.get(counter).equals(currDate)){
                         arrayList.add("Other scheduled at " + currDayOther.get(counter + 1));
+                        schedulePressedList.add(false);
                         //Log.d("valid", "currDay added to list");
                     }
                 }
@@ -149,7 +154,9 @@ public class StaffRemoveScheduleScreen extends AppPLUSHActivity { // StaffSchedu
                             indexOf /= 2;
 
                             //Remove schedule from arraylist
+                            thisApplication.scheduler.RemoveSchedule(thisApplication.currUnitData().hugSchedule.get(indexOf), 0);
                             thisApplication.currUnitData().hugSchedule.remove(indexOf);
+                            thisApplication.saveNewSchedule("hugSchedule");
                         }
                         else if(toremove.contains("Music")){
                             //Parse the schedule
@@ -164,9 +171,10 @@ public class StaffRemoveScheduleScreen extends AppPLUSHActivity { // StaffSchedu
                             //Find location of schedule in arraylist
                             int indexOf = currDate.indexOf(specString);
                             indexOf /= 2;
-
                             //Remove schedule from arraylist
+                            thisApplication.scheduler.RemoveSchedule(thisApplication.currUnitData().musicSchedule.get(indexOf) , 1);
                             thisApplication.currUnitData().musicSchedule.remove(indexOf);
+                            thisApplication.saveNewSchedule("musicSchedule");
                         }
                         else if(toremove.contains("Other")){
                             //Parse the schedule
@@ -183,7 +191,9 @@ public class StaffRemoveScheduleScreen extends AppPLUSHActivity { // StaffSchedu
                             indexOf /= 2;
 
                             //Remove schedule from arraylist
+                            thisApplication.scheduler.RemoveSchedule(thisApplication.currUnitData().otherSchedule.get(indexOf), 2);
                             thisApplication.currUnitData().otherSchedule.remove(indexOf);
+                            thisApplication.saveNewSchedule("otherSchedule");
                         }
                     }
                 }
@@ -192,63 +202,6 @@ public class StaffRemoveScheduleScreen extends AppPLUSHActivity { // StaffSchedu
                 startActivity(intent); // page redirect (StaffScheduleScreen)
             }
         });
-
-//        RemoveButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                /* Modify JSON File (Database) */
-////                try {
-////
-////                    /* Fetch the correct user/unit array */
-////                    JSONArray inJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
-////                    JSONArray unitJSONArray = null;
-////                    JSONArray unitJSONArray1 = null;
-////                    JSONArray unitJSONArray2 = null;
-////                    JSONArray unitJSONArray3 = null;
-////
-////                    for (int l = 0; l < inJSONArray.length(); l++) {
-////                        if(inJSONArray.getJSONObject(l).getString("username").equals(thisApplication.currentUser)) {
-////                            unitJSONArray = inJSONArray.getJSONObject(l).getJSONArray("units");
-////                        }
-////                    }
-//
-//                    for (int i = 0; i < listView.getChildCount(); i++) {
-//                        /* For each button, check if the button is pressed */
-//                        if(schedulePressedList.get(i)) {
-////                            String toremove = listView.getChildAt(i).toString();
-////                            for(int j = 0; j < unitJSONArray.length(); j++) {
-////                                if(unitJSONArray.getJSONObject(j).getString("hugSchedule").equals(toremove)) {
-////                                    unitJSONArray.remove(j);
-////                                }
-////                                if(unitJSONArray.getJSONObject(j).getString("musicSchedule").equals(toremove)) {
-////                                    unitJSONArray.remove(j);
-////                                }
-////                                if(unitJSONArray.getJSONObject(j).getString("otherSchedule").equals(toremove)) {
-////                                    unitJSONArray.remove(j);
-////                                }
-////                            }
-//
-////                            thisApplication.currUserData().hug;
-//                        }
-//                    }
-//
-////                    /* Save new string */
-////                    File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
-////                    OutputStream outputStream = new FileOutputStream(f);
-////                    byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-////                    outputStream.write(outputBytes);
-////                    outputStream.close();
-////
-////                } catch (JSONException | FileNotFoundException e) {
-////                    e.printStackTrace();
-////                } catch (IOException e) {
-////                    e.printStackTrace();
-////                }
-//
-//                /* After schedule removal, return to scheduler Screen */
-//                Intent intent = new Intent(StaffRemoveScheduleScreen.this, StaffScheduleScreen.class);
-//                startActivity(intent); // page redirect (StaffScheduleScreen)
-//            }
-//        });
 
         //Parse and iterate checking for schedules in the same day
         for(int j = 0; j < thisApplication.currUnitData().hugSchedule.size(); j++) {
@@ -272,6 +225,8 @@ public class StaffRemoveScheduleScreen extends AppPLUSHActivity { // StaffSchedu
                 //Log.d("valid", "scheduleDateOther added");
             }
         }
+
+        schedulePressedList = new ArrayList<>();
 
         //Add schedule to buttonList
         for(int counter = 0; counter < currDayHug.size(); counter += 2) {
