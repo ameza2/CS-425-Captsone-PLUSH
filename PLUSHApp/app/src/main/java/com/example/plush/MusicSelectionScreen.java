@@ -14,6 +14,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class MusicSelectionScreen extends AppPLUSHActivity { // MusicSelectionScreen w/ action activities
@@ -81,11 +90,26 @@ public class MusicSelectionScreen extends AppPLUSHActivity { // MusicSelectionSc
                         break;
                 }
 
+                if(selected != -1){
+                    thisApplication.currUnitData().musicSong = selected;
+                    updateMusicSong(selected);
+                }
+
                 /* After schedule removal, return to scheduler Screen */
                 Intent intent = new Intent(MusicSelectionScreen.this, StaffMusicScreen.class);
                 startActivity(intent); // page redirect (StaffScheduleScreen)
             }
         });
+
+        if(thisApplication.currUnitData().musicSong != -1 && thisApplication.currUnitData().musicSong < arrayList.size()){
+            trackSelected.setText(arrayList.get(thisApplication.currUnitData().musicSong));
+            selected = thisApplication.currUnitData().musicSong;
+        }
+        else{
+            thisApplication.currUnitData().musicSong = -1;
+            updateMusicSong(-1);
+            selected = -1;
+        }
     }
 
     // Back button should redirect to music screen
@@ -93,5 +117,35 @@ public class MusicSelectionScreen extends AppPLUSHActivity { // MusicSelectionSc
     public void onBackPressed(){
         Intent intent = new Intent(MusicSelectionScreen.this, StaffMusicScreen.class);
         startActivity(intent);
+    }
+
+    void updateMusicSong(int s){
+        try {
+            JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+            for (int i = 0; i < inputJSONArray.length(); i++) {
+                if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
+
+                    /* Edit unit properties */
+                    JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                    for(int j = 0; j < unitJSONArray.length(); j++){
+                        if(unitJSONArray.getJSONObject(j).getString("id").equals(thisApplication.currentUnit)){
+                            unitJSONArray.getJSONObject(j).put("musicSong", s);
+                        }
+                    }
+
+                    /* Save new string to user database */
+                    File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
+                    OutputStream outputStream = new FileOutputStream(f);
+                    byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                    outputStream.write(outputBytes);
+                    outputStream.close();
+                }
+            }
+
+        } catch (JSONException | FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

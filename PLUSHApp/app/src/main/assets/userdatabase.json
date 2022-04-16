@@ -11,6 +11,7 @@
           "room": "101",
           "hugSensitivity": 6,
           "musicVolume": 24,
+          "musicSong": 2,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -20,6 +21,7 @@
           "room": "102",
           "hugSensitivity": 7,
           "musicVolume": 34,
+          "musicSong": 3,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -29,6 +31,7 @@
           "room": "103",
           "hugSensitivity": 2,
           "musicVolume": 60,
+          "musicSong": 1,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -45,6 +48,7 @@
           "room": "201",
           "hugSensitivity": 7,
           "musicVolume": 69,
+          "musicSong": 0,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -54,6 +58,7 @@
           "room": "202",
           "hugSensitivity": 4,
           "musicVolume": 20,
+          "musicSong": 4,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -70,6 +75,7 @@
           "room": "301",
           "hugSensitivity": 4,
           "musicVolume": 76,
+          "musicSong": 1,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -79,6 +85,7 @@
           "room": "302",
           "hugSensitivity": 6,
           "musicVolume": 33,
+          "musicSong": 2,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -88,6 +95,7 @@
           "room": "303",
           "hugSensitivity": 3,
           "musicVolume": 66,
+          "musicSong": 4,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -104,6 +112,7 @@
           "room": "401",
           "hugSensitivity": 5,
           "musicVolume": 78,
+          "musicSong": 3,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -113,6 +122,7 @@
           "room": "402",
           "hugSensitivity": 1,
           "musicVolume": 10,
+          "musicSong": 1,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -122,6 +132,7 @@
           "room": "403",
           "hugSensitivity": 6,
           "musicVolume": 55,
+          "musicSong": 4,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -131,6 +142,7 @@
           "room": "404",
           "hugSensitivity": 4,
           "musicVolume": 56,
+          "musicSong": 2,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []
@@ -147,6 +159,7 @@
           "room": "501",
           "hugSensitivity": 3,
           "musicVolume": 84,
+          "musicSong": 3,
           "hugSchedule": [],
           "musicSchedule": [],
           "otherSchedule": []

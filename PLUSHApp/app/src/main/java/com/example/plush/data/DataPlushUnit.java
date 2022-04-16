@@ -10,17 +10,19 @@ public class DataPlushUnit {
 
         hugSensitivity = 4;
         musicVolume = 50;
+        musicSong = -1;
         hugSchedule = new ArrayList<>();
         musicSchedule = new ArrayList<>();
         otherSchedule = new ArrayList<>();
     }
 
-    DataPlushUnit(String i, String r, int h, int m, ArrayList<String> hug, ArrayList<String> music, ArrayList<String> other){
+    DataPlushUnit(String i, String r, int h, int m, int s, ArrayList<String> hug, ArrayList<String> music, ArrayList<String> other){
         id = i;
         room = r;
 
         hugSensitivity = h;
         musicVolume = m;
+        musicSong = s;
         hugSchedule = new ArrayList<>(hug);
         musicSchedule = new ArrayList<>(music);
         otherSchedule = new ArrayList<>(other);
@@ -34,4 +36,5 @@ public class DataPlushUnit {
 
     public int hugSensitivity;
     public int musicVolume;
+    public int musicSong;
 }

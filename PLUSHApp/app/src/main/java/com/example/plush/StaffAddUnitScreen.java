@@ -99,10 +99,15 @@ public class StaffAddUnitScreen extends AppPLUSHActivity { // StaffAddUnitScreen
                                     /* Add unit properties to array */
                                     JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
                                     JSONObject toPut = new JSONObject();
+                                    JSONArray empty = new JSONArray();
                                     toPut.put("id", IDEditText.getText().toString());
                                     toPut.put("room", RoomEditText.getText().toString());
                                     toPut.put("hugSensitivity", 4);
                                     toPut.put("musicVolume", 50);
+                                    toPut.put("musicSong", -1);
+                                    toPut.put("hugSchedule", empty);
+                                    toPut.put("musicSchedule", empty);
+                                    toPut.put("otherSchedule", empty);
                                     unitJSONArray.put(toPut);
 
                                     /* Save new string to user database */
