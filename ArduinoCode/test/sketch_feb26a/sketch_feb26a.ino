@@ -18,6 +18,7 @@ char incomingPacket[256];
 
 int musicVol = -1;
 int hugSen = -1;
+int currSong = -1;
 bool alert = false;
 //enum CMD = {VOL,HUG,TGM,SEN};
 //using enum CMD;
@@ -36,7 +37,7 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-  Serial.println("Version Code: 0007"); // Debugging, just to see if reset worked
+  Serial.println("Version Code: 0009"); // Debugging, just to see if reset worked
 
   randomSeed(analogRead(0)); // Set up random seed (pin 0 needs to be disconnected)
 
@@ -181,10 +182,12 @@ void loop(void){
         udp.endPacket();
 
         // FOR TESTING PURPOSES ONLY: The app will randomly alert.
+        /*
         long rand = random(1000);
         if(rand < 10){
           alert = true;
         }
+        */
     }
 
     //=====================================================================================
@@ -192,7 +195,7 @@ void loop(void){
     //=====================================================================================
     if(strcmp(cmd, "HSEN") == 0){
         hugSen = atoi(action);
-        Serial.printf("New sensitivity: %d", hugSen);
+        Serial.printf("New sensitivity: %d\n", hugSen);
         udp.beginPacket(udp.remoteIP(), udp.remotePort());
         udp.write(incomingPacket);
         udp.endPacket();
@@ -203,7 +206,7 @@ void loop(void){
     //=====================================================================================
     if(strcmp(cmd, "MVOL") == 0){
         musicVol = atoi(action);
-        Serial.printf("New volume: %d", musicVol);
+        Serial.printf("New volume: %d\n", musicVol);
         udp.beginPacket(udp.remoteIP(), udp.remotePort());
         udp.write(incomingPacket);
         udp.endPacket();
@@ -244,6 +247,18 @@ void loop(void){
         udp.write(incomingPacket);
         udp.endPacket();
     }
+    //=====================================================================================
+    // Command SMUS: App orders unit to change the music to be played.
+    //=====================================================================================
+    if(strcmp(cmd, "SMUS") == 0){
+        int musToSet = atoi(action);
+
+        setMusic(musToSet);
+        
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.write(incomingPacket);
+        udp.endPacket();
+    }
   }
 }
 
@@ -263,23 +278,27 @@ void handleNotFound(){
 //---------------------------------------------------------
 
 void startHug(){
- Serial.printf("Started Hug!"); 
+ Serial.printf("Started Hug!\n"); 
  //sendMessageToMain(HUG, 0, true);
 }
 
 void stopHug(){
- Serial.printf("Stopped Hug!"); 
+ Serial.printf("Stopped Hug!\n"); 
  //sendMessageToMain(HUG, 0, false);
 }
 
 void startMusic(){
- Serial.printf("Started Music!"); 
+ Serial.printf("Started Music!\n"); 
  //sendMessageToMain(TGM, 0, true);
 }
 
 void stopMusic(){
- Serial.printf("Stopped Music!"); 
+ Serial.printf("Stopped Music!\n"); 
  //sendMessageToMain(TGM, 0, false);
+}
+
+void setMusic(int m){
+  Serial.printf("Set Music: %d\n", m);
 }
 
 /*

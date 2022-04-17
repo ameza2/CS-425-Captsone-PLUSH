@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.plush.data.DataApplication;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -93,6 +95,7 @@ public class MusicSelectionScreen extends AppPLUSHActivity { // MusicSelectionSc
                 if(selected != -1){
                     thisApplication.currUnitData().musicSong = selected;
                     updateMusicSong(selected);
+                    DataApplication.connectedThread2.send("SMUS:" + Integer.toString(selected));
                 }
 
                 /* After schedule removal, return to scheduler Screen */
