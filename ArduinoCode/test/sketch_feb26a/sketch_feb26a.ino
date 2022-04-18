@@ -37,7 +37,7 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-  Serial.println("Version Code: 0009"); // Debugging, just to see if reset worked
+  Serial.println("Version Code: 0010"); // Debugging, just to see if reset worked
 
   randomSeed(analogRead(0)); // Set up random seed (pin 0 needs to be disconnected)
 
@@ -132,8 +132,10 @@ void loop(void){
         // PARSING        
         char newHugSen[255];
         char newMusicVol[255];
+        char newMusicSong[255];
         newHugSen[0] = '\0';
         newMusicVol[0] = '\0';
+        newMusicSong[0] = '\0';
         int t = 0;
 
         for(int i = 0; i < 255; i++){
@@ -162,6 +164,10 @@ void loop(void){
                       alert = false;
                 }
                 break;
+              case 3:
+                char newChar3[1];
+                newChar3[0] = action[i];
+                strcat(newMusicSong, newChar3);
               default:
                 break;
             }
@@ -171,6 +177,10 @@ void loop(void){
         if(hugSen == -1 || musicVol == -1){
            hugSen = atoi(newHugSen);
            musicVol = atoi(newMusicVol);
+
+           if(newMusicSong[0] != '\0'){
+              setMusic(atoi(newMusicSong));
+           }
         }
         
 
@@ -182,12 +192,12 @@ void loop(void){
         udp.endPacket();
 
         // FOR TESTING PURPOSES ONLY: The app will randomly alert.
-        /*
+        
         long rand = random(1000);
         if(rand < 10){
           alert = true;
         }
-        */
+        
     }
 
     //=====================================================================================
@@ -259,6 +269,18 @@ void loop(void){
         udp.write(incomingPacket);
         udp.endPacket();
     }
+
+    //=====================================================================================
+    // Command ACKA: App acknolwedges that the alert has been called, and will turn off the light.
+    //=====================================================================================
+    if(strcmp(cmd, "ACKA") == 0){
+
+        acknowledgeAlert();
+        
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.write(incomingPacket);
+        udp.endPacket();
+    }
   }
 }
 
@@ -299,6 +321,10 @@ void stopMusic(){
 
 void setMusic(int m){
   Serial.printf("Set Music: %d\n", m);
+}
+
+void acknowledgeAlert(){
+  Serial.printf("Alert acknlowedged!\n");
 }
 
 /*

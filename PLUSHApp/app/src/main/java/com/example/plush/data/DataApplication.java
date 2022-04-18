@@ -404,7 +404,7 @@ public class DataApplication extends Application {
                         else {
                             try {
                                 String x = "UPDT: HS-" + Integer.toString(currUnitData().hugSensitivity) + "/MV-" + Integer.toString(currUnitData().musicVolume)
-                                        + "/AL-" + Integer.toString((alertRecieved ? 1 : 0));
+                                        + "/AL-" + Integer.toString((alertRecieved ? 1 : 0)) + "/MU-" + (currUnitData().musicSong == -1 ? "*" : Integer.toString(currUnitData().musicSong));
                                 byte[] data = x.getBytes();
                                 byte[] dataRecieved = new byte[256];
 
@@ -539,6 +539,7 @@ public class DataApplication extends Application {
                                                                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                                                                    new DialogInterface.OnClickListener() {
                                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                                           send("ACKA:0");
                                                                                            dialog.dismiss();
                                                                                        }
                                                                                    });
