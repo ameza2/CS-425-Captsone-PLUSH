@@ -525,8 +525,8 @@ public class DataApplication extends Application {
                                     }
                                 }
 
-                                if(nA != (alertRecieved ? 1 : 0)){
-                                    if(nA == 1) {
+                                if((alertRecieved && nA == 0) || (!alertRecieved && nA != 0)){// nA != (alertRecieved ? 1 : 0)){
+                                    if(nA >= 1) {
                                         Log.e("ALERT", "Alert recieved!");
 
                                         currActivity.runOnUiThread(new Runnable() {
@@ -535,7 +535,12 @@ public class DataApplication extends Application {
                                                                            // Taken from: https://stackoverflow.com/questions/26097513/android-simple-alert-dialog
                                                                            AlertDialog alertDialog = new AlertDialog.Builder(currActivity).create();
                                                                            alertDialog.setTitle("Alert");
-                                                                           alertDialog.setMessage("The patient has called for a nurse.");
+                                                                           if(nA == 2){
+                                                                               alertDialog.setMessage("The patient has pressed the release button.");
+                                                                           }
+                                                                           else {
+                                                                               alertDialog.setMessage("The patient has called for a nurse.");
+                                                                           }
                                                                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                                                                    new DialogInterface.OnClickListener() {
                                                                                        public void onClick(DialogInterface dialog, int which) {
@@ -548,7 +553,7 @@ public class DataApplication extends Application {
                                                                    }
                                         );
                                     }
-                                    alertRecieved = (nA == 1);
+                                    alertRecieved = (nA >= 1);
 
                                 }
 

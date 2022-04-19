@@ -19,7 +19,7 @@ char incomingPacket[256];
 int musicVol = -1;
 int hugSen = -1;
 int currSong = -1;
-bool alert = false;
+int alert = 0;
 //enum CMD = {VOL,HUG,TGM,SEN};
 //using enum CMD;
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
@@ -37,7 +37,7 @@ void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-  Serial.println("Version Code: 0010"); // Debugging, just to see if reset worked
+  Serial.println("Version Code: 0011"); // Debugging, just to see if reset worked
 
   randomSeed(analogRead(0)); // Set up random seed (pin 0 needs to be disconnected)
 
@@ -161,7 +161,7 @@ void loop(void){
                 char newChar2[1];
                 newChar2[0] = action[i];
                 if(newChar2[0] == '1'){
-                      alert = false;
+                      alert = 0;
                 }
                 break;
               case 3:
@@ -195,7 +195,10 @@ void loop(void){
         
         long rand = random(1000);
         if(rand < 10){
-          alert = true;
+          alert = 1;
+        }
+        if(rand > 990){
+          alert = 2;
         }
         
     }
