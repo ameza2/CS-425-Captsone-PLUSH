@@ -66,6 +66,12 @@
             android:name=".PatientLoginScreen"
             android:exported="false" />
         <activity
+            android:name=".PatientMusicScreen"
+            android:exported="false" />
+        <activity
+            android:name=".PatientMusicSelectionScreen"
+            android:exported="false" />
+        <activity
             android:name=".SelectAccountScreen"
             android:exported="true">
             <intent-filter>

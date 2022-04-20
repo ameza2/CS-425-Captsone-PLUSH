@@ -50,8 +50,8 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
 
 
         /* Pass the plush ID and room number from the home screen */
-//        roomNum.setText("Room " + thisApplication.currUnitData().room);
-//        unitID.setText("Unit #" + thisApplication.currUnitData().id);
+        roomNum.setText("Room " + thisApplication.currUnitData().room);
+        unitID.setText("Unit #" + thisApplication.currUnitData().id);
 
         /* Hug Sensitivity Bar: used to calibrate PLUSH hug sensitivity */
         sensitivityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -75,7 +75,7 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
         /* Music Button: used to configure PLUSH music preferences */
         musicButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(PatientPlushHomeScreen.this, StaffMusicScreen.class);
+                Intent intent = new Intent(PatientPlushHomeScreen.this, PatientMusicScreen.class);
                 startActivity(intent); // redirect page (PatientMusicScreen)
             }
         });

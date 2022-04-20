@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.plush.data.DataApplication;
+import com.example.plush.data.DataUser;
 
 public class PatientLoginScreen extends AppPLUSHActivity { // PatientLoginScreen w/ action activities
 
@@ -32,6 +33,19 @@ public class PatientLoginScreen extends AppPLUSHActivity { // PatientLoginScreen
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(thisApplication.checkBearExists(plushIDEditText.getText().toString())) {
+
+                    // Get user and unit
+
+                    thisApplication.currentUnit = plushIDEditText.getText().toString();
+
+                    for(DataUser user : thisApplication.userDatabase.values()){
+                        if(user.assignedUnits.containsKey(plushIDEditText.getText().toString())){
+                            thisApplication.currentUser = user.username;
+                            break;
+                        }
+                    }
+
+                    // Start activity
                     Intent intent = new Intent(PatientLoginScreen.this, PatientPlushHomeScreen.class);
                     startActivity(intent);
                 }
@@ -40,5 +54,15 @@ public class PatientLoginScreen extends AppPLUSHActivity { // PatientLoginScreen
                 }
             }
         });
+
+        thisApplication.currentUnit = "";
+        thisApplication.currentUser = "";
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        thisApplication.currentUnit = "";
+        thisApplication.currentUser = "";
     }
 }

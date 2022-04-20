@@ -69,28 +69,6 @@ public class MusicSelectionScreen extends AppPLUSHActivity { // MusicSelectionSc
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch(selected){
-                    case 0:
-                        //Log.d("valid", "Music Sweden Selected!");
-                        //To be replaced with actual arduino command
-                        break;
-                    case 1:
-                        //Log.d("valid", "Music Clark Selected!");
-                        //To be replaced with actual arduino command
-                        break;
-                    case 2:
-                        //Log.d("valid", "Music Haggstrom Selected!");
-                        //To be replaced with actual arduino command
-                        break;
-                    case 3:
-                        //Log.d("valid", "Music Minecraft Selected!");
-                        //To be replaced with actual arduino command
-                        break;
-                    case 4:
-                        //Log.d("valid", "Music Danny Selected!");
-                        //To be replaced with actual arduino command
-                        break;
-                }
 
                 if(selected != -1){
                     thisApplication.currUnitData().musicSong = selected;
