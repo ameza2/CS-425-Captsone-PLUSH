@@ -23,6 +23,15 @@ import android.widget.TextView;
 import com.example.plush.data.DataApplication;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class PatientPlushHomeScreen extends AppPLUSHActivity {
@@ -57,8 +66,11 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
         sensitivityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                sensitivityText.setText("Hug Sensitivity: " + String.valueOf(progress)); // print hug sensitivity value
-                sensitivity = progress; // store hug sensitivity value
+                if(fromUser) {
+                    updateHugSensitivity(progress);
+                    sensitivityText.setText("Hug Sensitivity: " + String.valueOf(progress)); // print hug sensitivity value
+                    sensitivity = progress; // store hug sensitivity value
+                }
             }
 
             @Override
@@ -88,4 +100,43 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        sensitivityText.setText("Hug Sensitivity: " + String.valueOf(thisApplication.currUnitData().hugSensitivity));
+        sensitivityBar.setProgress(thisApplication.currUnitData().hugSensitivity);
+    }
+
+    public void updateHugSensitivity(int h){
+        thisApplication.currUnitData().hugSensitivity = h;
+        try {
+            JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+            for (int i = 0; i < inputJSONArray.length(); i++) {
+                if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
+
+                    /* Edit unit properties */
+                    JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                    for(int j = 0; j < unitJSONArray.length(); j++){
+                        if(unitJSONArray.getJSONObject(j).getString("id").equals(thisApplication.currentUnit)){
+                            unitJSONArray.getJSONObject(j).put("hugSensitivity", h);
+                        }
+                    }
+
+                    /* Save new string to user database */
+                    File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
+                    OutputStream outputStream = new FileOutputStream(f);
+                    byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                    outputStream.write(outputBytes);
+                    outputStream.close();
+                }
+            }
+
+//                    DataApplication.connectedThread2.send(100 + progress, thisApplication.currentUnit);
+
+        } catch (JSONException | FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

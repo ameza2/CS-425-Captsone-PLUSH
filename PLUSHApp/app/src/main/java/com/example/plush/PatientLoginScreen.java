@@ -65,4 +65,10 @@ public class PatientLoginScreen extends AppPLUSHActivity { // PatientLoginScreen
         thisApplication.currentUnit = "";
         thisApplication.currentUser = "";
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(PatientLoginScreen.this, SelectAccountScreen.class);
+        startActivity(intent);
+    }
 }
