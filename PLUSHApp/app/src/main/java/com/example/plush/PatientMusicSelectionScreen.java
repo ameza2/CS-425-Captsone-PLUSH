@@ -61,8 +61,11 @@ public class PatientMusicSelectionScreen extends AppPLUSHActivity{
             @Override
             public void onClick(View v) {
 
-                thisApplication.currUnitData().musicSong = selected;
-                updateMusicSong(selected);
+                if(selected != -1){
+                    thisApplication.currUnitData().musicSong = selected;
+                    updateMusicSong(selected);
+                    DataApplication.connectedThread2.send("SMUS:" + Integer.toString(selected));
+                }
 
                 /* After schedule removal, return to scheduler Screen */
                 Intent intent = new Intent(PatientMusicSelectionScreen.this, PatientMusicScreen.class);

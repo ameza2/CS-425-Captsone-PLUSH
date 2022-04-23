@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.example.plush.data.DataApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,7 +62,16 @@ public class PatientMusicScreen extends AppPLUSHActivity{
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                DataApplication.connectedThread2.send("MVOL:"+Integer.toString(seekBar.getProgress()));
+            }
+        });
 
+        /* Music Toggle Switch: enable/disable music */
+        musicToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String x = isChecked ? "1" : "0";
+                DataApplication.connectedThread2.send("PMUS:" + x);
             }
         });
     }

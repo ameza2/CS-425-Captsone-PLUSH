@@ -2,6 +2,9 @@
 package com.example.plush;
 
 // Libraries //
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -39,10 +43,17 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
 
     TextView roomNum; // textview variable: used to store patient room number from PLUSH instance
     TextView unitID; // textview variable: used to store PLUSH PID from PLUSH instance
+    Button hugButton; // button variable: hug button (hug patient)
     Button musicButton; // button variable: music button (configure music settings)
     SeekBar sensitivityBar; // seekbar variable: used to configure hug sensitivity
     TextView sensitivityText; // textview variable: used to display hug sensitivity
     int sensitivity;
+
+    TextView connectionText; // textview variable: used to show current connection status
+    Button connectionRetryButton; // button variable: used to retry connection
+    Button connectionCloseButton; // button variable: used to stop attempting to connect
+    View connectionLayout; // layout variable: shows the attempted connection status
+    PatientPlushHomeScreen.UnitConnectionThread connectionThread;
 
     /* Initialize Page Activity (Staff PLUSH Unit Screen) */
     @Override
@@ -54,8 +65,13 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
         roomNum = (TextView) findViewById (R.id.roomNum);
         unitID = (TextView) findViewById (R.id.unitID);
         musicButton = (Button) findViewById (R.id.musicButton);
+        hugButton = (Button) findViewById (R.id.hugButton);
         sensitivityBar = findViewById(R.id.sensitivityBar);
         sensitivityText = findViewById(R.id.sensitivityText);
+        connectionText = (TextView) findViewById(R.id.connectionTextView);
+        connectionCloseButton = (Button) findViewById(R.id.closeConnectionButton);
+        connectionRetryButton = (Button) findViewById(R.id.retryConnectionButton);
+        connectionLayout = (View) findViewById(R.id.connectionLayout);
 
 
         /* Pass the plush ID and room number from the home screen */
@@ -80,7 +96,7 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // DO NOTHING //
+                DataApplication.connectedThread2.send("HSEN:" + Integer.toString(seekBar.getProgress()));
             }
         });
 
@@ -91,6 +107,17 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
                 startActivity(intent); // redirect page (PatientMusicScreen)
             }
         });
+
+
+        /* Hug Button: used to hug the patient */
+        hugButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                DataApplication.connectedThread2.send("HUGP:1");
+            }
+        });
+
+        connectionThread = new PatientPlushHomeScreen.UnitConnectionThread();
+        connectionThread.start();
     }
 
     // Back button should redirect to login screen
@@ -138,5 +165,53 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public class UnitConnectionThread extends Thread{
+        public void run(){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StatsScreen(false, false, "Connecting...");
+                }
+            });
+
+            DataApplication.connectedThread2.sendUDP(thisApplication.currentUnit, "255.255.255.255", 4210);
+            int status = 0;
+            while(status == 0){
+                status = DataApplication.connectedThread2.checkIfFinitshed();
+            }
+
+            Log.e("Connection?", Integer.toString(status));
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int status = DataApplication.connectedThread2.checkIfFinitshed();
+                    String statText = status == -1 ? "Connection failed" : "Connection established";
+                    StatsScreen(status == -1, true, statText);
+                }
+            });
+
+            connectionRetryButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    connectionThread = new PatientPlushHomeScreen.UnitConnectionThread();
+                    connectionThread.start();
+                }
+            });
+
+            connectionCloseButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    connectionLayout.setVisibility(GONE);
+                }
+            });
+
+        }
+    }
+
+    public void StatsScreen(boolean retryButtonOn, boolean closeButtonOn, String text){
+        connectionRetryButton.setVisibility(retryButtonOn ? VISIBLE : GONE);
+        connectionCloseButton.setVisibility(closeButtonOn ? VISIBLE : GONE);
+        connectionText.setText(text);
     }
 }

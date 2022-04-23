@@ -64,6 +64,7 @@ public class PatientLoginScreen extends AppPLUSHActivity { // PatientLoginScreen
         super.onResume();
         thisApplication.currentUnit = "";
         thisApplication.currentUser = "";
+        thisApplication.connectedThread2.disconnectUnit();
     }
 
     @Override
