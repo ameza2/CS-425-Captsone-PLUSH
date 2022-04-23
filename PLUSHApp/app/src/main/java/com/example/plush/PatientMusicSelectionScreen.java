@@ -25,8 +25,8 @@ import java.util.ArrayList;
 public class PatientMusicSelectionScreen extends AppPLUSHActivity{
     Button selectButton; // button variable: song selection button
     ListView listView;
-    TextView trackSelected;
-    int selected;
+    TextView trackSelected; // text saying what track was selected
+    int selected; // keeps track of selected song
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
 
@@ -84,6 +84,7 @@ public class PatientMusicSelectionScreen extends AppPLUSHActivity{
         }
     }
 
+    // Update the music selected to the JSON database
     void updateMusicSong(int s){
         try {
             JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
@@ -114,6 +115,7 @@ public class PatientMusicSelectionScreen extends AppPLUSHActivity{
         }
     }
 
+    // Pressing the back button redirects you to the patient music page
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(PatientMusicSelectionScreen.this, PatientMusicScreen.class);

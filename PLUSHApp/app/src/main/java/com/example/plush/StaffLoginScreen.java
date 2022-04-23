@@ -31,7 +31,8 @@ public class StaffLoginScreen extends AppPLUSHActivity {
         PasswordEditText = (EditText) findViewById(R.id.editTextTextPassword);
 
 
-        /* Login Button: fetch username and password string, then conduct a credential check. If username and password are valid entries (same hash value (TBD)), redirect staff user to home screen */
+        /* Login Button: fetch username and password string, then conduct a credential check.
+        If username and password are valid entries (same hash value (TBD)), redirect staff user to home screen */
         LoginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(thisApplication.checkCredentials(UsernameEditText.getText().toString(), PasswordEditText.getText().toString())) {

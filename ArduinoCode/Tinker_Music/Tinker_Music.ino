@@ -1,9 +1,7 @@
-#include <Stepper.h>
-
 /**
    PLUSH Arduino Code:
    Authors: Christian Pilley, Abraham Meza
-   Team: Team20(Christian Pilley, Abraham Meza, Tal Zemach, Josh Insorio, Korben Diarchangel)
+   Team: Team 20(Christian Pilley, Abraham Meza, Tal Zemach, Josh Insorio, Korben Diarchangel)
    Outside Librarys (code not written by us):
     - LiquidCrystal_I2C.h
     - Pitch.h
@@ -15,6 +13,7 @@
     - WifiServer.h
     - WifiUdp.h
 */
+
 #define TONE_USE_INT
 #define TONE_PITCH 440
 //#define HANDLE_TAGS
@@ -32,36 +31,34 @@
 #include <Stepper.h> // stepper motors
 
 
-LiquidCrystal_I2C lcd(0x27, 16, 2);
+LiquidCrystal_I2C lcd(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
 File f;
 TMRpcm Audio;
 
-//
-const int stepsPerRevolution = 2048;
+const int stepsPerRevolution = 2048; // According to stepper motor specs
 //Logger logger;
-/*
-   Pin assignments:
-   Variables holding the pin locations for various I/O
-*/
-const int musicButton     = 4;
-const int hugButton       = 5;
-const int emergencyButton = 6;
-const int helpButton      = 7;
-const int volumeDownButton= 48;
-const int volumeUpButton  = 49;
-const int speakerOutPin   = 12;
-unsigned const LED_R      = 10;
-unsigned const LED_G      = 9;
-unsigned const LED_B      = 8;
+
+// Pin assignments: Variables holding the pin locations for various I/O
+const int musicButton      = 4;
+const int hugButton        = 5;
+const int emergencyButton  = 6;
+const int helpButton       = 7;
+const int volumeDownButton = 48;
+const int volumeUpButton   = 49;
+const int speakerOutPin    = 12;
+unsigned const LED_R       = 10;
+unsigned const LED_G       = 9;
+unsigned const LED_B       = 8;
 
 const int buttonInterruptPin = 2;
 const int recieverInterruptPin = 3;
 int recieverDataPins[] = {24,25,26,27,28,29,30,31,32,33};
 
-Stepper myStepperRA = Stepper(stepsPerRevolution, 36, 38, 37, 39); // (steps per revolution, pins)
-Stepper myStepperRS = Stepper(stepsPerRevolution, 40, 42, 41, 43); // (steps per revolution, pins)
-Stepper myStepperLA = Stepper(stepsPerRevolution, 14, 16, 15, 17); // (steps per revolution, pins)
-Stepper myStepperLS = Stepper(stepsPerRevolution, 44, 46, 45, 47); // (steps per revolution, pins)
+Stepper myStepperRA = Stepper(stepsPerRevolution, 36, 38, 37, 39); // Right arm (steps per revolution, pins)
+Stepper myStepperRS = Stepper(stepsPerRevolution, 40, 42, 41, 43); // Right shoulder (steps per revolution, pins)
+Stepper myStepperLA = Stepper(stepsPerRevolution, 14, 16, 15, 17); // Left arm (steps per revolution, pins)
+Stepper myStepperLS = Stepper(stepsPerRevolution, 44, 46, 45, 47); // Left shoulder(steps per revolution, pins)
+
 bool hugFlag = false;
 int hugDuration = 5000; // hug duration (ms)
 
@@ -77,12 +74,14 @@ String buttonMessages[] = {
 };
 String currentPressedButton = "";
 boolean buttonChanged = false;
+
 /*
    Music Variables
 */
 bool musicToggle = true; // boolean  variable: used to store music toggle
 int newVolume = 0; // variable: used to store new volume setting
 int oldVolume = 0; // variable: used to store old volume setting
+
 /*
    Interrupt Functions
 */
@@ -94,6 +93,7 @@ void buttonInterrupts() {
   Serial.print(digitalRead(musicButton));
   Serial.print(digitalRead(volumeDownButton));
   Serial.print(digitalRead(volumeUpButton));
+  
   if(digitalRead(musicButton)){
     musicToggle = !musicToggle; // switch the state of the musictoggle
     currentPressedButton = buttonMessages[0];
@@ -123,11 +123,10 @@ void buttonInterrupts() {
     newVolume = min(10, newVolume++); 
   }
 }
+
 void receiverFunc(){
-  
   clearRecieverPins();
 }
-
 
 
 /*
@@ -141,6 +140,9 @@ void setLEDColor(int redVal, int greenVal, int blueVal) {
 void clearRecieverPins(){
   for(int i = recieverDataPins[0]; i < recieverDataPins[9]; i++) digitalWrite(i, LOW);
 }
+
+
+
 /*
    Setup Function
 */
@@ -199,6 +201,7 @@ void setup() {
 }
 
 
+
 /*
    Loop Function
 */
@@ -229,7 +232,7 @@ void loop() {
   //newVolume = analogRead(volumeDial);
   //newVolume = map(newVolume, 0, 1024, 0, 100);
 
-   //Play PLUSH Music
+  //Play PLUSH Music: Audio.pause() can pause or unpause playback
   if (musicToggle) {
     if (!Audio.isPlaying()) {
       Audio.pause();
@@ -239,6 +242,7 @@ void loop() {
       Audio.pause();
     }
   }
+  
   //update LCD
   if (buttonChanged) {
     lcd.setCursor(0, 1);
@@ -246,6 +250,7 @@ void loop() {
     lcd.setCursor(0,1);  
     lcd.print(currentPressedButton);
   }
+  
   //update LED
   if (currentPressedButton == buttonMessages[3]) {
     setLEDColor(0, 0, 0);
@@ -256,6 +261,7 @@ void loop() {
     setLEDColor(0, 0, 0);
     currentPressedButton = "";
   }
+  
   //change volume
   if (oldVolume != newVolume) {
     lcd.setCursor(14, 1);
