@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Appearance"
+        >
+
+    </PreferenceCategory>
+
+        <SwitchPreference
+            android:key="darkModeSwitch"
+            android:title="Dark Mode"
+            android:summary="Enable Dark Mode Using Device's Theme"
+
+            />
+
+    <PreferenceCategory
+        android:title="About"
+        >
+
+    </PreferenceCategory>
+
+    <Preference
+        android:id="@+id/darkmodetoggleid"
+        android:fragment="com.example.plush.staff_SoftwareDetailsScreen"
+        android:key="SoftwareDetailsButton"
+        android:title="Software Details" />
+
+</PreferenceScreen>
