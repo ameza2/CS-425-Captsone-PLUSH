@@ -54,10 +54,10 @@ public class StaffSettingsScreen extends AppPLUSHActivity{ // StaffSettingsScree
 
 
         // Things for Dark Mode
-        sharedPreferences = getSharedPreferences("night", 0);
-        Boolean booleanValue = sharedPreferences.getBoolean("night mode", true);
-        if (booleanValue){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        sharedPreferences = getSharedPreferences("night", 0); // save current mode in SharedPreferences object
+        Boolean booleanValue = sharedPreferences.getBoolean("night mode", true); // bool to check for night mode
+        if (booleanValue){ // if bool is true (night mode)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES); // retrieve the current night mode type
             darkModeSwitch.setChecked(true);
         }
 
