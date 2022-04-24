@@ -183,8 +183,13 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
             }
         });
 
-        connectionThread = new UnitConnectionThread();
-        connectionThread.start();
+        connectionLayout.setVisibility(GONE);
+        if(thisApplication.firstTime) {
+            connectionLayout.setVisibility(VISIBLE);
+            connectionThread = new UnitConnectionThread();
+            connectionThread.start();
+        }
+        thisApplication.firstTime = false;
 
         if(thisApplication.scheduler.IsEmpty()) {
             setUpScheduler();

@@ -89,7 +89,8 @@
         android:layout_marginBottom="33dp"
         android:text="Shut Down"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/roomNum"

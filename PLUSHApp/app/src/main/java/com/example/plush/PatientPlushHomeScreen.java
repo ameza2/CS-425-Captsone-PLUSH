@@ -116,8 +116,14 @@ public class PatientPlushHomeScreen extends AppPLUSHActivity {
             }
         });
 
-        connectionThread = new PatientPlushHomeScreen.UnitConnectionThread();
-        connectionThread.start();
+        connectionLayout.setVisibility(GONE);
+        if(thisApplication.firstTime) {
+            connectionLayout.setVisibility(VISIBLE);
+            connectionThread = new PatientPlushHomeScreen.UnitConnectionThread();
+            connectionThread.start();
+        }
+
+        thisApplication.firstTime = false;
     }
 
     // Back button should redirect to login screen

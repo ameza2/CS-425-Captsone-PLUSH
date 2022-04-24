@@ -76,6 +76,7 @@ public class DataApplication extends Application {
     public JSONObject inputJSON;
     public DataSchedule scheduler;
     boolean alertRecieved = false; // Determines if the application recieved an alert
+    public boolean firstTime = false; // Determines whether the conneciton popup should be displayed.
 
 
     // ACTIVITY CODE: Will allow the application to do things with the current activity

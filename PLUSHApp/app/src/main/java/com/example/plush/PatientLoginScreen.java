@@ -46,6 +46,7 @@ public class PatientLoginScreen extends AppPLUSHActivity { // PatientLoginScreen
                     }
 
                     // Start activity
+                    thisApplication.firstTime = true;
                     Intent intent = new Intent(PatientLoginScreen.this, PatientPlushHomeScreen.class);
                     startActivity(intent);
                 }

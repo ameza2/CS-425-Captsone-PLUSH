@@ -56,18 +56,19 @@ public class StaffHomeScreen extends AppPLUSHActivity {
         //this allows for us to detect when the sidebar is opened so we can stop displaying the plush buttons and redisplay when closed.
         actionBarHamburgerToggle = new ActionBarDrawerToggle(this, hamburgerLayout, toolbar, R.string.open, R.string.close){
             @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                hamburgerLayout.setTranslationZ(10);
+            }
+
+            @Override
             public void onDrawerOpened(View v){
                 super.onDrawerOpened(v);
-                findViewById(R.id.scrollview).setVisibility(View.INVISIBLE);
-                findViewById(R.id.addButton).setVisibility(View.INVISIBLE);
-                findViewById(R.id.removeButton).setVisibility(View.INVISIBLE);
             }
             @Override
             public void onDrawerClosed(View v){
                 super.onDrawerClosed(v);
-                findViewById(R.id.scrollview).setVisibility(View.VISIBLE);
-                findViewById(R.id.addButton).setVisibility(View.VISIBLE);
-                findViewById(R.id.removeButton).setVisibility(View.VISIBLE);
+                hamburgerLayout.setTranslationZ(0);
             }
         };
         hamburgerLayout.addDrawerListener(actionBarHamburgerToggle);
@@ -128,6 +129,7 @@ public class StaffHomeScreen extends AppPLUSHActivity {
                     Intent intent = new Intent(StaffHomeScreen.this, StaffPlushUnitScreen.class);
                     int ind = buttonList.indexOf(button);
                     thisApplication.currentUnit = unitIDList.get(ind);
+                    thisApplication.firstTime = true;
                     startActivity(intent);
                 }
             });
