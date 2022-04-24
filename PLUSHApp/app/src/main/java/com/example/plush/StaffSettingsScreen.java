@@ -10,6 +10,7 @@ import androidx.lifecycle.ComputableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
@@ -34,14 +35,31 @@ public class StaffSettingsScreen extends AppPLUSHActivity{ // StaffSettingsScree
         softwareDetailsButton = (Button) findViewById(R.id.SoftwareDetailsButtonID);
         darkModeSwitch = findViewById(R.id.darkMode);
 
+        //If app is already in dark mode, set the toggle to be true
+        int nightModeFlags =
+                darkModeSwitch.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                darkModeSwitch.setChecked(true);
+                break;
 
-        // Things for Dark Mode
-        sharedPreferences = getSharedPreferences("night", 0);
+            case Configuration.UI_MODE_NIGHT_NO:
+                darkModeSwitch.setChecked(false);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                darkModeSwitch.setChecked(false);
+                break;
+        }
+
+
+        // Things for Dark Mode (Unsure if this is needed anymore because of the switch above)
+        /*sharedPreferences = getSharedPreferences("night", 0);
         Boolean booleanValue = sharedPreferences.getBoolean("night mode", true);
         if (booleanValue){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             darkModeSwitch.setChecked(true);
-        }
+        }/*
 
         /* Software Details Button: used to redirect user to info page illustrating software properties (i.e., version, patch notes, etc.) */
         softwareDetailsButton.setOnClickListener(new View.OnClickListener() {
