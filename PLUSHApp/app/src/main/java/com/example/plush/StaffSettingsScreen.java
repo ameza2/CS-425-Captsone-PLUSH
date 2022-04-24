@@ -53,13 +53,13 @@ public class StaffSettingsScreen extends AppPLUSHActivity{ // StaffSettingsScree
         }
 
 
-        // Things for Dark Mode (Unsure if this is needed anymore because of the switch above)
-        /*sharedPreferences = getSharedPreferences("night", 0);
+        // Things for Dark Mode
+        sharedPreferences = getSharedPreferences("night", 0);
         Boolean booleanValue = sharedPreferences.getBoolean("night mode", true);
         if (booleanValue){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             darkModeSwitch.setChecked(true);
-        }/*
+        }
 
         /* Software Details Button: used to redirect user to info page illustrating software properties (i.e., version, patch notes, etc.) */
         softwareDetailsButton.setOnClickListener(new View.OnClickListener() {
