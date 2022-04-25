@@ -60,6 +60,9 @@
             android:name=".StaffAddUnitScreen"
             android:exported="false" />
         <activity
+            android:name=".StaffEditUnitScreen"
+            android:exported="false" />
+        <activity
             android:name=".StaffRemoveUnitScreen"
             android:exported="false" />
         <activity

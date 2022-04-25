@@ -87,97 +87,48 @@ public class StaffAddUnitScreen extends AppPLUSHActivity { // StaffAddUnitScreen
                 else {
                     //Log.d("Success:", "Valid Text Fields");
 
-                    /* If there isn't a unit to add: */
-                    if (thisApplication.currentUnit.equals("")) {
+                    thisApplication.currUserData().addUnit(IDEditText.getText().toString(), RoomEditText.getText().toString(), Integer.parseInt(AgeEditText.getText().toString()), sexGroup.getCheckedRadioButtonId());
 
-                        thisApplication.currUserData().addUnit(IDEditText.getText().toString(), RoomEditText.getText().toString(), Integer.parseInt(AgeEditText.getText().toString()), sexGroup.getCheckedRadioButtonId());
+                    /* Update JSON File */
+                    try {
+                        JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
+                        for (int i = 0; i < inputJSONArray.length(); i++) {
+                            if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
 
-                        /* Update JSON File */
-                        try {
-                            JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
-                            for (int i = 0; i < inputJSONArray.length(); i++) {
-                                if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
+                                /* Add unit properties to array */
+                                JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                                JSONObject toPut = new JSONObject();
+                                JSONArray empty = new JSONArray();
+                                toPut.put("id", IDEditText.getText().toString());
+                                toPut.put("room", RoomEditText.getText().toString());
+                                toPut.put("age", Integer.parseInt(AgeEditText.getText().toString()));
+                                toPut.put("sex", sexGroup.getCheckedRadioButtonId());
+                                toPut.put("hugSensitivity", 4);
+                                toPut.put("musicVolume", 50);
+                                toPut.put("musicSong", -1);
+                                toPut.put("hugSchedule", empty);
+                                toPut.put("musicSchedule", empty);
+                                toPut.put("otherSchedule", empty);
+                                unitJSONArray.put(toPut);
 
-                                    /* Add unit properties to array */
-                                    JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-                                    JSONObject toPut = new JSONObject();
-                                    JSONArray empty = new JSONArray();
-                                    toPut.put("id", IDEditText.getText().toString());
-                                    toPut.put("room", RoomEditText.getText().toString());
-                                    toPut.put("age", Integer.parseInt(AgeEditText.getText().toString()));
-                                    toPut.put("sex", sexGroup.getCheckedRadioButtonId());
-                                    toPut.put("hugSensitivity", 4);
-                                    toPut.put("musicVolume", 50);
-                                    toPut.put("musicSong", -1);
-                                    toPut.put("hugSchedule", empty);
-                                    toPut.put("musicSchedule", empty);
-                                    toPut.put("otherSchedule", empty);
-                                    unitJSONArray.put(toPut);
-
-                                    /* Save new string to user database */
-                                    File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
-                                    OutputStream outputStream = new FileOutputStream(f);
-                                    byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-                                    outputStream.write(outputBytes);
-                                    outputStream.close();
-                                }
+                                /* Save new string to user database */
+                                File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
+                                OutputStream outputStream = new FileOutputStream(f);
+                                byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                                outputStream.write(outputBytes);
+                                outputStream.close();
                             }
-                        } catch (JSONException | FileNotFoundException e) { // error-handling statement
-                            e.printStackTrace();
-                        } catch (IOException e) { // error-handling statement
-                            e.printStackTrace();
                         }
-
-                        /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
-                        Intent intent = new Intent(StaffAddUnitScreen.this, StaffHomeScreen.class);
-                        startActivity(intent); // redirect page (StaffHomeScreen)
-
-
+                    } catch (JSONException | FileNotFoundException e) { // error-handling statement
+                        e.printStackTrace();
+                    } catch (IOException e) { // error-handling statement
+                        e.printStackTrace();
                     }
 
-                    /* If there IS a unit to add */
-                    else {
-                        /* Since the data uses a hashmap, have to replace old */
-                        String oldID = thisApplication.currUnitData().id;
-                        thisApplication.currUserData().assignedUnits.remove(oldID);
-                        String newID = IDEditText.getText().toString();
-                        String newRoom = RoomEditText.getText().toString();
-                        //thisApplication.currUserData().addUnit(newID, newRoom);
-                        thisApplication.currentUnit = newID;
+                    /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
+                    Intent intent = new Intent(StaffAddUnitScreen.this, StaffHomeScreen.class);
+                    startActivity(intent); // redirect page (StaffHomeScreen)
 
-                        /* Update JSON File */
-                        try {
-                            JSONArray inputJSONArray = thisApplication.inputJSON.getJSONArray("userlist");
-                            for (int i = 0; i < inputJSONArray.length(); i++) {
-                                if (inputJSONArray.getJSONObject(i).getString("username").equals(thisApplication.currentUser)) {
-
-                                    /* Edit unit properties */
-                                    JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-                                    for (int j = 0; j < unitJSONArray.length(); j++) {
-                                        if (unitJSONArray.getJSONObject(j).getString("id").equals(oldID)) {
-                                            unitJSONArray.getJSONObject(j).put("id", newID);
-                                            unitJSONArray.getJSONObject(j).put("room", newRoom);
-                                        }
-                                    }
-
-                                    /* Save new string to user database */
-                                    File f = new File(thisApplication.getFilesDir(), "userdatabase.json");
-                                    OutputStream outputStream = new FileOutputStream(f);
-                                    byte outputBytes[] = thisApplication.inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-                                    outputStream.write(outputBytes);
-                                    outputStream.close();
-                                }
-                            }
-                        } catch (JSONException | FileNotFoundException e) { // error-handling statement
-                            e.printStackTrace();
-                        } catch (IOException e) { // error-handling statement
-                            e.printStackTrace();
-                        }
-
-                        /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
-                        Intent intent = new Intent(StaffAddUnitScreen.this, StaffPlushUnitScreen.class);
-                        startActivity(intent); // redirect page (StaffPlushUnitScreen)
-                    }
                 }
             }
         });

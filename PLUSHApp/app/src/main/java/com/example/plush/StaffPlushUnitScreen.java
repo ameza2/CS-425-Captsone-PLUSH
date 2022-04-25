@@ -135,7 +135,7 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
         /* Edit Button: used to view/configure patient details */
         editButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffAddUnitScreen.class);
+                Intent intent = new Intent(StaffPlushUnitScreen.this, StaffEditUnitScreen.class);
                 startActivity(intent); // redirect page (StaffAddUnitScreen [temp])
             }
         });
