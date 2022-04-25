@@ -162,6 +162,8 @@ public class DataApplication extends Application {
                     for(int j = 0; j < inputUnitArray.length(); j++){
                         String id = inputUnitArray.getJSONObject(j).getString("id");
                         String room = inputUnitArray.getJSONObject(j).getString("room");
+                        int age = inputUnitArray.getJSONObject(j).getInt("age");
+                        int sex = inputUnitArray.getJSONObject(j).getInt("sex");
                         int hug = inputUnitArray.getJSONObject(j).getInt("hugSensitivity");
                         int vol = inputUnitArray.getJSONObject(j).getInt("musicVolume");
                         int song = inputUnitArray.getJSONObject(j).getInt("musicSong");
@@ -173,7 +175,7 @@ public class DataApplication extends Application {
                         ArrayList<String> m = convertToArrayList(musicArray);
                         ArrayList<String> o = convertToArrayList(otherArray);
 
-                        currUser.assignedUnits.put(id, new DataPlushUnit(id, room, hug, vol, song, h, m, o));
+                        currUser.assignedUnits.put(id, new DataPlushUnit(id, room, age, sex, hug, vol, song, h, m, o));
                     }
                 }
 

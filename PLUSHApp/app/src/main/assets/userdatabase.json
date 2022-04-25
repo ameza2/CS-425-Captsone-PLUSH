@@ -9,6 +9,8 @@
         {
           "id": "138052",
           "room": "101",
+          "age": 22,
+          "sex": 0,
           "hugSensitivity": 6,
           "musicVolume": 24,
           "musicSong": 2,
@@ -19,6 +21,8 @@
         {
           "id": "132580",
           "room": "102",
+          "age": 42,
+          "sex": 1,
           "hugSensitivity": 7,
           "musicVolume": 34,
           "musicSong": 3,
@@ -29,6 +33,8 @@
         {
           "id": "149295",
           "room": "103",
+          "age": 55,
+          "sex": 2,
           "hugSensitivity": 2,
           "musicVolume": 60,
           "musicSong": 1,
@@ -46,6 +52,8 @@
         {
           "id": "208502",
           "room": "201",
+          "age": 21,
+          "sex": 1,
           "hugSensitivity": 7,
           "musicVolume": 69,
           "musicSong": 0,
@@ -56,6 +64,8 @@
         {
           "id": "259335",
           "room": "202",
+          "age": 32,
+          "sex": 1,
           "hugSensitivity": 4,
           "musicVolume": 20,
           "musicSong": 4,
@@ -73,6 +83,8 @@
         {
           "id": "324893",
           "room": "301",
+          "age": 6,
+          "sex": 0,
           "hugSensitivity": 4,
           "musicVolume": 76,
           "musicSong": 1,
@@ -83,6 +95,8 @@
         {
           "id": "390593",
           "room": "302",
+          "age": 102,
+          "sex": 1,
           "hugSensitivity": 6,
           "musicVolume": 33,
           "musicSong": 2,
@@ -93,6 +107,8 @@
         {
           "id": "352663",
           "room": "303",
+          "age": 44,
+          "sex": 2,
           "hugSensitivity": 3,
           "musicVolume": 66,
           "musicSong": 4,
@@ -120,6 +136,8 @@
         {
           "id": "425532",
           "room": "402",
+          "age": 24,
+          "sex": 1,
           "hugSensitivity": 1,
           "musicVolume": 10,
           "musicSong": 1,
@@ -130,6 +148,8 @@
         {
           "id": "406025",
           "room": "403",
+          "age": 22,
+          "sex": 0,
           "hugSensitivity": 6,
           "musicVolume": 55,
           "musicSong": 4,
@@ -140,6 +160,8 @@
         {
           "id": "490592",
           "room": "404",
+          "age": 51,
+          "sex": 0,
           "hugSensitivity": 4,
           "musicVolume": 56,
           "musicSong": 2,
@@ -157,6 +179,8 @@
         {
           "id": "542505",
           "room": "501",
+          "age": 43,
+          "sex": 0,
           "hugSensitivity": 3,
           "musicVolume": 84,
           "musicSong": 3,

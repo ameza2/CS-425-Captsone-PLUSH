@@ -10,8 +10,8 @@ public class DataUser {
         assignedUnits = new HashMap<>();
     }
 
-    public void addUnit(String id, String rn){
-        assignedUnits.put(id, new DataPlushUnit(id, rn));
+    public void addUnit(String id, String rn, int age, int sex){
+        assignedUnits.put(id, new DataPlushUnit(id, rn, age, sex));
     }
     public void removeUnit(String id){assignedUnits.remove(id);}
 

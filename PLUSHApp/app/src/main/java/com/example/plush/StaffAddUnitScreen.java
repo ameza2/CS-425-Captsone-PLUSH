@@ -34,6 +34,7 @@ public class StaffAddUnitScreen extends AppPLUSHActivity { // StaffAddUnitScreen
 
     EditText IDEditText; // text variable: used to store PLUSH PID
     EditText RoomEditText; // text variable: used to store patient room/bed number
+    EditText AgeEditText; // text variable: used to store patient's age
     Button AddUnitButton; // button variable: addUnit button (append PLUSH unit to account)
     RadioGroup sexGroup; // button group variable: used to identify patient sex from group of buttons
     RadioButton sexButton; // button group variable: used to store patient sex
@@ -46,6 +47,7 @@ public class StaffAddUnitScreen extends AppPLUSHActivity { // StaffAddUnitScreen
 
         IDEditText = (EditText) findViewById(R.id.editUnitID);
         RoomEditText = (EditText) findViewById(R.id.editRoomNumber);
+        AgeEditText = (EditText) findViewById(R.id.editDate1);
         AddUnitButton = (Button) findViewById(R.id.buttonAddSchedule);
         sexGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
@@ -88,7 +90,7 @@ public class StaffAddUnitScreen extends AppPLUSHActivity { // StaffAddUnitScreen
                     /* If there isn't a unit to add: */
                     if (thisApplication.currentUnit.equals("")) {
 
-                        thisApplication.currUserData().addUnit(IDEditText.getText().toString(), RoomEditText.getText().toString());
+                        thisApplication.currUserData().addUnit(IDEditText.getText().toString(), RoomEditText.getText().toString(), Integer.parseInt(AgeEditText.getText().toString()), sexGroup.getCheckedRadioButtonId());
 
                         /* Update JSON File */
                         try {
@@ -102,6 +104,8 @@ public class StaffAddUnitScreen extends AppPLUSHActivity { // StaffAddUnitScreen
                                     JSONArray empty = new JSONArray();
                                     toPut.put("id", IDEditText.getText().toString());
                                     toPut.put("room", RoomEditText.getText().toString());
+                                    toPut.put("age", Integer.parseInt(AgeEditText.getText().toString()));
+                                    toPut.put("sex", sexGroup.getCheckedRadioButtonId());
                                     toPut.put("hugSensitivity", 4);
                                     toPut.put("musicVolume", 50);
                                     toPut.put("musicSong", -1);
@@ -138,7 +142,7 @@ public class StaffAddUnitScreen extends AppPLUSHActivity { // StaffAddUnitScreen
                         thisApplication.currUserData().assignedUnits.remove(oldID);
                         String newID = IDEditText.getText().toString();
                         String newRoom = RoomEditText.getText().toString();
-                        thisApplication.currUserData().addUnit(newID, newRoom);
+                        //thisApplication.currUserData().addUnit(newID, newRoom);
                         thisApplication.currentUnit = newID;
 
                         /* Update JSON File */
