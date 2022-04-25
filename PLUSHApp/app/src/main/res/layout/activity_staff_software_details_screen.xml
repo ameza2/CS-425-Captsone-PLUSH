@@ -14,11 +14,13 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="81dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="82dp"
         android:text="Software Details"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView13"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -26,9 +28,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="341dp"
         android:text="Version"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,11 +40,13 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="61dp"
+        android:layout_marginStart="373dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="16dp"
-        android:text="Alpha 1.0.0"
+        android:text="1.0"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

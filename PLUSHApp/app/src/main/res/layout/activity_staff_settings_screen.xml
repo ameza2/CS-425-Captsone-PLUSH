@@ -12,45 +12,57 @@
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/darkMode"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginEnd="9dp"
+        android:layout_width="386dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="575dp"
+        android:hint="Change the app's appearance to either light or dark mode."
         android:text="Night Mode"
-        app:layout_constraintBottom_toTopOf="@+id/boldFont"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SoftwareDetailsButtonID" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/boldFont"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="166dp"
-        android:text="Bold Font"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/darkMode" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/SoftwareDetailsButtonID"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="388dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="46dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="94dp"
+        android:layout_width="409dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
         android:gravity="left"
-        android:text="Software Details                                   >>>"
+        android:text="Software Details                                     >>>"
         android:textColor="@color/teal_200"
         android:textSize="15sp"
         app:iconTint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="324dp"
+        android:text="Appearance"
         app:layout_constraintBottom_toTopOf="@+id/darkMode"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="362dp"
+        android:text="About"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/darkMode" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
