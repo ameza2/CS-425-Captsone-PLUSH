@@ -126,6 +126,8 @@
         {
           "id": "432589",
           "room": "401",
+          "age": 24,
+          "sex": 1,
           "hugSensitivity": 5,
           "musicVolume": 78,
           "musicSong": 3,
