@@ -55,11 +55,14 @@ public class StaffSettingsScreen extends AppPLUSHActivity{ // StaffSettingsScree
 
         // Things for Dark Mode
         sharedPreferences = getSharedPreferences("night", 0); // save current mode in SharedPreferences object
+        /* I am removing this for now as it was causing some weird issues in the app - Korben
         Boolean booleanValue = sharedPreferences.getBoolean("night mode", true); // bool to check for night mode
         if (booleanValue){ // if bool is true (night mode)
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES); // retrieve the current night mode type
             darkModeSwitch.setChecked(true);
         }
+        */
+
 
         /* Software Details Button: used to redirect user to info page illustrating software properties (i.e., version, patch notes, etc.) */
         softwareDetailsButton.setOnClickListener(new View.OnClickListener() {
