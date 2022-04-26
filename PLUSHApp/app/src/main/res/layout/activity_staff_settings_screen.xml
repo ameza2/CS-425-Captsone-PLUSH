@@ -19,7 +19,7 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="575dp"
         android:hint="Change the app's appearance to either light or dark mode."
-        android:text="Night Mode"
+        android:text="Dark Mode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -54,7 +54,8 @@
         android:hint="Enter your feedback"
         android:inputType="textMultiLine"
         android:lines="10"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textColorHint="#6E6E6E" />
 
     <Button
         android:id="@+id/feedbackButton"
