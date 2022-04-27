@@ -74,58 +74,7 @@ public class StaffRemoveScheduleScreen extends AppPLUSHActivity { // StaffSchedu
             public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
                 currDate = (i1 + 1) + "/" + i2 + "/" + i;
                 dateDisplay.setText("Schedules for " + currDate + ":");
-                arrayAdapter.clear();
-                currDayHug.clear();
-                currDayMusic.clear();
-                currDayOther.clear();
-
-                //Parse and iterate checking for schedules in the same day
-                for(int j = 0; j < thisApplication.currUnitData().hugSchedule.size(); j++) {
-                    String[] scheduleDateHug = thisApplication.currUnitData().hugSchedule.get(j).split(",");
-                    for (String t : scheduleDateHug) {
-                        currDayHug.add(t);
-                        //Log.d("valid", "currDay added");
-                    }
-                }
-                for(int j = 0; j < thisApplication.currUnitData().musicSchedule.size(); j++) {
-                    String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(j).split(",");
-                    for (String t : scheduleDateMusic) {
-                        currDayMusic.add(t);
-                        //Log.d("valid", "currDay added");
-                    }
-                }
-                for(int j = 0; j < thisApplication.currUnitData().otherSchedule.size(); j++) {
-                    String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(j).split(",");
-                    for (String t : scheduleDateOther) {
-                        currDayOther.add(t);
-                        //Log.d("valid", "currDay added");
-                    }
-                }
-
-                schedulePressedList = new ArrayList<>();
-
-                //Add schedule to buttonList
-                for(int counter = 0; counter < currDayHug.size(); counter += 2) {
-                    if(currDayHug.get(counter).equals(currDate)){
-                        arrayList.add("Hug scheduled at " + currDayHug.get(counter + 1));
-                        schedulePressedList.add(false);
-                        //Log.d("valid", "currDay added to list");
-                    }
-                }
-                for(int counter = 0; counter < currDayMusic.size(); counter += 2) {
-                    if(currDayMusic.get(counter).equals(currDate)){
-                        arrayList.add("Music scheduled at " + currDayMusic.get(counter + 1));
-                        schedulePressedList.add(false);
-                        //Log.d("valid", "currDay added to list");
-                    }
-                }
-                for(int counter = 0; counter < currDayOther.size(); counter += 2) {
-                    if(currDayOther.get(counter).equals(currDate)){
-                        arrayList.add("Other scheduled at " + currDayOther.get(counter + 1));
-                        schedulePressedList.add(false);
-                        //Log.d("valid", "currDay added to list");
-                    }
-                }
+                refreshList();
                 arrayAdapter.notifyDataSetChanged();
                 //Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_LONG).show();
             }
@@ -135,138 +84,78 @@ public class StaffRemoveScheduleScreen extends AppPLUSHActivity { // StaffSchedu
         RemoveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < listView.getChildCount(); i++) {
-                    if(schedulePressedList.get(i)){
-                        //Find string to remove
-                        String toremove = arrayList.get(i);
-                        if(toremove.contains("Hug")){
-                            //Parse the schedule
-                            ArrayList<String> temp = new ArrayList<>();
-                            String[] parser = arrayList.get(i).split(" ");
-                            String specString = "";
-                            for (String t : parser) {
-                                temp.add(t);
-                            }
-                            specString = temp.get(3) + temp.get(4);
-
-                            //Find location of schedule in arraylist
-                            int indexOf = currDate.indexOf(specString);
-                            indexOf /= 2;
-
-                            //Remove schedule from arraylist
-                            thisApplication.scheduler.RemoveSchedule(thisApplication.currUnitData().hugSchedule.get(indexOf), 0);
-                            thisApplication.currUnitData().hugSchedule.remove(indexOf);
-                            thisApplication.saveNewSchedule("hugSchedule");
-                        }
-                        else if(toremove.contains("Music")){
-                            //Parse the schedule
-                            ArrayList<String> temp = new ArrayList<>();
-                            String[] parser = arrayList.get(i).split(" ");
-                            String specString = "";
-                            for (String t : parser) {
-                                temp.add(t);
-                            }
-                            specString = temp.get(3) + temp.get(4);
-
-                            //Find location of schedule in arraylist
-                            int indexOf = currDate.indexOf(specString);
-                            indexOf /= 2;
-                            //Remove schedule from arraylist
-                            thisApplication.scheduler.RemoveSchedule(thisApplication.currUnitData().musicSchedule.get(indexOf) , 1);
-                            thisApplication.currUnitData().musicSchedule.remove(indexOf);
-                            thisApplication.saveNewSchedule("musicSchedule");
-                        }
-                        else if(toremove.contains("Other")){
-                            //Parse the schedule
-                            ArrayList<String> temp = new ArrayList<>();
-                            String[] parser = arrayList.get(i).split(" ");
-                            String specString = "";
-                            for (String t : parser) {
-                                temp.add(t);
-                            }
-                            specString = temp.get(3) + temp.get(4);
-
-                            //Find location of schedule in arraylist
-                            int indexOf = currDate.indexOf(specString);
-                            indexOf /= 2;
-
-                            //Remove schedule from arraylist
-                            thisApplication.scheduler.RemoveSchedule(thisApplication.currUnitData().otherSchedule.get(indexOf), 2);
-                            thisApplication.currUnitData().otherSchedule.remove(indexOf);
-                            thisApplication.saveNewSchedule("otherSchedule");
-                        }
-                    }
-                }
-                /* After schedule removal, return to scheduler Screen */
                 Intent intent = new Intent(StaffRemoveScheduleScreen.this, StaffScheduleScreen.class);
                 startActivity(intent); // page redirect (StaffScheduleScreen)
             }
         });
 
-        //Parse and iterate checking for schedules in the same day
-        for(int j = 0; j < thisApplication.currUnitData().hugSchedule.size(); j++) {
-            String[] scheduleDateHug = thisApplication.currUnitData().hugSchedule.get(j).split(",");
-            for (String t : scheduleDateHug) {
-                currDayHug.add(t);
-                //Log.d("valid", "scheduleDateHug added");
-            }
-        }
-        for(int j = 0; j < thisApplication.currUnitData().musicSchedule.size(); j++) {
-            String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(j).split(",");
-            for (String t : scheduleDateMusic) {
-                currDayMusic.add(t);
-                //Log.d("valid", "scheduleDateMusic added");
-            }
-        }
-        for(int j = 0; j < thisApplication.currUnitData().otherSchedule.size(); j++) {
-            String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(j).split(",");
-            for (String t : scheduleDateOther) {
-                currDayOther.add(t);
-                //Log.d("valid", "scheduleDateOther added");
-            }
-        }
-
-        schedulePressedList = new ArrayList<>();
-
-        //Add schedule to buttonList
-        for(int counter = 0; counter < currDayHug.size(); counter += 2) {
-            if(currDayHug.get(counter).equals(currDate)){
-                arrayList.add("Hug scheduled at " + currDayHug.get(counter + 1));
-                schedulePressedList.add(false);
-                //Log.d("valid", "Hug added to list");
-            }
-        }
-        for(int counter = 0; counter < currDayMusic.size(); counter += 2) {
-            if(currDayMusic.get(counter).equals(currDate)){
-                arrayList.add("Music scheduled at " + currDayMusic.get(counter + 1));
-                schedulePressedList.add(false);
-                //Log.d("valid", "Music added to list");
-            }
-        }
-        for(int counter = 0; counter < currDayOther.size(); counter += 2) {
-            if(currDayOther.get(counter).equals(currDate)){
-                arrayList.add("Other scheduled at " + currDayOther.get(counter + 1));
-                schedulePressedList.add(false);
-                //Log.d("valid", "Other added to list");
-            }
-        }
-
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,arrayList);
         listView.setAdapter(arrayAdapter);
+
+        refreshList();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    if(schedulePressedList.get(i)){ // If it is already selected
-                        listView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
-                        schedulePressedList.set(i, false);
-                    }
-                    else{ // If it isn't
-                        listView.getChildAt(i).setBackgroundColor(Color.RED);
-                        schedulePressedList.set(i, true);
-                    }
-                    //Log.d("Selected,", "item: " + arrayList.get(i));
+                String toremove = arrayList.get(i);
+                if(toremove.contains("Hug")){
+
+                    int x = i;
+                    String dateToRemove = currDayHug.get(x);
+                    thisApplication.scheduler.RemoveSchedule(dateToRemove, 0);
+                    thisApplication.currUnitData().hugSchedule.remove(dateToRemove);
+                    thisApplication.saveNewSchedule("hugSchedule");
+                }
+                else if(toremove.contains("Music")){
+
+                    int x = i - (currDayHug.size());
+                    String dateToRemove = currDayMusic.get(x);
+                    thisApplication.scheduler.RemoveSchedule(dateToRemove, 1);
+                    thisApplication.currUnitData().musicSchedule.remove(dateToRemove);
+                    thisApplication.saveNewSchedule("musicSchedule");
+                }
+                else if(toremove.contains("Other")){
+
+                    int x = i - (currDayHug.size() + currDayMusic.size());
+                    String dateToRemove = currDayOther.get(x);
+                    thisApplication.scheduler.RemoveSchedule(dateToRemove, 2);
+                    thisApplication.currUnitData().otherSchedule.remove(dateToRemove);
+                    thisApplication.saveNewSchedule("otherSchedule");
+                }
+
+                refreshList();
             }
         });
+    }
+
+    void refreshList(){
+        arrayAdapter.clear();
+        currDayHug.clear();
+        currDayMusic.clear();
+        currDayOther.clear();
+
+        for(int j = 0; j < thisApplication.currUnitData().hugSchedule.size(); j++) {
+            String[] scheduleDateHug = thisApplication.currUnitData().hugSchedule.get(j).split(",");
+            if(scheduleDateHug[0].equals(currDate)){
+                currDayHug.add(thisApplication.currUnitData().hugSchedule.get(j));
+                arrayList.add("Hug scheduled at " + scheduleDateHug[1]);
+            }
+        }
+
+        for(int j = 0; j < thisApplication.currUnitData().musicSchedule.size(); j++) {
+            String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(j).split(",");
+            if(scheduleDateMusic[0].equals(currDate)){
+                currDayMusic.add(thisApplication.currUnitData().musicSchedule.get(j));
+                arrayList.add("Music scheduled at " + scheduleDateMusic[1]);
+            }
+        }
+
+        for(int j = 0; j < thisApplication.currUnitData().otherSchedule.size(); j++) {
+            String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(j).split(",");
+            if(scheduleDateOther[0].equals(currDate)){
+                currDayOther.add(thisApplication.currUnitData().otherSchedule.get(j));
+                arrayList.add("Other scheduled at " + scheduleDateOther[1]);
+            }
+        }
     }
 }

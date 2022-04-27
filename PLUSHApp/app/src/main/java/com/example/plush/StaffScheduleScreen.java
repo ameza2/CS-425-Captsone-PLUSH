@@ -64,53 +64,7 @@ public class StaffScheduleScreen extends AppPLUSHActivity { // StaffScheduleScre
             public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
                 currDate = (i1 + 1) + "/" + i2 + "/" + i;
                 dateDisplay.setText("Schedules for " + currDate + ":");
-                arrayAdapter.clear();
-                currDayHug.clear();
-                currDayMusic.clear();
-                currDayOther.clear();
-
-                //Parse and iterate checking for schedules in the same day
-                for(int j = 0; j < thisApplication.currUnitData().hugSchedule.size(); j++) {
-                    String[] scheduleDateHug = thisApplication.currUnitData().hugSchedule.get(j).split(",");
-                    for (String t : scheduleDateHug) {
-                        currDayHug.add(t);
-                        //Log.d("valid", "currDay added");
-                    }
-                }
-                for(int j = 0; j < thisApplication.currUnitData().musicSchedule.size(); j++) {
-                    String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(j).split(",");
-                    for (String t : scheduleDateMusic) {
-                        currDayMusic.add(t);
-                        //Log.d("valid", "currDay added");
-                    }
-                }
-                for(int j = 0; j < thisApplication.currUnitData().otherSchedule.size(); j++) {
-                    String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(j).split(",");
-                    for (String t : scheduleDateOther) {
-                        currDayOther.add(t);
-                        //Log.d("valid", "currDay added");
-                    }
-                }
-
-                //Add schedule to buttonList
-                for(int counter = 0; counter < currDayHug.size(); counter += 2) {
-                    if(currDayHug.get(counter).equals(currDate)){
-                        arrayList.add("Hug scheduled at " + currDayHug.get(counter + 1));
-                        //Log.d("valid", "currDay added to list");
-                    }
-                }
-                for(int counter = 0; counter < currDayMusic.size(); counter += 2) {
-                    if(currDayMusic.get(counter).equals(currDate)){
-                        arrayList.add("Music scheduled at " + currDayMusic.get(counter + 1));
-                        //Log.d("valid", "currDay added to list");
-                    }
-                }
-                for(int counter = 0; counter < currDayOther.size(); counter += 2) {
-                    if(currDayOther.get(counter).equals(currDate)){
-                        arrayList.add("Other scheduled at " + currDayOther.get(counter + 1));
-                        //Log.d("valid", "currDay added to list");
-                    }
-                }
+                refreshList();
                 arrayAdapter.notifyDataSetChanged();
                 //Toast.makeText(getApplicationContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_LONG).show();
             }
@@ -184,5 +138,62 @@ public class StaffScheduleScreen extends AppPLUSHActivity { // StaffScheduleScre
     public void onBackPressed(){
         Intent intent = new Intent(StaffScheduleScreen.this, StaffPlushUnitScreen.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        refreshList();
+    }
+
+    void refreshList(){
+        arrayAdapter.clear();
+        currDayHug.clear();
+        currDayMusic.clear();
+        currDayOther.clear();
+
+        //Parse and iterate checking for schedules in the same day
+        for(int j = 0; j < thisApplication.currUnitData().hugSchedule.size(); j++) {
+            String[] scheduleDateHug = thisApplication.currUnitData().hugSchedule.get(j).split(",");
+            for (String t : scheduleDateHug) {
+                currDayHug.add(t);
+                //Log.d("valid", "currDay added");
+            }
+        }
+        for(int j = 0; j < thisApplication.currUnitData().musicSchedule.size(); j++) {
+            String[] scheduleDateMusic = thisApplication.currUnitData().musicSchedule.get(j).split(",");
+            for (String t : scheduleDateMusic) {
+                currDayMusic.add(t);
+                //Log.d("valid", "currDay added");
+            }
+        }
+        for(int j = 0; j < thisApplication.currUnitData().otherSchedule.size(); j++) {
+            String[] scheduleDateOther = thisApplication.currUnitData().otherSchedule.get(j).split(",");
+            for (String t : scheduleDateOther) {
+                currDayOther.add(t);
+                //Log.d("valid", "currDay added");
+            }
+        }
+
+
+        //Add schedule to buttonList
+        for(int counter = 0; counter < currDayHug.size(); counter += 2) {
+            if(currDayHug.get(counter).equals(currDate)){
+                arrayList.add("Hug scheduled at " + currDayHug.get(counter + 1));
+                //Log.d("valid", "currDay added to list");
+            }
+        }
+        for(int counter = 0; counter < currDayMusic.size(); counter += 2) {
+            if(currDayMusic.get(counter).equals(currDate)){
+                arrayList.add("Music scheduled at " + currDayMusic.get(counter + 1));
+                //Log.d("valid", "currDay added to list");
+            }
+        }
+        for(int counter = 0; counter < currDayOther.size(); counter += 2) {
+            if(currDayOther.get(counter).equals(currDate)){
+                arrayList.add("Other scheduled at " + currDayOther.get(counter + 1));
+                //Log.d("valid", "currDay added to list");
+            }
+        }
     }
 }

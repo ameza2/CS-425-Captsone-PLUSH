@@ -422,144 +422,145 @@ public class DataApplication extends Application {
 
                                 socket.send(request);
                                 socket.receive(recieved);
+                                if(!currentIP.equals("") && !currentUnit.equals("")) {
+                                    String s = new String(recieved.getData(), "UTF-8");
+                                    s = s.substring(0, s.indexOf(0));
+                                    //Log.e("Message", s);
 
-                                String s = new String(recieved.getData(), "UTF-8");
-                                s = s.substring(0, s.indexOf(0));
-                                //Log.e("Message", s);
-
-                                // PARSING
-                                String newHug = "";
-                                String newVol = "";
-                                String newAlr = "";
-                                int t = 0;
-                                for(int i = 0; i < s.length(); i++){
-                                    char c = s.charAt(i);
-                                    if(c == '/'){
-                                        t += 1;
-                                    }
-                                    if(c == '\0'){
-                                        break;
-                                    }
-                                    if(Character.isDigit(c)){
-                                        switch (t){
-                                            case 0:
-                                                newHug += c;
-                                                break;
-                                            case 1:
-                                                newVol += c;
-                                                break;
-                                            case 2:
-                                                newAlr += c;
-                                                break;
-                                            default:
-                                                break;
+                                    // PARSING
+                                    String newHug = "";
+                                    String newVol = "";
+                                    String newAlr = "";
+                                    int t = 0;
+                                    for (int i = 0; i < s.length(); i++) {
+                                        char c = s.charAt(i);
+                                        if (c == '/') {
+                                            t += 1;
+                                        }
+                                        if (c == '\0') {
+                                            break;
+                                        }
+                                        if (Character.isDigit(c)) {
+                                            switch (t) {
+                                                case 0:
+                                                    newHug += c;
+                                                    break;
+                                                case 1:
+                                                    newVol += c;
+                                                    break;
+                                                case 2:
+                                                    newAlr += c;
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
                                         }
                                     }
-                                }
 
-                                int nH = Integer.parseInt(newHug);
-                                int nV = Integer.parseInt(newVol);
-                                int nA = Integer.parseInt(newAlr);
+                                    int nH = Integer.parseInt(newHug);
+                                    int nV = Integer.parseInt(newVol);
+                                    int nA = Integer.parseInt(newAlr);
 
-                                if(nH != currUnitData().hugSensitivity) {
+                                    if (nH != currUnitData().hugSensitivity) {
 
-                                    currUnitData().hugSensitivity = nH;
-                                    JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
-                                    for (int i = 0; i < inputJSONArray.length(); i++) {
-                                        if (inputJSONArray.getJSONObject(i).getString("username").equals(currentUser)) {
+                                        currUnitData().hugSensitivity = nH;
+                                        JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
+                                        for (int i = 0; i < inputJSONArray.length(); i++) {
+                                            if (inputJSONArray.getJSONObject(i).getString("username").equals(currentUser)) {
 
-                                            /* Edit unit properties */
-                                            JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-                                            for (int j = 0; j < unitJSONArray.length(); j++) {
-                                                if (unitJSONArray.getJSONObject(j).getString("id").equals(currentUnit)) {
-                                                    unitJSONArray.getJSONObject(j).put("hugSensitivity", nH);
+                                                /* Edit unit properties */
+                                                JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                                                for (int j = 0; j < unitJSONArray.length(); j++) {
+                                                    if (unitJSONArray.getJSONObject(j).getString("id").equals(currentUnit)) {
+                                                        unitJSONArray.getJSONObject(j).put("hugSensitivity", nH);
+                                                    }
                                                 }
-                                            }
 
-                                            /* Save new string to user database */
-                                            File f = new File(getFilesDir(), "userdatabase.json");
-                                            OutputStream outputStream = new FileOutputStream(f);
-                                            byte outputBytes[] = inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-                                            outputStream.write(outputBytes);
-                                            outputStream.close();
+                                                /* Save new string to user database */
+                                                File f = new File(getFilesDir(), "userdatabase.json");
+                                                OutputStream outputStream = new FileOutputStream(f);
+                                                byte outputBytes[] = inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                                                outputStream.write(outputBytes);
+                                                outputStream.close();
+                                            }
                                         }
-                                    }
 
-                                    if(currActivity instanceof StaffPlushUnitScreen){
-                                        currActivity.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((StaffPlushUnitScreen) currActivity).sensitivityText.setText("Hug Sensitivity: " + String.valueOf(currUnitData().hugSensitivity));
-                                                ((StaffPlushUnitScreen) currActivity).sensitivityBar.setProgress(currUnitData().hugSensitivity);
-                                            }
-                                        });
-                                    }
-                                }
-                                if(nV != currUnitData().musicVolume){
-                                    JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
-                                    for (int i = 0; i < inputJSONArray.length(); i++) {
-                                        if (inputJSONArray.getJSONObject(i).getString("username").equals(currentUser)) {
-
-                                            currUnitData().musicVolume = nV;
-                                            /* Edit unit properties */
-                                            JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
-                                            for (int j = 0; j < unitJSONArray.length(); j++) {
-                                                if (unitJSONArray.getJSONObject(j).getString("id").equals(currentUnit)) {
-                                                    unitJSONArray.getJSONObject(j).put("musicVolume", nV);
-                                                }
-                                            }
-
-                                            /* Save new string to user database */
-                                            File f = new File(getFilesDir(), "userdatabase.json");
-                                            OutputStream outputStream = new FileOutputStream(f);
-                                            byte outputBytes[] = inputJSON.toString().getBytes(StandardCharsets.UTF_8);
-                                            outputStream.write(outputBytes);
-                                            outputStream.close();
-                                        }
-                                    }
-
-                                    if(currActivity instanceof StaffMusicScreen) {
-                                        currActivity.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((StaffMusicScreen)currActivity).musicVolumeText.setText("Music Volume: " + String.valueOf(currUnitData().musicVolume + 1));
-                                                ((StaffMusicScreen)currActivity).volumeBar.setProgress(currUnitData().musicVolume);
-                                            }
-                                        });
-                                    }
-                                }
-
-                                if((alertRecieved && nA == 0) || (!alertRecieved && nA != 0)){// nA != (alertRecieved ? 1 : 0)){
-                                    if(nA >= 1) {
-                                        Log.e("ALERT", "Alert recieved!");
-
-                                        if (onStaffSide) {
+                                        if (currActivity instanceof StaffPlushUnitScreen) {
                                             currActivity.runOnUiThread(new Runnable() {
-                                                                           @Override
-                                                                           public void run() {
-                                                                               // Taken from: https://stackoverflow.com/questions/26097513/android-simple-alert-dialog
-                                                                               AlertDialog alertDialog = new AlertDialog.Builder(currActivity).create();
-                                                                               alertDialog.setTitle("Alert");
-                                                                               if (nA == 2) {
-                                                                                   alertDialog.setMessage("The patient has pressed the release button.");
-                                                                               } else {
-                                                                                   alertDialog.setMessage("The patient has called for a nurse.");
-                                                                               }
-                                                                               alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                                                                       new DialogInterface.OnClickListener() {
-                                                                                           public void onClick(DialogInterface dialog, int which) {
-                                                                                               send("ACKA:0");
-                                                                                               dialog.dismiss();
-                                                                                           }
-                                                                                       });
-                                                                               alertDialog.show();
-                                                                           }
-                                                                       }
-                                            );
+                                                @Override
+                                                public void run() {
+                                                    ((StaffPlushUnitScreen) currActivity).sensitivityText.setText("Hug Sensitivity: " + String.valueOf(currUnitData().hugSensitivity));
+                                                    ((StaffPlushUnitScreen) currActivity).sensitivityBar.setProgress(currUnitData().hugSensitivity);
+                                                }
+                                            });
                                         }
                                     }
-                                    alertRecieved = (nA >= 1);
+                                    if (nV != currUnitData().musicVolume) {
+                                        JSONArray inputJSONArray = inputJSON.getJSONArray("userlist");
+                                        for (int i = 0; i < inputJSONArray.length(); i++) {
+                                            if (inputJSONArray.getJSONObject(i).getString("username").equals(currentUser)) {
 
+                                                currUnitData().musicVolume = nV;
+                                                /* Edit unit properties */
+                                                JSONArray unitJSONArray = inputJSONArray.getJSONObject(i).getJSONArray("units");
+                                                for (int j = 0; j < unitJSONArray.length(); j++) {
+                                                    if (unitJSONArray.getJSONObject(j).getString("id").equals(currentUnit)) {
+                                                        unitJSONArray.getJSONObject(j).put("musicVolume", nV);
+                                                    }
+                                                }
+
+                                                /* Save new string to user database */
+                                                File f = new File(getFilesDir(), "userdatabase.json");
+                                                OutputStream outputStream = new FileOutputStream(f);
+                                                byte outputBytes[] = inputJSON.toString().getBytes(StandardCharsets.UTF_8);
+                                                outputStream.write(outputBytes);
+                                                outputStream.close();
+                                            }
+                                        }
+
+                                        if (currActivity instanceof StaffMusicScreen) {
+                                            currActivity.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((StaffMusicScreen) currActivity).musicVolumeText.setText("Music Volume: " + String.valueOf(currUnitData().musicVolume + 1));
+                                                    ((StaffMusicScreen) currActivity).volumeBar.setProgress(currUnitData().musicVolume);
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    if ((alertRecieved && nA == 0) || (!alertRecieved && nA != 0)) {// nA != (alertRecieved ? 1 : 0)){
+                                        if (nA >= 1) {
+                                            Log.e("ALERT", "Alert recieved!");
+
+                                            if (onStaffSide) {
+                                                currActivity.runOnUiThread(new Runnable() {
+                                                                               @Override
+                                                                               public void run() {
+                                                                                   // Taken from: https://stackoverflow.com/questions/26097513/android-simple-alert-dialog
+                                                                                   AlertDialog alertDialog = new AlertDialog.Builder(currActivity).create();
+                                                                                   alertDialog.setTitle("Alert");
+                                                                                   if (nA == 2) {
+                                                                                       alertDialog.setMessage("The patient has pressed the release button.");
+                                                                                   } else {
+                                                                                       alertDialog.setMessage("The patient has called for a nurse.");
+                                                                                   }
+                                                                                   alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                                                                           new DialogInterface.OnClickListener() {
+                                                                                               public void onClick(DialogInterface dialog, int which) {
+                                                                                                   send("ACKA:0");
+                                                                                                   dialog.dismiss();
+                                                                                               }
+                                                                                           });
+                                                                                   alertDialog.show();
+                                                                               }
+                                                                           }
+                                                );
+                                            }
+                                        }
+                                        alertRecieved = (nA >= 1);
+
+                                    }
                                 }
 
                                 lock.wait(200);
