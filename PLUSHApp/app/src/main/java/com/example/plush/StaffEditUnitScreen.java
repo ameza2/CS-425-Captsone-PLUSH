@@ -198,7 +198,7 @@ public class StaffEditUnitScreen extends AppPLUSHActivity { // StaffAddUnitScree
 
                                                                            /* After JSON Update, Return to Home Page w/ Updated PLUSH Unit */
                                                                            thisApplication.currentUnit = newID;
-                                                                           thisApplication.connectedThread2.currentIP = "";
+                                                                           thisApplication.connectedThread2.disconnectUnit();
                                                                            Intent intent = new Intent(StaffEditUnitScreen.this, StaffPlushUnitScreen.class);
                                                                            startActivity(intent); // redirect page (StaffPlushUnitScreen)
                                                                        }

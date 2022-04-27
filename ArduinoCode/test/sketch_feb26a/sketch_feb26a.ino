@@ -41,7 +41,7 @@ void setup(void){
 
   randomSeed(analogRead(0)); // Set up random seed (pin 0 needs to be disconnected)
 
-  wifiMulti.addAP("wifi", "pw");   // add Wi-Fi networks you want to connect to
+  wifiMulti.addAP("LAPTOP-3BOTE01B", "IHopeZoeWinsXD");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   //wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 

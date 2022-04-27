@@ -40,7 +40,7 @@ public class StaffLoginScreen extends AppPLUSHActivity {
 
                     // SECURITY ALGORITHM //
                     //PasswordEditText = createSHAHash(PasswordEditText.getText().toString());
-
+                    thisApplication.onStaffSide = true;
                     Intent intent = new Intent(StaffLoginScreen.this, StaffHomeScreen.class);
                     startActivity(intent); // redirect page (StaffHomeScreen)
                 }

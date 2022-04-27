@@ -166,7 +166,13 @@ public class StaffPlushUnitScreen extends AppPLUSHActivity { // StaffPlushUnitSc
         /* Shutdown Button: abort PLUSH instructions and shutdown PLUSH unit */
         shutdownButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "PLUSH #" + thisApplication.currUnitData().id + " has been deactivated!", Toast.LENGTH_SHORT).show(); // deactivation prompt
+                if(thisApplication.connectedThread2.currentIP.equals("")){
+                    Toast.makeText(getApplicationContext(), "This device is already disconnected from the unit.", Toast.LENGTH_SHORT).show(); // deactivation prompt
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Disconnected from the current unit!", Toast.LENGTH_SHORT).show(); // deactivation prompt
+                    thisApplication.connectedThread2.disconnectUnit();
+                }
             }
         });
 

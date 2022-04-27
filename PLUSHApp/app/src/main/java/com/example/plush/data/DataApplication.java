@@ -77,6 +77,7 @@ public class DataApplication extends Application {
     public DataSchedule scheduler;
     boolean alertRecieved = false; // Determines if the application recieved an alert
     public boolean firstTime = false; // Determines whether the conneciton popup should be displayed.
+    public boolean onStaffSide = false; // True if a staff member is logged in.
 
 
     // ACTIVITY CODE: Will allow the application to do things with the current activity
@@ -532,29 +533,30 @@ public class DataApplication extends Application {
                                     if(nA >= 1) {
                                         Log.e("ALERT", "Alert recieved!");
 
-                                        currActivity.runOnUiThread(new Runnable() {
-                                                                       @Override
-                                                                       public void run() {
-                                                                           // Taken from: https://stackoverflow.com/questions/26097513/android-simple-alert-dialog
-                                                                           AlertDialog alertDialog = new AlertDialog.Builder(currActivity).create();
-                                                                           alertDialog.setTitle("Alert");
-                                                                           if(nA == 2){
-                                                                               alertDialog.setMessage("The patient has pressed the release button.");
+                                        if (onStaffSide) {
+                                            currActivity.runOnUiThread(new Runnable() {
+                                                                           @Override
+                                                                           public void run() {
+                                                                               // Taken from: https://stackoverflow.com/questions/26097513/android-simple-alert-dialog
+                                                                               AlertDialog alertDialog = new AlertDialog.Builder(currActivity).create();
+                                                                               alertDialog.setTitle("Alert");
+                                                                               if (nA == 2) {
+                                                                                   alertDialog.setMessage("The patient has pressed the release button.");
+                                                                               } else {
+                                                                                   alertDialog.setMessage("The patient has called for a nurse.");
+                                                                               }
+                                                                               alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                                                                       new DialogInterface.OnClickListener() {
+                                                                                           public void onClick(DialogInterface dialog, int which) {
+                                                                                               send("ACKA:0");
+                                                                                               dialog.dismiss();
+                                                                                           }
+                                                                                       });
+                                                                               alertDialog.show();
                                                                            }
-                                                                           else {
-                                                                               alertDialog.setMessage("The patient has called for a nurse.");
-                                                                           }
-                                                                           alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                                                                   new DialogInterface.OnClickListener() {
-                                                                                       public void onClick(DialogInterface dialog, int which) {
-                                                                                           send("ACKA:0");
-                                                                                           dialog.dismiss();
-                                                                                       }
-                                                                                   });
-                                                                           alertDialog.show();
                                                                        }
-                                                                   }
-                                        );
+                                            );
+                                        }
                                     }
                                     alertRecieved = (nA >= 1);
 

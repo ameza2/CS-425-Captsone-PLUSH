@@ -181,6 +181,7 @@ public class StaffHomeScreen extends AppPLUSHActivity {
                 intent = new Intent(StaffHomeScreen.this, StaffSupportScreen.class);
                 break;
             case R.id.hamLogout:
+                thisApplication.onStaffSide = false;
                 intent = new Intent(StaffHomeScreen.this, SelectAccountScreen.class);
                 break;
             default:

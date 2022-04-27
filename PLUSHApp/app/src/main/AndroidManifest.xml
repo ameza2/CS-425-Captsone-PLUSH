@@ -54,7 +54,8 @@
             android:exported="false" />
         <activity
             android:name=".StaffHomeScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.PLUSHNoBar"/>
         <activity
             android:name=".StaffAddUnitScreen"
             android:exported="false" />
