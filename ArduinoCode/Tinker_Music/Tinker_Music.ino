@@ -54,9 +54,9 @@ const int buttonInterruptPin = 2;
 const int recieverInterruptPin = 3;
 int recieverDataPins[] = {24, 25, 26, 27, 28};
 
-Stepper myStepperRA = Stepper(stepsPerRevolution, 36, 38, 37, 39); // Right arm (steps per revolution, pins)
-Stepper myStepperRS = Stepper(stepsPerRevolution, 40, 42, 41, 43); // Right shoulder (steps per revolution, pins)
-Stepper myStepperLA = Stepper(stepsPerRevolution, 14, 16, 15, 17); // Left arm (steps per revolution, pins)
+Stepper myStepperRS = Stepper(stepsPerRevolution, 36, 38, 37, 39); // Right shoulder (steps per revolution, pins)
+Stepper myStepperLA = Stepper(stepsPerRevolution, 40, 42, 41, 43); // Left arm (steps per revolution, pins)
+Stepper myStepperRA = Stepper(stepsPerRevolution, 14, 16, 15, 17); // Right arm (steps per revolution, pins)
 Stepper myStepperLS = Stepper(stepsPerRevolution, 44, 46, 45, 47); // Left shoulder(steps per revolution, pins)
 
 bool hugFlag = false;
