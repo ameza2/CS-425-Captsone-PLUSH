@@ -46,6 +46,7 @@ void setup(void) {
   pinMode(31, OUTPUT);
   pinMode(32, OUTPUT);
   pinMode(33, OUTPUT);
+  pinMode(34, OUTPUT); //PIN that will interrupt main prorgram.
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
@@ -375,7 +376,7 @@ void valToByte(int* dbp, int val) {
   }
 }
 void sendMessageToMain(CMD command, int value, bool optionalFlag) {
-  int pinToInterrupt = 0;
+  int pinToInterrupt = 34;
   int digitalBytePins[] = {24, 25, 26, 27, 28, 29, 30, 31, 32, 33};
   /*
     0|0|0|0|000000
@@ -414,6 +415,15 @@ void sendMessageToMain(CMD command, int value, bool optionalFlag) {
       digitalWrite(digitalBytePins[1], LOW);
       digitalWrite(digitalBytePins[2], HIGH);
       digitalWrite(digitalBytePins[3], LOW);
+      digitalWrite(digitalBytePins[4], LOW);
+      digitalWrite(digitalBytePins[5], LOW);
+      digitalWrite(digitalBytePins[6], LOW);
+      digitalWrite(digitalBytePins[7], LOW);
+      digitalWrite(digitalBytePins[8], LOW);
+      digitalWrite(digitalBytePins[9], LOW);
+      if (optionalFlag) {
+        digitalWrite(digitalBytePins[9], HIGH);
+      }
       break;
     case SEN:
       digitalWrite(digitalBytePins[0], LOW);

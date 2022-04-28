@@ -300,6 +300,7 @@ void loop() {
     lcd.print("  ");
     lcd.setCursor(14, 1);
     lcd.print(newVolume);
+    Audio.setVolume(map(newVolume, 0, 10, 0, 7));
   }
   oldVolume = newVolume;
   buttonChanged = false;
