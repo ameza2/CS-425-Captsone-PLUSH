@@ -31,7 +31,7 @@
 #include <Stepper.h> // stepper motors
 
 
-LiquidCrystal_I2C lcd(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
+//LiquidCrystal_I2C lcd(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
 File f;
 TMRpcm Audio;
 
@@ -114,13 +114,16 @@ void buttonInterrupts() {
   else if (digitalRead(helpButton)) {
     currentPressedButton = buttonMessages[3];
     buttonChanged = true;
+    Serial.println("Help Button Pressed");
 
   }
   else if (digitalRead(volumeDownButton)) {
     newVolume = max(0, newVolume--);
+    Serial.println("Volume Down");
   }
   else if (digitalRead(volumeUpButton)) {
     newVolume = min(10, newVolume++);
+    Serial.println("Volume Up");
   }
 }
 
@@ -203,6 +206,7 @@ void setup() {
   pinMode(hugButton, INPUT_PULLUP);
   pinMode(volumeDownButton, INPUT_PULLUP);
   pinMode(volumeUpButton, INPUT_PULLUP);
+  
   for (int i = 24; i <= 33; i++) pinMode(i, INPUT); //for datatransfer
   for (int i = 36; i <= 47; i++) pinMode(i, OUTPUT); //for motors
   for (int i = 14; i <= 17; i++) pinMode(i, OUTPUT);
@@ -216,9 +220,10 @@ void setup() {
   pinMode(LED_R, OUTPUT);
   pinMode(LED_G, OUTPUT);
   pinMode(LED_B, OUTPUT);
-  //vol.begin();
-  lcd.begin();
-  lcd.backlight();
+
+//  //vol.begin();
+//  lcd.begin();
+//  lcd.backlight();
 
   if (!SD.begin()) {
     Serial.println("SD CARD UNINITIALIZED");
@@ -246,6 +251,13 @@ void setup() {
    Loop Function
 */
 void loop() {
+
+//  Serial.print(digitalRead(helpButton));
+//  Serial.print(digitalRead(emergencyButton));
+//  Serial.print(digitalRead(hugButton));
+//  Serial.print(digitalRead(musicButton));
+//  Serial.print(digitalRead(volumeDownButton));
+//  Serial.println(digitalRead(volumeUpButton));
 
   //DO HUG IF HUG FLAG IS SET
   if (hugFlag) {
@@ -275,13 +287,13 @@ void loop() {
     }
   }
 
-  //update LCD
-  if (buttonChanged) {
-    lcd.setCursor(0, 1);
-    lcd.print("                ");
-    lcd.setCursor(0, 1);
-    lcd.print(currentPressedButton);
-  }
+//  //update LCD
+//  if (buttonChanged) {
+//    lcd.setCursor(0, 1);
+//    lcd.print("                ");
+//    lcd.setCursor(0, 1);
+//    lcd.print(currentPressedButton);
+//  }
 
   //update LED
   if (currentPressedButton == buttonMessages[3]) {
@@ -296,10 +308,10 @@ void loop() {
 
   //change volume
   if (oldVolume != newVolume) {
-    lcd.setCursor(14, 1);
-    lcd.print("  ");
-    lcd.setCursor(14, 1);
-    lcd.print(newVolume);
+//    lcd.setCursor(14, 1);
+//    lcd.print("  ");
+//    lcd.setCursor(14, 1);
+//    lcd.print(newVolume);
     Audio.setVolume(newVolume);
   }
   oldVolume = newVolume;
