@@ -36,17 +36,12 @@ void valToByte(int* dbp, int val);
 String prevData;
 
 void setup(void) {
-  pinMode(24, OUTPUT);
-  pinMode(25, OUTPUT);
-  pinMode(26, OUTPUT);
-  pinMode(27, OUTPUT);
-  pinMode(28, OUTPUT);
-  pinMode(29, OUTPUT);
-  pinMode(30, OUTPUT);
-  pinMode(31, OUTPUT);
-  pinMode(32, OUTPUT);
-  pinMode(33, OUTPUT);
-  pinMode(34, OUTPUT); //PIN that will interrupt main prorgram.
+  pinMode(0, OUTPUT);
+  pinMode(2, OUTPUT);
+  pinMode(16, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(12, OUTPUT);
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
@@ -54,7 +49,7 @@ void setup(void) {
 
   randomSeed(analogRead(0)); // Set up random seed (pin 0 needs to be disconnected)
 
-  wifiMulti.addAP("LAPTOP-3BOTE01B", "IHopeZoeWinsXD");   // add Wi-Fi networks you want to connect to
+  wifiMulti.addAP("PLUSH", "password123");   // add Wi-Fi networks you want to connect to
   //wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   //wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
@@ -109,13 +104,13 @@ void loop(void) {
   if (packetSize)
   {
 
-    Serial.printf("Received %d bytes from %s, port %d\n", packetSize, udp.remoteIP().toString().c_str(), udp.remotePort());
+    //Serial.printf("Received %d bytes from %s, port %d\n", packetSize, udp.remoteIP().toString().c_str(), udp.remotePort());
     int len = udp.read(incomingPacket, 255);
     if (len > 0)
     {
       incomingPacket[len] = '\0';
     }
-    Serial.printf("UDP packet contents: %s\n", incomingPacket);
+    //Serial.printf("UDP packet contents: %s\n", incomingPacket);
 
     char cmd[5]; // Get the command needed
     memcpy(cmd, &incomingPacket[0], 4);
@@ -140,7 +135,7 @@ void loop(void) {
     // Command UPDT: App asks for updates on the unit's button set volume and hug sensitivity.
     //=====================================================================================
     if (strcmp(cmd, "UPDT") == 0) {
-      Serial.printf("Update Requested");
+      //Serial.printf("Update Requested");
 
       // PARSING
       char newHugSen[255];
@@ -206,13 +201,13 @@ void loop(void) {
 
       // FOR TESTING PURPOSES ONLY: The app will randomly alert.
 
-      long rand = random(1000);
-      if (rand < 10) {
+      /*long rand = random(1000);
+        if (rand < 10) {
         alert = 1;
-      }
-      if (rand > 990) {
+        }
+        if (rand > 990) {
         alert = 2;
-      }
+        }*/
 
     }
 
@@ -225,6 +220,7 @@ void loop(void) {
       udp.beginPacket(udp.remoteIP(), udp.remotePort());
       udp.write(incomingPacket);
       udp.endPacket();
+      sendMessageToMain(SEN, hugSen-1, false);
     }
 
     //=====================================================================================
@@ -236,6 +232,7 @@ void loop(void) {
       udp.beginPacket(udp.remoteIP(), udp.remotePort());
       udp.write(incomingPacket);
       udp.endPacket();
+      sendMessageToMain(VOL, map(musicVol, 0, 100, 0, 7), false);
     }
 
     //=====================================================================================
@@ -342,96 +339,142 @@ void setMusic(int m) {
 void acknowledgeAlert() {
   Serial.printf("Alert acknlowedged!\n");
 }
-
-void valToByte(int* dbp, int val) {
+/*
+  void valToByte(int* dbp, int val) {
   if (val > 63) return;
-  dbp[5] = LOW;
-  dbp[4] = LOW;
-  dbp[3] = LOW;
-  dbp[2] = LOW;
-  dbp[1] = LOW;
-  dbp[0] = LOW;
+
+  digitalWrite(28, HIGH);
+  digitalWrite(29, HIGH);
+  digitalWrite(30, HIGH);
+  digitalWrite(31, HIGH);
+  digitalWrite(32, HIGH);
+  digitalWrite(33, HIGH);
+
+  Serial.println(val);
+
   if (val > 31) {
-    dbp[5] = HIGH;
+    digitalWrite(28, HIGH);
     val -= 32;
+    Serial.println(val);
   }
   if (val > 15) {
-    dbp[4] = HIGH;
+    digitalWrite(29, HIGH);
     val -= 16;
+    Serial.println(val);
   }
   if (val > 7) {
-    dbp[3] = HIGH;
+    digitalWrite(30, HIGH);
     val -= 8;
+    Serial.println(val);
   }
   if (val > 3) {
-    dbp[2] = HIGH;
+    digitalWrite(31, HIGH);
     val -= 4;
+    Serial.println(val);
   }
   if (val > 1) {
-    dbp[1] = HIGH;
+    digitalWrite(32, HIGH);
     val -= 2;
+    Serial.println(val);
   }
   if (val == 1) {
-    dbp[0] = HIGH;
+    digitalWrite(33, HIGH);
   }
-}
+  Serial.print(digitalRead(28));
+  Serial.print(digitalRead(29));
+  Serial.print(digitalRead(30));
+  Serial.print(digitalRead(31));
+  Serial.print(digitalRead(32));
+  Serial.println(digitalRead(33));
+  }*/
+
 void sendMessageToMain(CMD command, int value, bool optionalFlag) {
-  int pinToInterrupt = 34;
-  int digitalBytePins[] = {24, 25, 26, 27, 28, 29, 30, 31, 32, 33};
+  Serial.println("\n\n\nSending message to main board");
+  int pinToInterrupt = 0;
+  int digitalBytePins[] = { 2, 16, 5, 4,12};
+
   /*
-    0|0|0|0|000000
-    ^ ^ ^ ^ ^
-    | | | | |__Byte array to send data
-    | | | |____ flag for hug sensitivity
-    | | |______ flag for toggle music command
-    | |________ flag for volume command
-    |__________ flag for hug command
+    00|000
+    ^  ^ 
+    |  |________ Bytes for sending
+    |___________ 00 = HUG
+                 01 = VOL
+                 10 = TGM
+                 11 = SEN
+     
   */
+
+  digitalWrite(digitalBytePins[0], LOW);
+  digitalWrite(digitalBytePins[1], LOW);
+  digitalWrite(digitalBytePins[2], LOW);
+  digitalWrite(digitalBytePins[3], LOW);
+  digitalWrite(digitalBytePins[4], LOW);
+
+
   switch (command) {
     case HUG:
+    Serial.println("HUG");
+      digitalWrite(digitalBytePins[0], LOW);
+      digitalWrite(digitalBytePins[1], LOW);
+      digitalWrite(digitalBytePins[2], LOW);
+      digitalWrite(digitalBytePins[3], LOW);
+      digitalWrite(digitalBytePins[4], LOW);
+      if (optionalFlag) {
+        digitalWrite(digitalBytePins[4], HIGH);
+      }
+      break;
+    case VOL:
+     Serial.println("VOL");
+      digitalWrite(digitalBytePins[0], LOW);
+      digitalWrite(digitalBytePins[1], HIGH);
+      if (value > 3) {
+        digitalWrite(digitalBytePins[2], HIGH);
+        value -= 4;
+        Serial.println(value);
+      }
+      if (value > 1) {
+        digitalWrite(digitalBytePins[3], HIGH);
+        value -= 2;
+        Serial.println(value);
+      }
+      if (value == 1) {
+        digitalWrite(digitalBytePins[4], HIGH);
+      };
+      break;
+    case TGM:
+     Serial.println("TGM");
       digitalWrite(digitalBytePins[0], HIGH);
       digitalWrite(digitalBytePins[1], LOW);
       digitalWrite(digitalBytePins[2], LOW);
       digitalWrite(digitalBytePins[3], LOW);
       digitalWrite(digitalBytePins[4], LOW);
-      digitalWrite(digitalBytePins[5], LOW);
-      digitalWrite(digitalBytePins[6], LOW);
-      digitalWrite(digitalBytePins[7], LOW);
-      digitalWrite(digitalBytePins[8], LOW);
-      digitalWrite(digitalBytePins[9], LOW);
       if (optionalFlag) {
-        digitalWrite(digitalBytePins[9], HIGH);
-      }
-      break;
-    case VOL:
-      digitalWrite(digitalBytePins[0], LOW);
-      digitalWrite(digitalBytePins[1], HIGH);
-      digitalWrite(digitalBytePins[2], LOW);
-      digitalWrite(digitalBytePins[3], LOW);
-      valToByte(digitalBytePins, value);
-      break;
-    case TGM:
-      digitalWrite(digitalBytePins[0], LOW);
-      digitalWrite(digitalBytePins[1], LOW);
-      digitalWrite(digitalBytePins[2], HIGH);
-      digitalWrite(digitalBytePins[3], LOW);
-      digitalWrite(digitalBytePins[4], LOW);
-      digitalWrite(digitalBytePins[5], LOW);
-      digitalWrite(digitalBytePins[6], LOW);
-      digitalWrite(digitalBytePins[7], LOW);
-      digitalWrite(digitalBytePins[8], LOW);
-      digitalWrite(digitalBytePins[9], LOW);
-      if (optionalFlag) {
-        digitalWrite(digitalBytePins[9], HIGH);
+        digitalWrite(digitalBytePins[4], HIGH);
       }
       break;
     case SEN:
-      digitalWrite(digitalBytePins[0], LOW);
-      digitalWrite(digitalBytePins[1], LOW);
-      digitalWrite(digitalBytePins[2], LOW);
-      digitalWrite(digitalBytePins[3], HIGH);
-      valToByte(digitalBytePins, value);
+     Serial.println("SEN");
+      digitalWrite(digitalBytePins[0], HIGH);
+      digitalWrite(digitalBytePins[1], HIGH);
+      if (value > 3) {
+        digitalWrite(digitalBytePins[2], HIGH);
+        value -= 4;
+        Serial.println(value);
+      }
+      if (value > 1) {
+        digitalWrite(digitalBytePins[3], HIGH);
+        value -= 2;
+        Serial.println(value);
+      }
+      if (value == 1) {
+        digitalWrite(digitalBytePins[4], HIGH);
+      };
       break;
   }
   digitalWrite(pinToInterrupt, HIGH);
+  Serial.print(digitalRead(digitalBytePins[0]));
+  Serial.print(digitalRead(digitalBytePins[1]));
+  Serial.print(digitalRead(digitalBytePins[2]));
+  Serial.print(digitalRead(digitalBytePins[3]));
+  Serial.println(digitalRead(digitalBytePins[4]));
 }

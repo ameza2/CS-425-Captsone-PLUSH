@@ -52,7 +52,7 @@ unsigned const LED_B       = 8;
 
 const int buttonInterruptPin = 2;
 const int recieverInterruptPin = 3;
-int recieverDataPins[] = {24, 25, 26, 27, 28, 29, 30, 31, 32, 33};
+int recieverDataPins[] = {24, 25, 26, 27, 28};
 
 Stepper myStepperRA = Stepper(stepsPerRevolution, 36, 38, 37, 39); // Right arm (steps per revolution, pins)
 Stepper myStepperRS = Stepper(stepsPerRevolution, 40, 42, 41, 43); // Right shoulder (steps per revolution, pins)
@@ -125,45 +125,45 @@ void buttonInterrupts() {
 }
 
 void receiverFunc() {
-  int b9 = digitalRead(recieverDataPins[0]);
-  int b8 = digitalRead(recieverDataPins[1]);
-  int b7 = digitalRead(recieverDataPins[2]);
-  int b6 = digitalRead(recieverDataPins[3]);
-  int b5 = digitalRead(recieverDataPins[4]);
-  int b4 = digitalRead(recieverDataPins[5]);
-  int b3 = digitalRead(recieverDataPins[6]);
-  int b2 = digitalRead(recieverDataPins[7]);
-  int b1 = digitalRead(recieverDataPins[8]);
-  int b0 = digitalRead(recieverDataPins[9]);
+  Serial.println("Inside reciever function");
+
+  int b4 = digitalRead(recieverDataPins[0]);
+  int b3 = digitalRead(recieverDataPins[1]);
+  int b2 = digitalRead(recieverDataPins[2]);
+  int b1 = digitalRead(recieverDataPins[3]);
+  int b0 = digitalRead(recieverDataPins[4]);
+  Serial.print(b4);
+  Serial.print(b3);
+  Serial.print(b2);
+  Serial.print(b1);
+  Serial.println(b0);
+
   clearRecieverPins();
-  if (b9 == HIGH) 
+  if (b4 == LOW && b3 == LOW)
   { // hug
     if (b0 == HIGH)hugFlag = !hugFlag;
     else endHug = true;
-  } else if (b8 == HIGH) 
+  } else if (b4 == LOW && b3 == HIGH)
   { // change volume
-    int val = getByteFromReciever(b5, b4, b3, b2, b1, b0);
+    int val = getByteFromReciever(b2, b1, b0);
     Serial.print("Volume changed from reciever, old volume: ");
     Serial.print(newVolume);
     Serial.print(", new volume: ");
     Serial.print(val);
     newVolume = val;
     Serial.println(newVolume);
-  } else if (b7 == HIGH)
+  } else if (b4 == HIGH && b3 == LOW)
   { // Toggle music
     musicToggle = !musicToggle;
-  } else if (b6 == HIGH) 
+  } else if (b4 == HIGH && b3 == HIGH)
   { // hug sensitivity
-    int val = getByteFromReciever(b5, b4, b3, b2, b1, b0);
+    int val = getByteFromReciever(b2, b1, b0);
     hugSens = val;
   }
 }
 
-int getByteFromReciever(int b5, int b4, int b3, int b2, int b1, int b0) {
+int getByteFromReciever(int b2, int b1, int b0) {
   int val = 0;
-  if (b5 == HIGH) val += 32;
-  if (b4 == HIGH) val += 16;
-  if (b3 == HIGH) val += 8;
   if (b2 == HIGH) val += 4;
   if (b1 == HIGH) val += 2;
   if (b0 == HIGH) val += 1;
@@ -300,7 +300,7 @@ void loop() {
     lcd.print("  ");
     lcd.setCursor(14, 1);
     lcd.print(newVolume);
-    Audio.setVolume(map(newVolume, 0, 10, 0, 7));
+    Audio.setVolume(newVolume);
   }
   oldVolume = newVolume;
   buttonChanged = false;
