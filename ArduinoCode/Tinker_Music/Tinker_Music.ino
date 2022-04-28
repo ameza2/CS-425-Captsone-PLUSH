@@ -52,7 +52,7 @@ unsigned const LED_B       = 8;
 
 const int buttonInterruptPin = 2;
 const int recieverInterruptPin = 3;
-int recieverDataPins[] = {24,25,26,27,28,29,30,31,32,33};
+int recieverDataPins[] = {24, 25, 26, 27, 28, 29, 30, 31, 32, 33};
 
 Stepper myStepperRA = Stepper(stepsPerRevolution, 36, 38, 37, 39); // Right arm (steps per revolution, pins)
 Stepper myStepperRS = Stepper(stepsPerRevolution, 40, 42, 41, 43); // Right shoulder (steps per revolution, pins)
@@ -61,8 +61,8 @@ Stepper myStepperLS = Stepper(stepsPerRevolution, 44, 46, 45, 47); // Left shoul
 
 bool hugFlag = false;
 int hugDuration = 5000; // hug duration (ms)
-
-
+bool endHug = false;
+int hugSens = 0;
 /*
    Button Dictionary
 */
@@ -93,42 +93,82 @@ void buttonInterrupts() {
   Serial.print(digitalRead(musicButton));
   Serial.print(digitalRead(volumeDownButton));
   Serial.print(digitalRead(volumeUpButton));
-  
-  if(digitalRead(musicButton)){
+
+  if (digitalRead(musicButton)) {
     musicToggle = !musicToggle; // switch the state of the musictoggle
     currentPressedButton = buttonMessages[0];
     buttonChanged = true;
     Serial.println("Music Button Changed");
   }
-  else if(digitalRead(hugButton)){
+  else if (digitalRead(hugButton)) {
     currentPressedButton = buttonMessages[1];
     buttonChanged = true;
     hugFlag = !hugFlag;
     Serial.println("Hug Button Changed");
   }
-  else if(digitalRead(emergencyButton)){
+  else if (digitalRead(emergencyButton)) {
     currentPressedButton = buttonMessages[2];
     buttonChanged = true;
     Serial.println("Emergency Button Changed");
   }
-  else if(digitalRead(helpButton)){
+  else if (digitalRead(helpButton)) {
     currentPressedButton = buttonMessages[3];
     buttonChanged = true;
-    
+
   }
-  else if(digitalRead(volumeDownButton)){
+  else if (digitalRead(volumeDownButton)) {
     newVolume = max(0, newVolume--);
   }
-  else if(digitalRead(volumeUpButton)){
-    newVolume = min(10, newVolume++); 
+  else if (digitalRead(volumeUpButton)) {
+    newVolume = min(10, newVolume++);
   }
 }
 
-void receiverFunc(){
+void receiverFunc() {
+  int b9 = digitalRead(recieverDataPins[0]);
+  int b8 = digitalRead(recieverDataPins[1]);
+  int b7 = digitalRead(recieverDataPins[2]);
+  int b6 = digitalRead(recieverDataPins[3]);
+  int b5 = digitalRead(recieverDataPins[4]);
+  int b4 = digitalRead(recieverDataPins[5]);
+  int b3 = digitalRead(recieverDataPins[6]);
+  int b2 = digitalRead(recieverDataPins[7]);
+  int b1 = digitalRead(recieverDataPins[8]);
+  int b0 = digitalRead(recieverDataPins[9]);
   clearRecieverPins();
+  if (b9 == HIGH) 
+  { // hug
+    if (b0 == HIGH)hugFlag = !hugFlag;
+    else endHug = true;
+  } else if (b8 == HIGH) 
+  { // change volume
+    int val = getByteFromReciever(b5, b4, b3, b2, b1, b0);
+    Serial.print("Volume changed from reciever, old volume: ");
+    Serial.print(newVolume);
+    Serial.print(", new volume: ");
+    Serial.print(val);
+    newVolume = val;
+    Serial.println(newVolume);
+  } else if (b7 == HIGH)
+  { // Toggle music
+    musicToggle = !musicToggle;
+  } else if (b6 == HIGH) 
+  { // hug sensitivity
+    int val = getByteFromReciever(b5, b4, b3, b2, b1, b0);
+    hugSens = val;
+  }
 }
 
-
+int getByteFromReciever(int b5, int b4, int b3, int b2, int b1, int b0) {
+  int val = 0;
+  if (b5 == HIGH) val += 32;
+  if (b4 == HIGH) val += 16;
+  if (b3 == HIGH) val += 8;
+  if (b2 == HIGH) val += 4;
+  if (b1 == HIGH) val += 2;
+  if (b0 == HIGH) val += 1;
+  return val;
+}
 /*
    Helper Functions
 */
@@ -137,8 +177,8 @@ void setLEDColor(int redVal, int greenVal, int blueVal) {
   analogWrite(LED_G, greenVal);
   analogWrite(LED_B, blueVal);
 }
-void clearRecieverPins(){
-  for(int i = recieverDataPins[0]; i < recieverDataPins[9]; i++) digitalWrite(i, LOW);
+void clearRecieverPins() {
+  for (int i = recieverDataPins[0]; i < recieverDataPins[9]; i++) digitalWrite(i, LOW);
 }
 
 
@@ -163,13 +203,13 @@ void setup() {
   pinMode(hugButton, INPUT_PULLUP);
   pinMode(volumeDownButton, INPUT_PULLUP);
   pinMode(volumeUpButton, INPUT_PULLUP);
-  for(int i = 24; i <= 33; i++) pinMode(i, INPUT); //for datatransfer
-  for(int i = 36; i <= 47; i++) pinMode(i, OUTPUT); //for motors
-  for(int i = 14; i <=17; i++) pinMode(i, OUTPUT);
+  for (int i = 24; i <= 33; i++) pinMode(i, INPUT); //for datatransfer
+  for (int i = 36; i <= 47; i++) pinMode(i, OUTPUT); //for motors
+  for (int i = 14; i <= 17; i++) pinMode(i, OUTPUT);
 
   attachInterrupt(digitalPinToInterrupt(recieverInterruptPin), receiverFunc, RISING);
   attachInterrupt(digitalPinToInterrupt(buttonInterruptPin), buttonInterrupts, RISING);
-  
+
 
   // Output Pins //
   pinMode(speakerOutPin, OUTPUT);
@@ -182,17 +222,17 @@ void setup() {
 
   if (!SD.begin()) {
     Serial.println("SD CARD UNINITIALIZED");
-  }else{
+  } else {
     Serial.println("SD CARD INITIALIZED");
   }
   if (!SD.exists("SWEDEN.wav")) {
     Serial.println("NO WAV FILE FOUND WITH THIS NAME");
   }
-  f = SD.open("SWEDEN.wav"); 
+  f = SD.open("SWEDEN.wav");
   Audio.speakerPin = 12;
   Audio.play("SWEDEN.wav");
   Audio.setVolume(7);
-  
+
   // in rpm
   myStepperLA.setSpeed(5);
   myStepperLS.setSpeed(5);
@@ -206,33 +246,25 @@ void setup() {
    Loop Function
 */
 void loop() {
-  if(hugFlag){
+
+  //DO HUG IF HUG FLAG IS SET
+  if (hugFlag) {
     // # of steps
-    for(int i = 0; i < 100; i++){
-      myStepperLA.step(stepsPerRevolution/-400);
-      myStepperLS.step(stepsPerRevolution/800);
-      myStepperRA.step(stepsPerRevolution/400);
-      myStepperRS.step(stepsPerRevolution/-800);
+    for (int i = 0; i < 100; i++) {
+      myStepperLA.step(stepsPerRevolution / -400);
+      myStepperLS.step(stepsPerRevolution / 800);
+      myStepperRA.step(stepsPerRevolution / 400);
+      myStepperRS.step(stepsPerRevolution / -800);
     }
-
-
-    delay(hugDuration);
-    for(int i = 0; i < 100; i++){
-      myStepperLA.step(stepsPerRevolution/400);
-      myStepperLS.step(stepsPerRevolution/-800);
-      myStepperRA.step(stepsPerRevolution/-400);
-      myStepperRS.step(stepsPerRevolution/800);
+    delay(hugDuration); //i dont like this delay call, will find a workaround so it doesnt muck up the system.
+    for (int i = 0; i < 100; i++) {
+      myStepperLA.step(stepsPerRevolution / 400);
+      myStepperLS.step(stepsPerRevolution / -800);
+      myStepperRA.step(stepsPerRevolution / -400);
+      myStepperRS.step(stepsPerRevolution / 800);
     }
-  
     hugFlag = !hugFlag;
   }
-
-  
-  //Serial.print(Audio.isPlaying());
-  //newVolume = analogRead(volumeDial);
-  //newVolume = map(newVolume, 0, 1024, 0, 100);
-
-  //Play PLUSH Music: Audio.pause() can pause or unpause playback
   if (musicToggle) {
     if (!Audio.isPlaying()) {
       Audio.pause();
@@ -242,15 +274,15 @@ void loop() {
       Audio.pause();
     }
   }
-  
+
   //update LCD
   if (buttonChanged) {
     lcd.setCursor(0, 1);
-    lcd.print("                ");  
-    lcd.setCursor(0,1);  
+    lcd.print("                ");
+    lcd.setCursor(0, 1);
     lcd.print(currentPressedButton);
   }
-  
+
   //update LED
   if (currentPressedButton == buttonMessages[3]) {
     setLEDColor(0, 0, 0);
@@ -261,7 +293,7 @@ void loop() {
     setLEDColor(0, 0, 0);
     currentPressedButton = "";
   }
-  
+
   //change volume
   if (oldVolume != newVolume) {
     lcd.setCursor(14, 1);
