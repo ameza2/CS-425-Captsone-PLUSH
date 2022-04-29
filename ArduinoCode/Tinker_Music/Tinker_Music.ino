@@ -122,7 +122,7 @@ void buttonInterrupts() {
     Serial.println("Volume Down");
   }
   else if (digitalRead(volumeUpButton)) {
-    newVolume = min(10, newVolume++);
+    newVolume = min(7, newVolume++);
     Serial.println("Volume Up");
   }
 }
@@ -263,17 +263,17 @@ void loop() {
   if (hugFlag) {
     // # of steps
     for (int i = 0; i < 100; i++) {
-      myStepperLA.step(stepsPerRevolution / -400);
-      myStepperLS.step(stepsPerRevolution / 800);
-      myStepperRA.step(stepsPerRevolution / 400);
-      myStepperRS.step(stepsPerRevolution / -800);
+      myStepperRA.step(stepsPerRevolution / -400);
+      myStepperRS.step(stepsPerRevolution / 800);
+      myStepperLA.step(stepsPerRevolution / 400);
+      myStepperLS.step(stepsPerRevolution / -800);
     }
     delay(hugDuration); //i dont like this delay call, will find a workaround so it doesnt muck up the system.
     for (int i = 0; i < 100; i++) {
-      myStepperLA.step(stepsPerRevolution / 400);
-      myStepperLS.step(stepsPerRevolution / -800);
-      myStepperRA.step(stepsPerRevolution / -400);
-      myStepperRS.step(stepsPerRevolution / 800);
+      myStepperRA.step(stepsPerRevolution / 400);
+      myStepperRS.step(stepsPerRevolution / -800);
+      myStepperLA.step(stepsPerRevolution / -400);
+      myStepperLS.step(stepsPerRevolution / 800);
     }
     hugFlag = !hugFlag;
   }
