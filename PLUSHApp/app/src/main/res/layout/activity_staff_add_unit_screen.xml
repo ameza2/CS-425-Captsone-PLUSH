@@ -11,49 +11,45 @@
 
     <EditText
         android:id="@+id/editDate1"
-        android:layout_width="183dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="115dp"
-        android:layout_marginTop="416dp"
-        android:layout_marginEnd="114dp"
-        android:layout_marginBottom="267dp"
+        android:layout_width="281dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginEnd="65dp"
         android:background="@color/gray_text"
         android:ems="10"
+        android:gravity="center"
         android:hint="Age"
         android:inputType="number"
         android:maxLength="3"
         android:textColor="#000000"
         android:textColorHint="#000000"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <Button
         android:id="@+id/buttonAddSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="153dp"
-        android:layout_marginTop="626dp"
+        android:layout_marginTop="54dp"
         android:layout_marginEnd="154dp"
-        android:layout_marginBottom="57dp"
         android:text="Add Unit"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editUnitID" />
 
     <EditText
         android:id="@+id/editUnitID"
-        android:layout_width="wrap_content"
+        android:layout_width="281dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="524dp"
-        android:layout_marginEnd="101dp"
-        android:layout_marginBottom="159dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="65dp"
         android:background="@color/gray_text"
         android:ems="10"
+        android:gravity="center"
         android:hint="Unit ID"
         android:inputType="number"
         android:maxLength="32"
@@ -61,22 +57,22 @@
         android:textColor="#000000"
         android:textColorHint="#000000"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
 
     <EditText
         android:id="@+id/editRoomNumber"
-        android:layout_width="183dp"
+        android:layout_width="281dp"
         android:layout_height="48dp"
-        android:layout_marginStart="114dp"
+        android:layout_marginStart="65dp"
         android:layout_marginTop="116dp"
-        android:layout_marginEnd="114dp"
+        android:layout_marginEnd="65dp"
         android:layout_marginBottom="567dp"
         android:background="@color/gray_text"
         android:digits="0123456789-"
         android:ems="10"
+        android:gravity="center"
         android:hint="Room Number"
         android:inputType="number"
         android:minHeight="48dp"
@@ -93,77 +89,67 @@
         android:layout_width="265dp"
         android:layout_height="30dp"
         android:layout_marginStart="73dp"
-        android:layout_marginTop="86dp"
         android:layout_marginEnd="73dp"
-        android:layout_marginBottom="615dp"
+        android:layout_marginBottom="1dp"
         android:text="Room/Bed*"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editRoomNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="265dp"
         android:layout_height="30dp"
         android:layout_marginStart="73dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="27dp"
         android:layout_marginEnd="73dp"
-        android:layout_marginBottom="509dp"
         android:text="Sex*"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editRoomNumber" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="265dp"
         android:layout_height="30dp"
         android:layout_marginStart="73dp"
-        android:layout_marginTop="386dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="73dp"
-        android:layout_marginBottom="315dp"
         android:text="Age*"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="265dp"
         android:layout_height="30dp"
         android:layout_marginStart="73dp"
-        android:layout_marginTop="494dp"
+        android:layout_marginTop="33dp"
         android:layout_marginEnd="73dp"
-        android:layout_marginBottom="207dp"
         android:text="PLUSH ID*"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editDate1" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="256dp"
         android:layout_height="139dp"
         android:layout_marginStart="77dp"
-        android:layout_marginTop="227dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="78dp"
-        android:layout_marginBottom="365dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView7">
 
         <RadioButton
             android:id="@+id/hugButton"
