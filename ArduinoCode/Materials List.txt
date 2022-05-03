@@ -1,11 +1,13 @@
 PLUSH Circuit - List of Materials:
 ----------------------------------
 
+- 3 9v battery holders w/ power toggle.
 - 1 Large Breadboard
-- 1 LCD Display
-- 8 Resistors (5 10_kOhms, 3 220_Ohms)
-- 4 Buttons
-- 2 Potentiometers
-- 1 Piezo
-- 2 Arduinos
+- 6 Resistors (6 10_kOhms)
+- 6 Buttons
+- 1 Speaker
+- 1 Arduino w/ Integrated ESP8266
+- 1 SD card reader + SD card
+- 4 Bi-Polar Stepper motors (28BYJ-48)
+- 4 Stepper motor driver boards (UNL2003)
 - Set of Wires
